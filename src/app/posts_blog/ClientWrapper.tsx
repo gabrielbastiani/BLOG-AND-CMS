@@ -20,6 +20,7 @@ export default function ClientWrapper({
 }: ClientWrapperProps) {
 
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    
     const [posts, setPosts] = useState(all_posts);
     const [currentTotalPages, setTotalPages] = useState(totalPages);
     const apiClient = setupAPIClient();

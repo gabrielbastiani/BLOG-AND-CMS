@@ -118,15 +118,15 @@ export function AuthProviderBlog({ children }: AuthProviderProps) {
 
             const cookieOptions = {
                 maxAge: 60 * 60 * 24 * 30,
-                path: "/",
+                path: '/app',
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'lax' as 'lax'
-            };
+                sameSite: 'lax' as const
+              };
 
             setCookie('@blog.token', token, cookieOptions);
             setCookieId('@idUserBlog', id, cookieOptions);
 
-            api.defaults.headers['Authorization'] = `Bearer ${token}`;
+            api_blog.defaults.headers['Authorization'] = `Bearer ${token}`;
 
             toast.success('Logado com sucesso!');
             setUser({ id, name: response.data.name, email });
