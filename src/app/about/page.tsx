@@ -44,14 +44,14 @@ export async function generateMetadata(
     const previousParent = await parent;
     const previousImages = previousParent.openGraph?.images || [];
 
-    const ogImages = data.ogImages?.map((image: string) => ({
+    const ogImages = data?.ogImages?.map((image: string) => ({
       url: new URL(`/files/${image}`, API_URL).toString(),
       width: Number(data.ogImageWidth) || 1200,
       height: data.ogImageHeight || 630,
       alt: data.ogImageAlt || 'Sobre',
     })) || [];
 
-    const twitterImages = data.twitterImages?.map((image: string) => ({
+    const twitterImages = data?.twitterImages?.map((image: string) => ({
       url: new URL(`/files/${image}`, API_URL).toString(),
       width: Number(data.ogImageWidth) || 1200,
       height: data.ogImageHeight || 630,

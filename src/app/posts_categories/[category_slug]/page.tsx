@@ -22,14 +22,14 @@ export async function generateMetadata(
 
       const previousImages = (await parent).openGraph?.images || [];
 
-      const ogImages = data.ogImages?.map((image: string) => ({
+      const ogImages = data?.ogImages?.map((image: string) => ({
           url: new URL(`/files/${image}`, API_URL).toString(),
           width: Number(data.ogImageWidth) || 1200,
           height: data.ogImageHeight || 630,
           alt: data.ogImageAlt || 'Artigos em uma determinada categoria do blog',
       })) || [];
 
-      const twitterImages = data.twitterImages?.map((image: string) => ({
+      const twitterImages = data?.twitterImages?.map((image: string) => ({
           url: new URL(`/files/${image}`, API_URL).toString(),
           width: Number(data.ogImageWidth) || 1200,
           height: data.ogImageHeight || 630,
@@ -123,7 +123,7 @@ async function getData(category_slug: string) {
 }
 
 export default async function Posts_Categories({ params }: { params: { category_slug: string } }) {
-    const { loadData, all_posts, totalPages, existing_slide, existing_sidebar } = await getData(params.category_slug);
+    const { loadData, all_posts, totalPages, existing_slide, existing_sidebar } = await getData(params?.category_slug);
 
     return (
         <BlogLayout
@@ -142,7 +142,7 @@ export default async function Posts_Categories({ params }: { params: { category_
             }
         >
             <ClientWrapper
-                category_slug={params.category_slug}
+                category_slug={params?.category_slug}
                 initialPosts={all_posts}
                 totalPages={totalPages}
             />

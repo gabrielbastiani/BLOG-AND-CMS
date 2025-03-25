@@ -42,14 +42,14 @@ export async function generateMetadata(
 
         const previousImages = (await parent).openGraph?.images || [];
 
-        const ogImages = data.ogImages?.map((image: string) => ({
+        const ogImages = data?.ogImages?.map((image: string) => ({
             url: new URL(`/files/${image}`, API_URL).toString(),
             width: Number(data.ogImageWidth) || 1200,
             height: data.ogImageHeight || 630,
             alt: data.ogImageAlt || 'Todos os artigos do blog',
         })) || [];
 
-        const twitterImages = data.twitterImages?.map((image: string) => ({
+        const twitterImages = data?.twitterImages?.map((image: string) => ({
             url: new URL(`/files/${image}`, API_URL).toString(),
             width: Number(data.ogImageWidth) || 1200,
             height: data.ogImageHeight || 630,

@@ -13,7 +13,13 @@ interface BlogLayoutProps {
 }
 
 const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, existing_sidebar, footer, children, banners, bannersSlide, presentation }) => {
+
     const [showMobileBanners, setShowMobileBanners] = useState(true);
+
+    // Verifica se existem banners para exibir
+    const hasBanners = existing_sidebar
+        ? existing_sidebar > 0
+        : !!existing_sidebar;
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-100">
@@ -47,7 +53,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, existing_sidebar, foote
             </main>
 
             {/* Banners - Mobile */}
-            {banners && showMobileBanners && (
+            {hasBanners && showMobileBanners && (
                 <div className="fixed bottom-0 left-0 w-full bg-gray-50 border-t shadow-lg lg:hidden z-20">
                     <div className="flex items-center justify-between p-4">
                         <span className="text-gray-700 font-medium">Aproveite!!!</span>

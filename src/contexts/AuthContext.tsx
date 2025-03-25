@@ -116,7 +116,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const response = await api.post('/user/session', { email, password });
       const { id, token } = response.data;
 
-      // Opções de cookie: inclui secure e sameSite para produção
       const cookieOptions = {
         maxAge: 60 * 60 * 24 * 30,
         path: "/",

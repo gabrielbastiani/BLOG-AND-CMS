@@ -68,6 +68,7 @@ export default function Login() {
 
             if (success) {
                 router.push('/dashboard');
+                window.location.reload();
             }
 
             setLoading(false);
@@ -89,13 +90,15 @@ export default function Login() {
                     <div className='w-full min-h-screen flex justify-center items-center flex-col gap-4'>
                         <div className='mb-6 max-w-sm w-full'>
                             {configs?.logo ?
-                                <Image
-                                    src={configs?.logo ? `${API_URL}/files/${configs.logo}` : noImage}
-                                    alt='logo-do-blog'
-                                    width={500}
-                                    height={300}
-                                    priority
-                                />
+                                <Link href='/'>
+                                    <Image
+                                        src={configs?.logo ? `${API_URL}/files/${configs.logo}` : noImage}
+                                        alt='logo-do-blog'
+                                        width={500}
+                                        height={300}
+                                        priority
+                                    />
+                                </Link>
                                 :
                                 null
                             }

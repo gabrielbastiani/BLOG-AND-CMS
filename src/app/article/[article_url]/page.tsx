@@ -25,26 +25,27 @@ const BLOG_URL = process.env.NEXT_PUBLIC_URL_BLOG;
 
 export async function generateMetadata(
   { params }: { params: { article_url: string } },
-  props: {},
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   try {
+    const articleUrl = params.article_url; // Primeiro acesso ao params
+
     const apiClient = setupAPIClient();
-    const response = await apiClient.get('/configuration_blog/get_configs');
-    const { data } = await apiClient.get(`/seo/get_page?page=Pagina principal`);
-    const { data: article_data } = await apiClient.get<PostsProps>(
-      `/post/article/content?url_post=${params.article_url}`
-    );
+    const [response, data, article] = await Promise.all([
+      apiClient.get('/configuration_blog/get_configs'),
+      apiClient.get(`/seo/get_page?page=Pagina principal`),
+      apiClient.get<PostsProps>(`/post/article/content?url_post=${articleUrl}`),
+    ]);
 
     const previousParent = await parent;
     const previousImages = previousParent.openGraph?.images || [];
 
-    const cleanDescription = article_data.text_post
+    const cleanDescription = article.data.text_post
       ?.replace(/<[^>]*>/g, '')
       ?.substring(0, 160) || "Leia este artigo completo em nosso blog";
 
-    const imageUrl = article_data.image_post
-      ? new URL(`/files/${article_data.image_post}`, API_URL).toString()
+    const imageUrl = article.data.image_post
+      ? new URL(`/files/${article.data.image_post}`, API_URL).toString()
       : new URL("../../../assets/no-image-icon-6.png", BLOG_URL).toString();
 
     const faviconUrl = response.data.favicon
@@ -52,48 +53,30 @@ export async function generateMetadata(
       : "../app/favicon.ico";
 
     return {
-      title: article_data.title ? article_data.title : "Artigo",
-      description: cleanDescription || "Leia este artigo completo em nosso blog",
+      title: article.data.title || "Artigo",
+      description: cleanDescription,
       metadataBase: new URL(BLOG_URL!),
-      robots: {
-        follow: true,
-        index: true
-      },
-      icons: {
-        icon: faviconUrl
-      },
+      robots: { follow: true, index: true },
+      icons: { icon: faviconUrl },
       openGraph: {
-        title: article_data.title,
-        description: cleanDescription || "Leia este artigo completo em nosso blog",
+        title: article.data.title,
+        description: cleanDescription,
         images: [
-          {
-            url: imageUrl,
-            width: 1200,
-            height: 630,
-            alt: article_data.title,
-          },
+          { url: imageUrl, width: 1200, height: 630, alt: article.data.title },
           ...previousImages,
         ],
         type: 'article',
-        publishedTime: new Date(article_data.publish_at || article_data.created_at).toISOString(),
-        authors: [article_data.author || "Autor Desconhecido"],
+        publishedTime: new Date(article.data.publish_at || article.data.created_at).toISOString(),
+        authors: [article.data.author || "Autor Desconhecido"],
       },
       twitter: {
         card: 'summary_large_image',
-        title: article_data.title || `Artigo'}`,
+        title: article.data.title || "Artigo",
         description: cleanDescription,
-        images: [
-          {
-            url: imageUrl,
-            width: 1200,
-            height: 630,
-            alt: article_data.title,
-          },
-          ...previousImages,
-        ],
-        creator: data?.twitterCreator || '@perfil_twitter',
+        images: [{ url: imageUrl, width: 1200, height: 630, alt: article.data.title }],
+        creator: data.data?.twitterCreator || '@perfil_twitter',
       },
-      keywords: article_data.seo_keywords || [],
+      keywords: article.data.seo_keywords || [],
     };
   } catch (error) {
     return {
@@ -103,10 +86,10 @@ export async function generateMetadata(
   }
 }
 
-async function getData(article_url: string) {
+async function getData(articleUrl: string) {
   const apiClient = setupAPIClient();
   const [article, banners, sidebar] = await Promise.all([
-    apiClient.get<PostsProps>(`/post/article/content?url_post=${article_url}`),
+    apiClient.get<PostsProps>(`/post/article/content?url_post=${articleUrl}`),
     apiClient.get(`/marketing_publication/existing_banner?local=Pagina_artigo`),
     apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_artigo`),
   ]);
@@ -123,14 +106,15 @@ async function getData(article_url: string) {
 }
 
 interface ArticlePageProps {
-  params: {
-    article_url: string;
-  };
+  params: { article_url: string };
 }
 
 export default async function Article({ params }: ArticlePageProps) {
+  // Acesso imediato aos params
+  const articleUrl = params.article_url;
 
-  const { article_data, existing_slide, existing_sidebar } = await getData(params.article_url);
+  // Await da operação assíncrona
+  const data = await getData(articleUrl);
 
   const calculateReadingTime = (text: string): string => {
     const wordsPerMinute = 200;
@@ -140,12 +124,8 @@ export default async function Article({ params }: ArticlePageProps) {
   };
 
   const formatViews = (views: number): string => {
-    if (views >= 1_000_000) {
-      return (views / 1_000_000).toFixed(1).replace(".0", "") + " Mi";
-    }
-    if (views >= 1_000) {
-      return (views / 1_000).toFixed(1).replace(".0", "") + " Mil";
-    }
+    if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1).replace(".0", "")} Mi`;
+    if (views >= 1_000) return `${(views / 1_000).toFixed(1).replace(".0", "")} Mil`;
     return views.toString();
   };
 
@@ -153,107 +133,92 @@ export default async function Article({ params }: ArticlePageProps) {
     <BlogLayout
       navbar={<Navbar />}
       footer={<Footer />}
-      existing_sidebar={existing_sidebar.length}
-      banners={
-        <PublicationSidebar existing_sidebar={existing_sidebar} />
-      }
+      existing_sidebar={data.existing_sidebar.length}
+      banners={<PublicationSidebar existing_sidebar={data.existing_sidebar} />}
       bannersSlide={
-        <>
-          <div className="relative w-full h-[300px] md:h-[500px] overflow-hidden">
-            {article_data?.image_post ? (
-              <Image
-                src={`${API_URL}/files/${article_data.image_post}`}
-                alt={article_data.title || "Imagem do artigo"}
-                className="object-fill w-full h-full"
-                width={1200}
-                height={800}
-                priority
-              />
-            ) : (
-              <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
-                Sem imagem disponível
-              </div>
-            )}
-          </div>
-        </>
+        <div className="relative w-full h-[300px] md:h-[500px] overflow-hidden">
+          {data.article_data?.image_post ? (
+            <Image
+              src={`${API_URL}/files/${data.article_data.image_post}`}
+              alt={data.article_data.title || "Imagem do artigo"}
+              className="object-fill w-full h-full"
+              width={1200}
+              height={800}
+              priority
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+              Sem imagem disponível
+            </div>
+          )}
+        </div>
+      }
+    >
+      <div className="p-4 md:p-8 max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold mb-4 text-gray-900">{data.article_data?.title}</h1>
+        <span className='text-gray-600'>Autor: {data.article_data?.author || "Desconhecido"}</span>
 
-      }
-      children={
-        <>
-          <div className="p-4 md:p-8 max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold mb-4 text-gray-900">{article_data?.title}</h1>
-            <span className='text-gray-600'>Autor: {article_data?.author || "Desconhecido"}</span>
-            <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-12 mt-4">
-              <div className="flex items-center gap-2">
-                <FiClock className="text-lg" />
-                <span>
-                  {new Date(article_data?.publish_at || article_data?.created_at || new Date()).toLocaleDateString()}
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <FaRegEye className="text-lg" />
-                <span>{formatViews(article_data?.views || 0)}</span>
-              </div>
-              {article_data?.text_post && (
-                <div className="text-sm">
-                  {calculateReadingTime(article_data.text_post)}
-                </div>
-              )}
-              <div className="flex flex-wrap gap-2">
-                {article_data?.categories?.map((cat) => (
-                  <Link key={cat.category?.id} href={`/posts_categories/${cat?.category?.slug_name_category}`}>
-                    <span
-                      key={cat.category?.id}
-                      className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-medium"
-                    >
-                      {cat.category?.name_category}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-            <div className="prose max-w-none text-gray-800 prose-h1:text-blue-600 prose-p:mb-4 prose-a:text-indigo-500 hover:prose-a:underline">
-              {article_data?.text_post && (
-                <SafeHTML html={article_data.text_post} />
-              )}
-            </div>
-            {article_data?.tags && article_data?.tags.length > 0 && (
-              <div className="mt-10 mb-10">
-                <h2 className="text-lg font-semibold text-gray-700 mb-4">Tags:</h2>
-                <div className="flex flex-wrap gap-2">
-                  {article_data.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-sm font-medium"
-                    >
-                      {tag.tag?.tag_name}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-            <ArticleLikeDislikeWrapper post_id={article_data?.id || ""} />
-            <SocialShare
-              articleUrl={params.article_url}
-            />
-            <CommentsSection
-              post_id={article_data?.id || ""}
-            />
-            <Newsletter />
-            {existing_slide.length >= 1 ?
-              <SlideBanner position="SLIDER" local="Pagina_artigo" />
-              :
-              null
-            }
-            <Most_posts_views />
-            <BackToTopButton />
+        <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-12 mt-4">
+          <div className="flex items-center gap-2">
+            <FiClock className="text-lg" />
+            <span>
+              {new Date(data.article_data?.publish_at || data.article_data?.created_at || new Date()).toLocaleDateString()}
+            </span>
           </div>
-          <MarketingPopup
-            position="POPUP"
-            local="Pagina_artigo"
-          />
-        </>
-      }
-    />
+          <div className="flex items-center gap-2">
+            <FaRegEye className="text-lg" />
+            <span>{formatViews(data.article_data?.views || 0)}</span>
+          </div>
+          {data.article_data?.text_post && (
+            <div className="text-sm">
+              {calculateReadingTime(data.article_data.text_post)}
+            </div>
+          )}
+          <div className="flex flex-wrap gap-2">
+            {data.article_data?.categories?.map((cat) => (
+              <Link key={cat.category?.id} href={`/posts_categories/${cat?.category?.slug_name_category}`}>
+                <span
+                  className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-medium"
+                >
+                  {cat.category?.name_category}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="prose max-w-none text-gray-800 prose-h1:text-blue-600 prose-p:mb-4 prose-a:text-indigo-500 hover:prose-a:underline">
+          {data.article_data?.text_post && <SafeHTML html={data.article_data.text_post} />}
+        </div>
+
+        {data.article_data?.tags && data.article_data?.tags.length > 0 && (
+          <div className="mt-10 mb-10">
+            <h2 className="text-lg font-semibold text-gray-700 mb-4">Tags:</h2>
+            <div className="flex flex-wrap gap-2">
+              {data.article_data.tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-sm font-medium"
+                >
+                  {tag.tag?.tag_name}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <ArticleLikeDislikeWrapper post_id={data.article_data?.id || ""} />
+        <SocialShare articleUrl={articleUrl} />
+        <CommentsSection post_id={data.article_data?.id || ""} />
+        <Newsletter />
+
+        {data.existing_slide.length >= 1 && <SlideBanner position="SLIDER" local="Pagina_artigo" />}
+
+        <Most_posts_views />
+        <BackToTopButton />
+      </div>
+
+      <MarketingPopup position="POPUP" local="Pagina_artigo" />
+    </BlogLayout>
   );
 }

@@ -4,7 +4,6 @@ import { createContext, ReactNode, useState, useEffect } from 'react';
 import { api_blog } from '../services/apiClientBlog';
 import { toast } from 'react-toastify';
 import { useCookies } from 'react-cookie';
-import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { api } from '@/services/apiClient';
 
@@ -49,8 +48,6 @@ interface ConfigProps {
 export const AuthContextBlog = createContext({} as AuthContextData);
 
 export function AuthProviderBlog({ children }: AuthProviderProps) {
-
-    const router = useRouter();
 
     const [configs, setConfigs] = useState<ConfigProps>({
         name_blog: "",
@@ -116,34 +113,26 @@ export function AuthProviderBlog({ children }: AuthProviderProps) {
     async function signIn({ email, password }: SignInProps): Promise<boolean> {
         setLoadingAuth(true);
         try {
-            const response = await api_blog.post('/user/user_blog/session', {
-                email,
-                password
-            });
-
+            const response = await api.post('/user/user_blog/session', { email, password });
             const { id, token } = response.data;
 
-            setCookie('@blog.token', token, {
+            const cookieOptions = {
                 maxAge: 60 * 60 * 24 * 30,
-                path: "/"
-            });
+                path: "/",
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax' as 'lax'
+            };
 
-            setCookieId('@idUserBlog', id, {
-                maxAge: 60 * 60 * 24 * 30,
-                path: "/"
-            });
+            setCookie('@blog.token', token, cookieOptions);
+            setCookieId('@idUserBlog', id, cookieOptions);
 
-            api_blog.defaults.headers['Authorization'] = `Bearer ${token}`;
+            api.defaults.headers['Authorization'] = `Bearer ${token}`;
 
             toast.success('Logado com sucesso!');
-
             setUser({ id, name: response.data.name, email });
-
             return true;
-
-        } catch (err) {
+        } catch (err: any) {
             toast.error("Erro ao acessar");
-            /* @ts-ignore */
             toast.error(`${err.response.data.error}`);
             console.log("Erro ao acessar", err);
             return false;
