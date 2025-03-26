@@ -19,6 +19,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { PostsProps } from "../../../../Types/types";
 import ArticleLikeDislikeWrapper from "@/app/components/blog_components/articleLikeDeslike/articleLikeDeslikeWrapper";
 import SafeHTML from "@/app/components/SafeHTML";
+import ViewCounter from "@/app/components/blog_components/viewCounter";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const BLOG_URL = process.env.NEXT_PUBLIC_URL_BLOG;
@@ -94,10 +95,6 @@ async function getData(articleUrl: string) {
     apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_artigo`),
   ]);
 
-  if (article.data?.id) {
-    await apiClient.patch(`/post/${article.data.id}/views`);
-  }
-
   return {
     article_data: article.data,
     existing_slide: banners.data || [],
@@ -137,6 +134,7 @@ export default async function Article({ params }: ArticlePageProps) {
       banners={<PublicationSidebar existing_sidebar={data.existing_sidebar} />}
       bannersSlide={
         <div className="relative w-full h-[300px] md:h-[500px] overflow-hidden">
+          {data.article_data?.id && <ViewCounter postId={data.article_data.id} />}
           {data.article_data?.image_post ? (
             <Image
               src={`${API_URL}/files/${data.article_data.image_post}`}

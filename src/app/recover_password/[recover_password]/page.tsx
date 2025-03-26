@@ -61,7 +61,7 @@ export default function Recoverpassworduserblog({ params }: { params: { recover_
 
         try {
             const apiClient = setupAPIClient();
-            await apiClient.put(`/user/recover_password_user_blog?passwordRecoveryUser_id=${params?.recover_password}`, { password: data?.confirmPassword });
+            await apiClient.put(`/user/recovery_password?passwordRecoveryUser_id=${params?.recover_password}`, { password: data?.confirmPassword });
 
             toast.success('Senha atualizada com sucesso!');
 
