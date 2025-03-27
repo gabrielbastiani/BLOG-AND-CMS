@@ -19,6 +19,8 @@
     "@radix-ui/react-collapsible": "^1.1.0",
     "@tailwindcss/typography": "^0.5.16",
     "@tinymce/tinymce-react": "^5.1.1",
+    "@types/react-dnd": "^2.0.36",
+    "@types/react-dnd-html5-backend": "^3.0.2",
     "axios": "^1.7.9",
     "chart.js": "^4.4.7",
     "clsx": "^2.1.1",

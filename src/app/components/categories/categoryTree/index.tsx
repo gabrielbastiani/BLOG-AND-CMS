@@ -75,13 +75,22 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category, moveCategory, mov
         }),
     });
 
-    const ref = (node: HTMLDivElement) => {
-        drag(node);
-        drop(node);
-    };
+    const ref = useCallback(
+        (node: HTMLLIElement) => {
+            drag(node)
+            drop(node)
+        },
+        [drag, drop]
+    )
 
-    return (/* @ts-ignore */
-        <li ref={(node) => ref(drop(node))} className={`space-y-2 ${isDragging ? "opacity-50" : "opacity-100"}`}>
+    return (
+        <li
+            ref={ref}
+            className={`space-y-2 ${isDragging ? "opacity-50" : "opacity-100"} ${
+                isOver ? "bg-gray-100" : ""
+            }`}
+            style={{ cursor: 'move' }}
+        >
             <div className="flex items-center space-x-2">
                 <div
                     className={`flex-1 p-4 rounded-md shadow-md transition transform hover:scale-105 ${level === 0 ? "bg-blue-600 text-white mb-3" :
@@ -92,7 +101,6 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category, moveCategory, mov
                 >
                     <span className="font-semibold text-lg">{category.name_category}</span>
                 </div>
-                {/* Ajuste nos botões para ficarem ao lado de cada categoria */}
                 <div className="flex flex-col items-center space-y-1">
                     {!isFirst && (
                         <button
@@ -114,7 +122,6 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category, moveCategory, mov
                     )}
                 </div>
             </div>
-            {/* Renderização recursiva para subcategorias */}
             {(category.children ?? []).length > 0 && (
                 <ul className="ml-6 border-l-2 pl-4 border-gray-300">
                     {(category.children ?? []).map((childCategory, index) => (

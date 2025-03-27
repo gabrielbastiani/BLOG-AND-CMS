@@ -29,13 +29,14 @@ export default function MarketingPopup({ position, local }: PopupProps) {
 
     useEffect(() => {
         const fetchPopupConfig = async () => {
-            if (position && local) {
-                console.log("Sem popup cadastrado por aqui.")
-                return;
-            }
             const apiClient = setupAPIClient();
             try {
                 const response = await apiClient.get(`/marketing_publication/blog_publications/popup?position=${position}&local=${local}`);
+
+                if (response.data == null) {
+                    console.log("Sem popup cadastrado por aqui.")
+                    return;
+                }
 
                 setPopupData(response.data);
 

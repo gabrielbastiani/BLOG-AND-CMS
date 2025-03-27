@@ -33,7 +33,6 @@ export default function AddCategory() {
     const [photo, setPhoto] = useState<File | null>(null);
 
     const refetchCategories = () => {
-        // Alterado para usar uma referência estável
         const event = new Event("refetchCategories");
         window.dispatchEvent(event);
     };
@@ -105,9 +104,7 @@ export default function AddCategory() {
             <Section>
                 <TitlePage title="ADICIONAR CATEGORIA" />
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
-                    {/* Formulário principal (três primeiras colunas) */}
                     <form onSubmit={handleSubmit(onSubmit)} className="col-span-1 md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {/* Campo de upload de imagem */}
                         <div className="flex flex-col items-center">
                             <label className="relative w-full h-[200px] rounded-lg cursor-pointer flex justify-center bg-gray-200 overflow-hidden mb-6">
                                 <span className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 bg-black bg-opacity-50 transition-opacity duration-300">
@@ -138,7 +135,6 @@ export default function AddCategory() {
                             </label>
                         </div>
 
-                        {/* Nome da categoria e Subcategoria (segunda coluna) */}
                         <div className="flex flex-col gap-4">
                             <Input
                                 styles="border-2 rounded-md h-12 px-3 w-full"
@@ -149,7 +145,6 @@ export default function AddCategory() {
                                 register={register}
                             />
 
-                            {/* Select para Subcategoria */}
                             <div>
                                 <label htmlFor="parentId" className="block text-sm font-medium text-white">
                                     Subcategoria de alguma categoria?
@@ -172,7 +167,6 @@ export default function AddCategory() {
                             </div>
                         </div>
 
-                        {/* Campo de Descrição (textarea) ocupando a terceira coluna */}
                         <div>
                             <textarea
                                 {...register("description")}
@@ -182,7 +176,6 @@ export default function AddCategory() {
                             {errors.description && <p className="text-red-500 text-xs">{errors.description.message}</p>}
                         </div>
 
-                        {/* Botão de envio ocupando toda a largura */}
                         <div className="col-span-1 md:col-span-3">
                             <button
                                 type="submit"
@@ -194,7 +187,6 @@ export default function AddCategory() {
                         </div>
                     </form>
 
-                    {/* Componente BulkDatas (quarta coluna) */}
                     <div className="flex items-start justify-center">
                         <BulkDatas
                             link_donwload="/category/donwload_excel_categories?user_id"
