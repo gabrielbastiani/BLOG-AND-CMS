@@ -172,6 +172,7 @@ export default function UpdateMarketingPublication({
                             <option value="Pagina_todas_categorias">Página de todas as categorias</option>
                             <option value="Pagina_sobre">Página sobre</option>
                             <option value="Pagina_contato">Página de contato</option>
+                            <option value="Pagina_politicas_de_privacidade">Página politicas de privacidade</option>
                         </select>
                     </label>
 

@@ -100,33 +100,43 @@ export async function generateMetadata(
 
 async function getData() {
     const apiClient = setupAPIClient();
-
     try {
-        const [banners, sidebar] = await Promise.all([
-            apiClient.get('/marketing_publication/existing_banner?local=Pagina_contato'),
-            apiClient.get('/marketing_publication/existing_sidebar?local=Pagina_contato')
+        const [banners, sidebar, intervalData] = await Promise.all([
+            apiClient.get('/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_contato'),
+            apiClient.get('/marketing_publication/existing_sidebar?local=Pagina_contato'),
+            apiClient.get('/marketing_publication/interval_banner/page_banner?local_site=Pagina_contato')
         ]);
 
         return {
             existing_slide: banners.data || [],
             existing_sidebar: sidebar.data || [],
+            intervalTime: intervalData.data?.interval_banner || 5000
         };
     } catch (error) {
-        console.error("Erro ao carregar dados de marketing:", error);
+        console.error("Erro ao carregar dados:", error);
         return {
             existing_slide: [],
             existing_sidebar: [],
+            intervalTime: 5000
         };
     }
 }
 
 export default async function Contact() {
-    const { existing_slide, existing_sidebar } = await getData();
+
+    const { existing_slide, existing_sidebar, intervalTime } = await getData();
 
     return (
         <BlogLayout
             navbar={<Navbar />}
-            bannersSlide={existing_slide.length >= 1 && <SlideBanner position="SLIDER" local="Pagina_contato" />}
+            bannersSlide={existing_slide.length >= 1 && (
+                <SlideBanner
+                    position="SLIDER"
+                    local="Pagina_contato"
+                    banners={existing_slide}
+                    intervalTime={intervalTime}
+                />
+            )}
             existing_sidebar={existing_sidebar.length}
             banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
             footer={<Footer />}

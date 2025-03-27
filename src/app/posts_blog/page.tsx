@@ -102,28 +102,48 @@ export async function generateMetadata(
 
 async function getData() {
     const apiClient = setupAPIClient();
+    try {
+        const [postsResponse, bannersResponse, sidebarResponse, intervalData] = await Promise.all([
+            apiClient.get(`/post/articles/blog`),
+            apiClient.get(`/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_todos_artigos`),
+            apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_todos_artigos`),
+            apiClient.get(`/marketing_publication/interval_banner/page_banner?local_site=Pagina_todos_artigos`)
+        ]);
 
-    const [postsResponse, bannersResponse, sidebarResponse] = await Promise.all([
-        apiClient.get(`/post/articles/blog`),
-        apiClient.get(`/marketing_publication/existing_banner?local=Pagina_todos_artigos`),
-        apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_todos_artigos`),
-    ]);
-
-    return {
-        all_posts: postsResponse.data.posts,
-        totalPages: postsResponse.data.totalPages,
-        existing_slide: bannersResponse.data || [],
-        existing_sidebar: sidebarResponse.data || [],
-    };
+        return {
+            all_posts: postsResponse.data.posts,
+            totalPages: postsResponse.data.totalPages,
+            existing_slide: bannersResponse.data || [],
+            existing_sidebar: sidebarResponse.data || [],
+            intervalTime: intervalData.data?.interval_banner || 5000
+        };
+    } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+        return {
+            all_posts: [],
+            totalPages: 1,
+            existing_slide: [],
+            existing_sidebar: [],
+            intervalTime: 5000
+        };
+    }
 }
 
 export default async function Posts_blog() {
-    const { all_posts, totalPages, existing_slide, existing_sidebar } = await getData();
+
+    const { all_posts, totalPages, existing_slide, existing_sidebar, intervalTime } = await getData();
 
     return (
         <BlogLayout
             navbar={<Navbar />}
-            bannersSlide={existing_slide.length >= 1 && <SlideBanner position="SLIDER" local="Pagina_todos_artigos" />}
+            bannersSlide={existing_slide.length >= 1 && (
+                <SlideBanner
+                    position="SLIDER"
+                    local="Pagina_todos_artigos"
+                    banners={existing_slide}
+                    intervalTime={intervalTime}
+                />
+            )}
             footer={<Footer />}
             existing_sidebar={existing_sidebar.length}
             banners={[

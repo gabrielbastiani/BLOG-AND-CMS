@@ -99,23 +99,43 @@ export async function generateMetadata(
 
 async function getData() {
   const apiClient = setupAPIClient();
-  const [banners, sidebar] = await Promise.all([
-    apiClient.get(`/marketing_publication/existing_banner?local=Pagina_inicial`),
-    apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_inicial`),
-  ]);
-  return {
-    existing_slide: banners.data || [],
-    existing_sidebar: sidebar.data || [],
-  };
+  try {
+    const [banners, sidebar, intervalData] = await Promise.all([
+      apiClient.get(`/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_inicial`),
+      apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_inicial`),
+      apiClient.get(`/marketing_publication/interval_banner/page_banner?local_site=Pagina_inicial`)
+    ]);
+
+    return {
+      banners: banners.data || [],
+      existing_sidebar: sidebar.data || [],
+      intervalTime: intervalData.data?.interval_banner || 5000
+    };
+  } catch (error) {
+    console.error('Erro ao buscar dados:', error);
+    return {
+      banners: [],
+      existing_sidebar: [],
+      intervalTime: 5000
+    };
+  }
 }
 
 export default async function Home_page() {
-  const { existing_slide, existing_sidebar } = await getData();
+
+  const { banners, existing_sidebar, intervalTime } = await getData();
 
   return (
     <BlogLayout
       navbar={<Navbar />}
-      bannersSlide={existing_slide.length >= 1 && <SlideBanner position="SLIDER" local="Pagina_inicial" />}
+      bannersSlide={banners.length >= 1 && (
+        <SlideBanner
+          position="SLIDER"
+          local="Pagina_inicial"
+          banners={banners}
+          intervalTime={intervalTime}
+        />
+      )}
       footer={<Footer />}
       existing_sidebar={existing_sidebar.length}
       banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}

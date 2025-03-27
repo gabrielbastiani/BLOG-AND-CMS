@@ -100,18 +100,19 @@ export async function generateMetadata(
 
 async function getData() {
     const apiClient = setupAPIClient();
-
     try {
-        const [configs, banners, sidebar] = await Promise.all([
+        const [configs, banners, sidebar, intervalData] = await Promise.all([
             apiClient.get('/configuration_blog/get_configs'),
-            apiClient.get('/marketing_publication/existing_banner?local=Pagina_Politicas de privacidade'),
-            apiClient.get('/marketing_publication/existing_sidebar?local=Pagina_Politicas de privacidade')
+            apiClient.get('/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_politicas_de_privacidade'),
+            apiClient.get('/marketing_publication/existing_sidebar?local=Pagina_politicas_de_privacidade'),
+            apiClient.get('/marketing_publication/interval_banner/page_banner?local_site=Pagina_politicas_de_privacidade')
         ]);
 
         return {
             configs: configs.data,
             existing_slide: banners.data || [],
             existing_sidebar: sidebar.data || [],
+            intervalTime: intervalData.data?.interval_banner || 5000
         };
     } catch (error) {
         console.error("Erro ao carregar dados:", error);
@@ -119,17 +120,26 @@ async function getData() {
             configs: null,
             existing_slide: [],
             existing_sidebar: [],
+            intervalTime: 5000
         };
     }
 }
 
 export default async function Politicas_de_privacidade() {
-    const { configs, existing_slide, existing_sidebar } = await getData();
+
+    const { configs, existing_slide, existing_sidebar, intervalTime } = await getData();
 
     return (
         <BlogLayout
             navbar={<Navbar />}
-            bannersSlide={existing_slide.length >= 1 && <SlideBanner position="SLIDER" local="Pagina_Politicas de privacidade" />}
+            bannersSlide={existing_slide.length >= 1 && (
+                <SlideBanner
+                    position="SLIDER"
+                    local="Pagina_politicas_de_privacidade"
+                    banners={existing_slide}
+                    intervalTime={intervalTime}
+                />
+            )}
             existing_sidebar={existing_sidebar.length}
             banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
             footer={<Footer />}
@@ -143,7 +153,7 @@ export default async function Politicas_de_privacidade() {
             </div>
             <MarketingPopup
                 position="POPUP"
-                local="Pagina_Politicas de privacidade"
+                local="Pagina_politicas_de_privacidade"
             />
         </BlogLayout>
     );

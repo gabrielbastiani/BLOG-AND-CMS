@@ -89,16 +89,18 @@ export async function generateMetadata(
 
 async function getData(articleUrl: string) {
   const apiClient = setupAPIClient();
-  const [article, banners, sidebar] = await Promise.all([
+  const [article, banners, sidebar, intervalData] = await Promise.all([
     apiClient.get<PostsProps>(`/post/article/content?url_post=${articleUrl}`),
-    apiClient.get(`/marketing_publication/existing_banner?local=Pagina_artigo`),
+    apiClient.get(`/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_artigo`),
     apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_artigo`),
+    apiClient.get(`/marketing_publication/interval_banner/page_banner?local_site=Pagina_artigo`)
   ]);
 
   return {
     article_data: article.data,
-    existing_slide: banners.data || [],
+    banners: banners.data || [],
     existing_sidebar: sidebar.data || [],
+    intervalTime: intervalData.data?.interval_banner || 5000
   };
 }
 
@@ -107,11 +109,10 @@ interface ArticlePageProps {
 }
 
 export default async function Article({ params }: ArticlePageProps) {
-  // Acesso imediato aos params
+
   const articleUrl = params.article_url;
 
-  // Await da operação assíncrona
-  const data = await getData(articleUrl);
+  const { article_data, banners, existing_sidebar, intervalTime } = await getData(articleUrl);
 
   const calculateReadingTime = (text: string): string => {
     const wordsPerMinute = 200;
@@ -130,15 +131,15 @@ export default async function Article({ params }: ArticlePageProps) {
     <BlogLayout
       navbar={<Navbar />}
       footer={<Footer />}
-      existing_sidebar={data.existing_sidebar.length}
-      banners={<PublicationSidebar existing_sidebar={data.existing_sidebar} />}
+      existing_sidebar={existing_sidebar.length}
+      banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
       bannersSlide={
         <div className="relative w-full h-[300px] md:h-[500px] overflow-hidden">
-          {data.article_data?.id && <ViewCounter postId={data.article_data.id} />}
-          {data.article_data?.image_post ? (
+          {article_data?.id && <ViewCounter postId={article_data.id} />}
+          {article_data?.image_post ? (
             <Image
-              src={`${API_URL}/files/${data.article_data.image_post}`}
-              alt={data.article_data.title || "Imagem do artigo"}
+              src={`${API_URL}/files/${article_data.image_post}`}
+              alt={article_data.title || "Imagem do artigo"}
               className="object-fill w-full h-full"
               width={1200}
               height={800}
@@ -153,27 +154,27 @@ export default async function Article({ params }: ArticlePageProps) {
       }
     >
       <div className="p-4 md:p-8 max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-4 text-gray-900">{data.article_data?.title}</h1>
-        <span className='text-gray-600'>Autor: {data.article_data?.author || "Desconhecido"}</span>
+        <h1 className="text-4xl font-bold mb-4 text-gray-900">{article_data?.title}</h1>
+        <span className='text-gray-600'>Autor: {article_data?.author || "Desconhecido"}</span>
 
         <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-12 mt-4">
           <div className="flex items-center gap-2">
             <FiClock className="text-lg" />
             <span>
-              {new Date(data.article_data?.publish_at || data.article_data?.created_at || new Date()).toLocaleDateString()}
+              {new Date(article_data?.publish_at || article_data?.created_at || new Date()).toLocaleDateString()}
             </span>
           </div>
           <div className="flex items-center gap-2">
             <FaRegEye className="text-lg" />
-            <span>{formatViews(data.article_data?.views || 0)}</span>
+            <span>{formatViews(article_data?.views || 0)}</span>
           </div>
-          {data.article_data?.text_post && (
+          {article_data?.text_post && (
             <div className="text-sm">
-              {calculateReadingTime(data.article_data.text_post)}
+              {calculateReadingTime(article_data.text_post)}
             </div>
           )}
           <div className="flex flex-wrap gap-2">
-            {data.article_data?.categories?.map((cat) => (
+            {article_data?.categories?.map((cat) => (
               <Link key={cat.category?.id} href={`/posts_categories/${cat?.category?.slug_name_category}`}>
                 <span
                   className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-medium"
@@ -186,14 +187,14 @@ export default async function Article({ params }: ArticlePageProps) {
         </div>
 
         <div className="prose max-w-none text-gray-800 prose-h1:text-blue-600 prose-p:mb-4 prose-a:text-indigo-500 hover:prose-a:underline">
-          {data.article_data?.text_post && <SafeHTML html={data.article_data.text_post} />}
+          {article_data?.text_post && <SafeHTML html={article_data.text_post} />}
         </div>
 
-        {data.article_data?.tags && data.article_data?.tags.length > 0 && (
+        {article_data?.tags && article_data?.tags.length > 0 && (
           <div className="mt-10 mb-10">
             <h2 className="text-lg font-semibold text-gray-700 mb-4">Tags:</h2>
             <div className="flex flex-wrap gap-2">
-              {data.article_data.tags.map((tag, index) => (
+              {article_data.tags.map((tag, index) => (
                 <span
                   key={index}
                   className="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-sm font-medium"
@@ -205,12 +206,19 @@ export default async function Article({ params }: ArticlePageProps) {
           </div>
         )}
 
-        <ArticleLikeDislikeWrapper post_id={data.article_data?.id || ""} />
+        <ArticleLikeDislikeWrapper post_id={article_data?.id || ""} />
         <SocialShare articleUrl={articleUrl} />
-        <CommentsSection post_id={data.article_data?.id || ""} />
+        <CommentsSection post_id={article_data?.id || ""} />
         <Newsletter />
 
-        {data.existing_slide.length >= 1 && <SlideBanner position="SLIDER" local="Pagina_artigo" />}
+        {banners.length >= 1 && (
+          <SlideBanner
+            position="SLIDER"
+            local="Pagina_artigo"
+            banners={banners}
+            intervalTime={intervalTime}
+          />
+        )}
 
         <Most_posts_views />
         <BackToTopButton />

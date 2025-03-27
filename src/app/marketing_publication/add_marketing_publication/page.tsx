@@ -43,7 +43,7 @@ export default function AddMarketingPublication() {
             errorMessages.title = "O título é obrigatório.";
         }
 
-        if (!data.local && !["Pagina_inicial", "Pagina_artigo", "Pagina_todos_artigos", "Pagina_categoria", "Pagina_todas_categorias", "Pagina_sobre", "Pagina_contato"].includes(data.local)) {
+        if (!data.local && !["Pagina_inicial", "Pagina_artigo", "Pagina_todos_artigos", "Pagina_categoria", "Pagina_todas_categorias", "Pagina_sobre", "Pagina_contato", "Pagina_politicas_de_privacidade"].includes(data.local)) {
             errorMessages.local = "Selecione um local válido.";
         }
 
@@ -163,6 +163,7 @@ export default function AddMarketingPublication() {
                         <option value="Pagina_todas_categorias">Página de todas as categorias</option>
                         <option value="Pagina_sobre">Página sobre</option>
                         <option value="Pagina_contato">Página de contato</option>
+                        <option value="Pagina_politicas_de_privacidade">Página politicas de privacidade</option>
                     </select>
 
                     <label className="flex items-center">

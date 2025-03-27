@@ -19,8 +19,8 @@ export async function generateMetadata(
     title: "Sobre Nós",
     description: "Conheça mais sobre nosso blog",
     openGraph: {
-      images: [{ 
-        url: new URL('/assets/no-image-icon-6.png', BLOG_URL).toString() 
+      images: [{
+        url: new URL('/assets/no-image-icon-6.png', BLOG_URL).toString()
       }]
     }
   };
@@ -39,8 +39,7 @@ export async function generateMetadata(
     if (!data) {
       return fallbackMetadata;
     }
-    
-    // ✅ Acesso direto ao parent
+
     const previousParent = await parent;
     const previousImages = previousParent.openGraph?.images || [];
 
@@ -103,69 +102,79 @@ export async function generateMetadata(
 }
 
 async function getData() {
-    const apiClient = setupAPIClient();
+  const apiClient = setupAPIClient();
+  try {
+    const [configs, banners, sidebar, intervalData] = await Promise.all([
+      apiClient.get('/configuration_blog/get_configs'),
+      apiClient.get('/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_sobre'),
+      apiClient.get('/marketing_publication/existing_sidebar?local=Pagina_sobre'),
+      apiClient.get('/marketing_publication/interval_banner/page_banner?local_site=Pagina_sobre')
+    ]);
 
-    try {
-        const [configs, banners, sidebar] = await Promise.all([
-            apiClient.get('/configuration_blog/get_configs'),
-            apiClient.get('/marketing_publication/existing_banner?local=Pagina_sobre'),
-            apiClient.get('/marketing_publication/existing_sidebar?local=Pagina_sobre')
-        ]);
-
-        return {
-            configs: configs.data,
-            existing_slide: banners.data || [],
-            existing_sidebar: sidebar.data || [],
-        };
-    } catch (error) {
-        console.error("Erro ao carregar dados:", error);
-        return {
-            configs: null,
-            existing_slide: [],
-            existing_sidebar: [],
-        };
-    }
+    return {
+      configs: configs.data,
+      banners: banners.data || [],
+      existing_sidebar: sidebar.data || [],
+      intervalTime: intervalData.data?.interval_banner || 5000
+    };
+  } catch (error) {
+    console.error("Erro ao carregar dados:", error);
+    return {
+      configs: null,
+      banners: [],
+      existing_sidebar: [],
+      intervalTime: 5000
+    };
+  }
 }
 
 export default async function About() {
-    const { configs, existing_slide, existing_sidebar } = await getData();
 
-    return (
-        <BlogLayout
-            navbar={<Navbar />}
-            bannersSlide={existing_slide.length >= 1 && <SlideBanner position="SLIDER" local="Pagina_sobre" />}
-            existing_sidebar={existing_sidebar.length}
-            banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
-            footer={<Footer />}
-        >
-            <div className="container mx-auto my-12 px-6">
-                <h1 className="text-4xl font-bold text-center mb-12 text-gray-800">
-                    Sobre
-                </h1>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <div className="bg-white shadow-lg rounded-lg p-8">
-                        <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-                            Sobre o autor do blog
-                        </h2>
-                        <p className="text-gray-600 leading-relaxed">
-                            {configs?.about_author_blog || 'Nossos autores são especialistas dedicados a trazer o melhor conteúdo.'}
-                        </p>
-                    </div>
+  const { configs, banners, existing_sidebar, intervalTime } = await getData();
 
-                    <div className="bg-white shadow-lg rounded-lg p-8">
-                        <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-                            Sobre o blog
-                        </h2>
-                        <p className="text-gray-600 leading-relaxed">
-                            {configs?.description_blog || 'Um espaço dedicado a compartilhar conhecimento e experiências relevantes.'}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <MarketingPopup
-                position="POPUP"
-                local="Pagina_sobre"
-            />
-        </BlogLayout>
-    );
+  return (
+    <BlogLayout
+      navbar={<Navbar />}
+      bannersSlide={banners.length >= 1 && (
+        <SlideBanner
+          position="SLIDER"
+          local="Pagina_sobre"
+          banners={banners}
+          intervalTime={intervalTime}
+        />
+      )}
+      existing_sidebar={existing_sidebar.length}
+      banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
+      footer={<Footer />}
+    >
+      <div className="container mx-auto my-12 px-6">
+        <h1 className="text-4xl font-bold text-center mb-12 text-gray-800">
+          Sobre
+        </h1>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="bg-white shadow-lg rounded-lg p-8">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+              Sobre o autor do blog
+            </h2>
+            <p className="text-gray-600 leading-relaxed">
+              {configs?.about_author_blog || 'Nossos autores são especialistas dedicados a trazer o melhor conteúdo.'}
+            </p>
+          </div>
+
+          <div className="bg-white shadow-lg rounded-lg p-8">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+              Sobre o blog
+            </h2>
+            <p className="text-gray-600 leading-relaxed">
+              {configs?.description_blog || 'Um espaço dedicado a compartilhar conhecimento e experiências relevantes.'}
+            </p>
+          </div>
+        </div>
+      </div>
+      <MarketingPopup
+        position="POPUP"
+        local="Pagina_sobre"
+      />
+    </BlogLayout>
+  );
 }

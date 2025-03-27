@@ -113,27 +113,46 @@ export async function generateMetadata(
 
 async function getData() {
     const apiClient = setupAPIClient();
+    try {
+        const [categoriesResponse, bannersResponse, sidebarResponse, intervalData] = await Promise.all([
+            apiClient.get<Category[]>("/categories/blog/posts"),
+            apiClient.get(`/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_todas_categorias`),
+            apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_todas_categorias`),
+            apiClient.get(`/marketing_publication/interval_banner/page_banner?local_site=Pagina_todas_categorias`)
+        ]);
 
-    const [categoriesResponse, bannersResponse, sidebarResponse] = await Promise.all([
-        apiClient.get<Category[]>("/categories/blog/posts"),
-        apiClient.get(`/marketing_publication/existing_banner?local=Pagina_todas_categorias`),
-        apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_todas_categorias`),
-    ]);
-
-    return {
-        categories: categoriesResponse.data,
-        existing_slide: bannersResponse.data || [],
-        existing_sidebar: sidebarResponse.data || [],
-    };
+        return {
+            categories: categoriesResponse.data,
+            existing_slide: bannersResponse.data || [],
+            existing_sidebar: sidebarResponse.data || [],
+            intervalTime: intervalData.data?.interval_banner || 5000
+        };
+    } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+        return {
+            categories: [],
+            existing_slide: [],
+            existing_sidebar: [],
+            intervalTime: 5000
+        };
+    }
 }
 
 export default async function Posts_categories() {
-    const { categories, existing_slide, existing_sidebar } = await getData();
+
+    const { categories, existing_slide, existing_sidebar, intervalTime } = await getData();
 
     return (
         <BlogLayout
             navbar={<Navbar />}
-            bannersSlide={existing_slide.length >= 1 && <SlideBanner position="SLIDER" local="Pagina_todas_categorias" />}
+            bannersSlide={existing_slide.length >= 1 && (
+                <SlideBanner
+                    position="SLIDER"
+                    local="Pagina_todas_categorias"
+                    banners={existing_slide}
+                    intervalTime={intervalTime}
+                />
+            )}
             footer={<Footer />}
             existing_sidebar={existing_sidebar.length}
             banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
