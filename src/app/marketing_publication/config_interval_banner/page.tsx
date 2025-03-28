@@ -184,7 +184,7 @@ export default function Config_interval_banner() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`px-6 py-3 rounded bg-backgroundButton text-white ${loading ? "opacity-50" : "hover:bg-hoverButtonBackground"
+                        className={`px-6 py-3 rounded bg-backgroundButton text-[#FFFFFF] ${loading ? "opacity-50" : "hover:bg-hoverButtonBackground"
                             }`}
                     >
                         {loading ? "Cadastrando..." : "Cadastrar intervalo"}

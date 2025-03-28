@@ -222,7 +222,7 @@ export default function Users_blog() {
                                 label: 'Mudar senha',
                                 render: (item) => (
                                     <button
-                                        className='p-1 bg-red-600 text-white text-xs rounded hover:bg-hoverButtonBackground transition duration-300'
+                                        className='p-1 bg-red-600 text-[#FFFFFF] text-xs rounded hover:bg-hoverButtonBackground transition duration-300'
                                         onClick={() => handleOpenModalPassword(item.id)}
                                     >
                                         Mudar senha
@@ -259,7 +259,7 @@ export default function Users_blog() {
                             <Image src={modalImage} alt="Category Image" width={500} height={500} className="rounded" />
                             <button
                                 onClick={handleCloseModal}
-                                className="absolute top-0 right-0 mt-2 mr-2 text-white text-2xl font-bold"
+                                className="absolute top-0 right-0 mt-2 mr-2 text-[#FFFFFF] text-2xl font-bold"
                             >
                                 &times;
                             </button>

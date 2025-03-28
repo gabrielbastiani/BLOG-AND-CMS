@@ -61,7 +61,7 @@ export default function PublicationSidebar({ existing_sidebar }: SidebarProps) {
                         onClick={() => click_publication(item.id)}
                     >
                         <button
-                            className="mt-3 text-sm bg-red-500 text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition duration-300 uppercase"
+                            className="mt-3 text-sm bg-red-500 text-[#FFFFFF] font-bold py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition duration-300 uppercase"
                         >
                             {item.text_button}
                         </button>

@@ -245,7 +245,7 @@ function DataTable<T extends {
                         {timeFilterButton ?
                             <button
                                 onClick={handleOpenTimeData}
-                                className="mt-2 md:mt-0 md:ml-2 p-2 bg-gray-500 text-white rounded w-full md:w-auto"
+                                className="mt-2 md:mt-0 md:ml-2 p-2 bg-gray-500 text-[#FFFFFF] rounded w-full md:w-auto"
                             >
                                 Por data
                             </button>
@@ -260,7 +260,7 @@ function DataTable<T extends {
                         {selectdData.length > 0 && (
                             <div className="flex justify-end items-center ml-4">
                                 {selectdData.length > 0 && (
-                                    <button onClick={handleDelete} className="p-2 bg-red-500 text-white rounded">
+                                    <button onClick={handleDelete} className="p-2 bg-red-500 text-[#FFFFFF] rounded">
                                         Deletar {selectdData.length} dado(s)
                                     </button>
                                 )}
@@ -272,7 +272,7 @@ function DataTable<T extends {
                                     <>
                                         <button
                                             onClick={handleOpenBulkDeleteData}
-                                            className="mt-2 md:mt-0 md:ml-2 p-2 bg-gray-500 text-white rounded w-full md:w-auto"
+                                            className="mt-2 md:mt-0 md:ml-2 p-2 bg-gray-500 text-[#FFFFFF] rounded w-full md:w-auto"
                                         >
                                             Deletar em massa
                                         </button>

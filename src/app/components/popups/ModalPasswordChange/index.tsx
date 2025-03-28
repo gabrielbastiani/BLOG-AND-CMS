@@ -114,7 +114,7 @@ export function ModalPasswordChange({ isOpen, onRequestClose, id_users, link_upd
                     <button
                         type="button"
                         onClick={handleGeneratePassword}
-                        className="bg-backgroundButton text-white rounded px-3 py-1 hover:bg-hoverButtonBackground transition duration-300"
+                        className="bg-backgroundButton text-[#FFFFFF] rounded px-3 py-1 hover:bg-hoverButtonBackground transition duration-300"
                     >
                         Gerar Senha
                     </button>
@@ -145,7 +145,7 @@ export function ModalPasswordChange({ isOpen, onRequestClose, id_users, link_upd
                 </div>
 
                 <button
-                    className="mt-10 w-full md:w-80 px-6 py-3 bg-red-600 text-white rounded hover:bg-hoverButtonBackground transition duration-300"
+                    className="mt-10 w-full md:w-80 px-6 py-3 bg-red-600 text-[#FFFFFF] rounded hover:bg-hoverButtonBackground transition duration-300"
                     onClick={handleSubmit(onSubmit)}
                     onKeyDown={(e) => {
                         if (e.key === "Enter") {

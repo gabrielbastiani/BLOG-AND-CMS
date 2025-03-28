@@ -341,7 +341,7 @@ export default function SeoPages() {
           <button
             type="submit"
             disabled={loading}
-            className={`px-6 py-3 rounded-md text-white ${loading ? "bg-gray-500" : "bg-green-600 hover:bg-green-700"
+            className={`px-6 py-3 rounded-md text-[#FFFFFF] ${loading ? "bg-gray-500" : "bg-green-600 hover:bg-green-700"
               }`}
           >
             {loading ? "Salvando..." : "Salvar Configurações"}

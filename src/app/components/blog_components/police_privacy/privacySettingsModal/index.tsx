@@ -60,7 +60,7 @@ export default function PrivacySettingsModal() {
                     </button>
                     <button
                         onClick={() => savePreferences(prefs)}
-                        className="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700"
+                        className="px-4 py-2 text-[#FFFFFF] bg-red-600 rounded-lg hover:bg-red-700"
                     >
                         Salvar Preferências
                     </button>

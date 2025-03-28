@@ -98,7 +98,7 @@ const BulkDeleteData: React.FC<BulkDataProps> = ({ isOpen, onClose, delete_bulk_
                             type="button"
                             onClick={handleDownload}
                             disabled={isLoading}
-                            className={`px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-hoverButtonBackground transition duration-300 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                            className={`px-6 py-3 bg-gray-400 text-[#FFFFFF] rounded-md hover:bg-hoverButtonBackground transition duration-300 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                         >
                             {isLoading ? "Gerando..." : "Baixar modelo de arquivo"}
                         </button>
@@ -123,7 +123,7 @@ const BulkDeleteData: React.FC<BulkDataProps> = ({ isOpen, onClose, delete_bulk_
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className={`px-6 py-3 bg-backgroundButton text-white rounded-md hover:bg-hoverButtonBackground mt-5 transition duration-300 ${isLoading ? "opacity-50 cursor-not-allowed mt-5" : ""}`}
+                            className={`px-6 py-3 bg-backgroundButton text-[#FFFFFF] rounded-md hover:bg-hoverButtonBackground mt-5 transition duration-300 ${isLoading ? "opacity-50 cursor-not-allowed mt-5" : ""}`}
                         >
                             {isLoading ? "Carregando..." : "Carregar Arquivo"}
                         </button>

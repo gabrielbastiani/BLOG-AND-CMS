@@ -86,14 +86,14 @@ export function BulkDatas({ link_donwload, name_file, link_register_data }: Bulk
     return (
         <div className="w-full max-w-md md:max-w-none space-y-6">
 
-            <h2 className="text-xl font-semibold text-white">Cadastro em massa</h2>
+            <h2 className="text-xl font-semibold text-[#FFFFFF]">Cadastro em massa</h2>
 
             <form className="space-y-4">
                 <button
                     type="button"
                     onClick={handleDownload}
                     disabled={isLoading}
-                    className={`px-6 py-3 bg-gray-400 text-white rounded-md hover:bg-hoverButtonBackground transition duration-300 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                    className={`px-6 py-3 bg-gray-400 text-[#FFFFFF] rounded-md hover:bg-hoverButtonBackground transition duration-300 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
                     {isLoading ? "Gerando..." : "Baixar modelo de arquivo"}
                 </button>
@@ -120,7 +120,7 @@ export function BulkDatas({ link_donwload, name_file, link_register_data }: Bulk
                 <button
                     type="submit"
                     disabled={isLoading}
-                    className={`px-6 py-3 bg-backgroundButton text-white rounded-md hover:bg-hoverButtonBackground transition duration-300 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
+                    className={`px-6 py-3 bg-backgroundButton text-[#FFFFFF] rounded-md hover:bg-hoverButtonBackground transition duration-300 ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
                     {isLoading ? "Carregando..." : "Carregar Arquivo"}
                 </button>

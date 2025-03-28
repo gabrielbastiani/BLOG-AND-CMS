@@ -436,7 +436,7 @@ export default function Post({ params }: { params: { post_id: string } }) {
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`fixed right-10 bottom-10 w-36 z-50 py-3 text-white ${loading ? "bg-gray-500" : "bg-red-600 hover:bg-orange-600"} rounded-md`}
+                        className={`fixed right-10 bottom-10 w-36 z-50 py-3 text-[#FFFFFF] ${loading ? "bg-gray-500" : "bg-red-600 hover:bg-orange-600"} rounded-md`}
                     >
                         {loading ? "Atualizando..." : "Atualizar Artigo"}
                     </button>

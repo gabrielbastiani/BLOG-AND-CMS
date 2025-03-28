@@ -264,7 +264,7 @@ export function CommentsSection({ post_id }: CommentProps) {
                         />
                         <button
                             onClick={handleReplySubmit}
-                            className="mb-5 mt-2 px-4 py-2 bg-backgroundButton text-white rounded-md hover:hoverButtonBackground"
+                            className="mb-5 mt-2 px-4 py-2 bg-backgroundButton text-[#FFFFFF] rounded-md hover:hoverButtonBackground"
                         >
                             Enviar Resposta
                         </button>
@@ -287,13 +287,13 @@ export function CommentsSection({ post_id }: CommentProps) {
                     <div>
                         <button
                             onClick={() => setModalLogin(true)}
-                            className="px-4 py-2 bg-backgroundButton text-white rounded-md hover:bg-hoverButtonBackground"
+                            className="px-4 py-2 bg-backgroundButton text-[#FFFFFF] rounded-md hover:bg-hoverButtonBackground"
                         >
                             Login
                         </button>
                         <button
                             onClick={() => setModalCreateUser(true)}
-                            className="ml-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+                            className="ml-2 px-4 py-2 bg-green-500 text-[#FFFFFF] rounded-md hover:bg-green-600"
                         >
                             Cadastrar
                         </button>
@@ -302,7 +302,7 @@ export function CommentsSection({ post_id }: CommentProps) {
                 {isAuthenticated && (
                     <button
                         onClick={() => setModalEditUser(true)}
-                        className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-400"
+                        className="px-4 py-2 bg-red-500 text-[#FFFFFF] rounded-md hover:bg-red-400"
                     >
                         Editar Perfil
                     </button>
@@ -323,7 +323,7 @@ export function CommentsSection({ post_id }: CommentProps) {
                             />
                             <button
                                 onClick={handleCommentSubmit}
-                                className="mt-2 px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-300"
+                                className="mt-2 px-6 py-2 bg-green-500 text-[#FFFFFF] rounded-md hover:bg-green-300"
                             >
                                 Enviar
                             </button>

@@ -107,7 +107,7 @@ export const ModalLogin: React.FC<ModalLoginProps> = ({ onClose }) => {
                         <div>
                             <button
                                 type='submit'
-                                className={`bg-red-600 w-full rounded-md text-white h-10 font-medium ${!cognitiveValid ? 'opacity-50 cursor-not-allowed' : ''
+                                className={`bg-red-600 w-full rounded-md text-[#FFFFFF] h-10 font-medium ${!cognitiveValid ? 'opacity-50 cursor-not-allowed' : ''
                                     }`}
                                 disabled={!cognitiveValid || loading}
                             >
@@ -124,7 +124,7 @@ export const ModalLogin: React.FC<ModalLoginProps> = ({ onClose }) => {
 
                         <button
                             onClick={onClose}
-                            className="px-4 py-2 text-sm font-semibold text-white bg-red-600 rounded-md mt-5"
+                            className="px-4 py-2 text-sm font-semibold text-[#FFFFFF] bg-red-600 rounded-md mt-5"
                         >
                             Cancelar
                         </button>

@@ -21,7 +21,7 @@ function ConfirmDeleteModal({ isOpen, onClose, onConfirm }: ConfirmDeleteModalPr
                     <button onClick={onClose} className="px-4 py-2 bg-gray-300 text-gray-800 rounded mr-2">
                         Cancelar
                     </button>
-                    <button onClick={onConfirm} className="px-4 py-2 bg-red-500 text-white rounded">
+                    <button onClick={onConfirm} className="px-4 py-2 bg-red-500 text-[#FFFFFF] rounded">
                         Confirmar
                     </button>
                 </div>

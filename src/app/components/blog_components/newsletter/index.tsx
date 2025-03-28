@@ -53,7 +53,7 @@ export function Newsletter() {
                         {...register("email_user")}
                         className="text-black p-3 w-1/2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
-                    <button type="submit" className="p-3 bg-backgroundButton text-white rounded-lg hover:bg-hoverButtonBackground">
+                    <button type="submit" className="p-3 bg-backgroundButton text-[#FFFFFF] rounded-lg hover:bg-hoverButtonBackground">
                         Inscrever-se
                     </button>
                 </form>

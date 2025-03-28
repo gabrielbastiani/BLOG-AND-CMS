@@ -234,7 +234,7 @@ export default function All_marketing_publication() {
                                 render: (item) => (
                                     <span
                                         onClick={() => user?.role === "EMPLOYEE" ? "" : handleDescriptionClick(item.description || "")}
-                                        className="cursor-pointer text-white hover:underline text-xs truncate max-w-32"
+                                        className="cursor-pointer text-[#FFFFFF] hover:underline text-xs truncate max-w-32"
                                     >
                                         {item.description ? item.description : "Adicionar descrição"}
                                     </span>
@@ -334,7 +334,7 @@ export default function All_marketing_publication() {
                                 label: 'Editar',
                                 render: (item) => (
                                     <button
-                                        className='p-1 bg-red-600 text-white text-xs rounded hover:bg-hoverButtonBackground transition duration-300'
+                                        className='p-1 bg-red-600 text-[#FFFFFF] text-xs rounded hover:bg-hoverButtonBackground transition duration-300'
                                         onClick={() => router.push(`/marketing_publication/all_marketing_publication/${item.id}`)}
                                     >
                                         Editar
@@ -356,7 +356,7 @@ export default function All_marketing_publication() {
                             <div className="flex justify-end mt-4 space-x-2">
                                 <button
                                     onClick={() => setShowDescriptionPopup(null)}
-                                    className="px-4 py-2 text-sm font-semibold text-white bg-red-500 rounded-md"
+                                    className="px-4 py-2 text-sm font-semibold text-[#FFFFFF] bg-red-500 rounded-md"
                                 >
                                     Sair
                                 </button>

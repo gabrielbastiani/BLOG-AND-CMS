@@ -18,28 +18,28 @@ export default function SocialShare({ articleUrl }: { articleUrl: string }) {
                     <Link
                         href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`}
                         target="_blank"
-                        className="flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full hover:bg-blue-700"
+                        className="flex items-center justify-center w-10 h-10 bg-blue-600 text-[#FFFFFF] rounded-full hover:bg-blue-700"
                     >
                         <FaFacebook />
                     </Link>
                     <Link
                         href={`https://www.instagram.com/?url=${shareUrl}`}
                         target="_blank"
-                        className="flex items-center justify-center w-10 h-10 bg-pink-500 text-white rounded-full hover:bg-pink-600"
+                        className="flex items-center justify-center w-10 h-10 bg-pink-500 text-[#FFFFFF] rounded-full hover:bg-pink-600"
                     >
                         <FaInstagram />
                     </Link>
                     <Link
                         href={`https://api.whatsapp.com/send?text=${shareUrl}`}
                         target="_blank"
-                        className="flex items-center justify-center w-10 h-10 bg-green-500 text-white rounded-full hover:bg-green-600"
+                        className="flex items-center justify-center w-10 h-10 bg-green-500 text-[#FFFFFF] rounded-full hover:bg-green-600"
                     >
                         <FaWhatsapp />
                     </Link>
                     <Link
                         href={`https://twitter.com/intent/tweet?url=${shareUrl}`}
                         target="_blank"
-                        className="flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+                        className="flex items-center justify-center w-10 h-10 bg-blue-500 text-[#FFFFFF] rounded-full hover:bg-blue-600"
                     >
                         <FaTwitter />
                     </Link>
@@ -52,28 +52,28 @@ export default function SocialShare({ articleUrl }: { articleUrl: string }) {
                     <Link
                         href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`}
                         target="_blank"
-                        className="flex items-center justify-center w-12 h-12 bg-blue-600 text-white rounded-full hover:bg-blue-700 shadow-md"
+                        className="flex items-center justify-center w-12 h-12 bg-blue-600 text-[#FFFFFF] rounded-full hover:bg-blue-700 shadow-md"
                     >
                         <FaFacebook />
                     </Link>
                     <Link
                         href={`https://www.instagram.com/?url=${shareUrl}`}
                         target="_blank"
-                        className="flex items-center justify-center w-12 h-12 bg-pink-500 text-white rounded-full hover:bg-pink-600 shadow-md"
+                        className="flex items-center justify-center w-12 h-12 bg-pink-500 text-[#FFFFFF] rounded-full hover:bg-pink-600 shadow-md"
                     >
                         <FaInstagram />
                     </Link>
                     <Link
                         href={`https://api.whatsapp.com/send?text=${shareUrl}`}
                         target="_blank"
-                        className="flex items-center justify-center w-12 h-12 bg-green-500 text-white rounded-full hover:bg-green-600 shadow-md"
+                        className="flex items-center justify-center w-12 h-12 bg-green-500 text-[#FFFFFF] rounded-full hover:bg-green-600 shadow-md"
                     >
                         <FaWhatsapp />
                     </Link>
                     <Link
                         href={`https://twitter.com/intent/tweet?url=${shareUrl}`}
                         target="_blank"
-                        className="flex items-center justify-center w-12 h-12 bg-blue-500 text-white rounded-full hover:bg-blue-600 shadow-md"
+                        className="flex items-center justify-center w-12 h-12 bg-blue-500 text-[#FFFFFF] rounded-full hover:bg-blue-600 shadow-md"
                     >
                         <FaTwitter />
                     </Link>

@@ -29,7 +29,7 @@ export default function BackToTopButton() {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-6 right-6 z-50 p-3 rounded-full bg-backgroundButton text-white shadow-lg transition-opacity ${
+      className={`fixed bottom-6 right-6 z-50 p-3 rounded-full bg-backgroundButton text-[#FFFFFF] shadow-lg transition-opacity ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
       aria-label="Voltar ao topo"

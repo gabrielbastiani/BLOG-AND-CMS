@@ -26,7 +26,7 @@ export function FilterDateViewsPost({ onFilter }: FilterDateProps) {
       />
       <button
         onClick={() => onFilter(startDate, endDate)}
-        className="bg-green-600 text-white px-4 py-2 rounded-md"
+        className="bg-green-600 text-[#FFFFFF] px-4 py-2 rounded-md"
       >
         Filtrar
       </button>

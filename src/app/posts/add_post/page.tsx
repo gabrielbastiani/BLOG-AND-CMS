@@ -310,20 +310,13 @@ export default function AddPost() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`fixed right-10 bottom-10 px-6 py-3 z-10 rounded bg-backgroundButton text-white ${loading ? "opacity-50" : "hover:bg-hoverButtonBackground z-10"
+                        className={`fixed right-10 bottom-10 px-6 py-3 z-10 rounded bg-backgroundButton text-[#FFFFFF] ${loading ? "opacity-50" : "hover:bg-hoverButtonBackground z-10"
                             }`}
                     >
                         {loading ? "Cadastrando..." : "Cadastrar Artigo"}
                     </button>
                 </form>
 
-                <hr className="mt-6 mb-6" />
-
-                <BulkDatas
-                    link_donwload="/post/donwload_excel_posts?user_id"
-                    name_file="posts.xlsx"
-                    link_register_data="/post/bulk_posts?user_id"
-                />
             </Section>
         </SidebarAndHeader>
     );

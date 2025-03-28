@@ -157,7 +157,7 @@ export default async function Posts_categories() {
             existing_sidebar={existing_sidebar.length}
             banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
             presentation={
-                <section className="bg-gray-800 py-12 text-white text-center">
+                <section className="bg-gray-800 py-12 text-[#FFFFFF] text-center">
                     <h1 className="text-3xl font-bold">Todas as categorias</h1>
                     <p className="text-gray-300 mt-2">
                         Explore todas as categorias do blog.
@@ -180,7 +180,7 @@ export default async function Posts_categories() {
                             <div className="relative p-6 bg-gradient-to-t from-black via-transparent to-transparent">
                                 <Link
                                     href={`/posts_categories/${category.slug_name_category}`}
-                                    className="text-2xl font-bold text-white mb-2 block"
+                                    className="text-2xl font-bold text-[#FFFFFF] mb-2 block"
                                 >
                                     {category.name_category}
                                 </Link>

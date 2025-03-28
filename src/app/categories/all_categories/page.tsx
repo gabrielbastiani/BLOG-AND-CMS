@@ -270,13 +270,13 @@ export default function All_categories() {
                                                         <div className="flex justify-around">
                                                             <button
                                                                 onClick={handleUpdateImage}
-                                                                className="bg-backgroundButton text-white py-2 px-4 rounded-lg hover:bg-hoverButtonBackground transition-colors"
+                                                                className="bg-backgroundButton text-[#FFFFFF] py-2 px-4 rounded-lg hover:bg-hoverButtonBackground transition-colors"
                                                             >
                                                                 Atualizar Imagem
                                                             </button>
                                                             <button
                                                                 onClick={handleDeleteImage}
-                                                                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors"
+                                                                className="bg-red-500 text-[#FFFFFF] py-2 px-4 rounded-lg hover:bg-red-600 transition-colors"
                                                             >
                                                                 Deletar Imagem
                                                             </button>
@@ -303,7 +303,7 @@ export default function All_categories() {
                                         ) : (
                                             <span
                                                 onClick={() => user?.role === "EMPLOYEE" ? "" : handleEdit(item.id, "name_category", item.name_category)}
-                                                className="cursor-pointer hover:underline text-white truncate max-w-44"
+                                                className="cursor-pointer hover:underline text-[#FFFFFF] truncate max-w-44"
                                             >
                                                 {item.name_category}
                                             </span>
@@ -317,7 +317,7 @@ export default function All_categories() {
                                 render: (item) => (
                                     <span
                                         onClick={() => user?.role === "EMPLOYEE" ? "" : handleDescriptionClick(item.id, item.description || "")}
-                                        className="cursor-pointer text-white hover:underline text-xs truncate max-w-32"
+                                        className="cursor-pointer text-[#FFFFFF] hover:underline text-xs truncate max-w-32"
                                     >
                                         {item.description ? item.description : "Adicionar descrição"}
                                     </span>
@@ -429,7 +429,7 @@ export default function All_categories() {
                                 </button>
                                 <button
                                     onClick={() => handleSave(showDescriptionPopup, "description")}
-                                    className="px-4 py-2 text-sm font-semibold text-white bg-backgroundButton rounded-md"
+                                    className="px-4 py-2 text-sm font-semibold text-[#FFFFFF] bg-backgroundButton rounded-md"
                                 >
                                     Salvar
                                 </button>

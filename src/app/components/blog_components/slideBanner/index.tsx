@@ -105,26 +105,26 @@ export function SlideBanner({ position, local, banners, intervalTime }: SliderPr
       ))}
 
       <button
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600"
+        className="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800 text-[#FFFFFF] p-2 rounded-full hover:bg-gray-600"
         onClick={handlePrevSlide}
       >
         <FiArrowLeft />
       </button>
       <button
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600"
+        className="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800 text-[#FFFFFF] p-2 rounded-full hover:bg-gray-600"
         onClick={handleNextSlide}
       >
         <FiArrowRight />
       </button>
 
-      <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-35 text-white p-4 text-center">
+      <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-35 text-[#FFFFFF] p-4 text-center">
         {internalBanners[currentSlide]?.text_publication && (
           <>
             <p className="text-lg font-medium">{internalBanners[currentSlide].text_publication}</p>
             <Link
               href={internalBanners[currentSlide].redirect_url || "#"}
               target="_blank"
-              className="text-sm inline-block mt-2 px-4 py-2 bg-red-500 hover:bg-red-700 rounded text-white"
+              className="text-sm inline-block mt-2 px-4 py-2 bg-red-500 hover:bg-red-700 rounded text-[#FFFFFF]"
             >
               {internalBanners[currentSlide].text_button}
             </Link>

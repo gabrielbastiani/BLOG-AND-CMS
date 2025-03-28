@@ -93,7 +93,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({ category, moveCategory, mov
         >
             <div className="flex items-center space-x-2">
                 <div
-                    className={`flex-1 p-4 rounded-md shadow-md transition transform hover:scale-105 ${level === 0 ? "bg-blue-600 text-white mb-3" :
+                    className={`flex-1 p-4 rounded-md shadow-md transition transform hover:scale-105 ${level === 0 ? "bg-blue-600 text-[#FFFFFF] mb-3" :
                         level === 1 ? "bg-green-100 text-green-900 mb-3" :
                             level === 2 ? "bg-yellow-100 text-yellow-900 mb-3" :
                                 "bg-gray-100 text-gray-900 mb-3"

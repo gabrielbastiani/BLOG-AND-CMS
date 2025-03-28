@@ -218,7 +218,7 @@ export default function Profile() {
 
                         <button
                             type="submit"
-                            className="w-full md:w-80 px-6 py-3 bg-backgroundButton text-white rounded hover:bg-hoverButtonBackground transition duration-300"
+                            className="w-full md:w-80 px-6 py-3 bg-backgroundButton text-[#FFFFFF] rounded hover:bg-hoverButtonBackground transition duration-300"
                             disabled={loading}
                         >
                             {loading ? "Salvando..." : "Salvar alterações"}
@@ -228,7 +228,7 @@ export default function Profile() {
 
                 <button
                     onClick={signOut}
-                    className="mb-16 mt-24 w-full md:w-80 px-6 py-3 bg-red-600 text-white rounded hover:bg-hoverButtonBackground transition duration-300"
+                    className="mb-16 mt-24 w-full md:w-80 px-6 py-3 bg-red-600 text-[#FFFFFF] rounded hover:bg-hoverButtonBackground transition duration-300"
                     disabled={loading}
                 >
                     {loading ? "Saindo..." : "Sair da conta"}

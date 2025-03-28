@@ -146,7 +146,7 @@ export default function AddCategory() {
                             />
 
                             <div>
-                                <label htmlFor="parentId" className="block text-sm font-medium text-white">
+                                <label htmlFor="parentId" className="block text-sm font-medium text-[#FFFFFF]">
                                     Subcategoria de alguma categoria?
                                 </label>
                                 <select
@@ -180,7 +180,7 @@ export default function AddCategory() {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full px-6 py-3 bg-backgroundButton text-white rounded hover:bg-hoverButtonBackground transition duration-300"
+                                className="w-full px-6 py-3 bg-backgroundButton text-[#FFFFFF] rounded hover:bg-hoverButtonBackground transition duration-300"
                             >
                                 {loading ? "Cadastrando..." : "Cadastrar Categoria"}
                             </button>

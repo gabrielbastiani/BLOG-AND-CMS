@@ -108,7 +108,7 @@ export default function SEOSettingsList() {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-right">
                                     <div className="flex justify-end space-x-2">
                                         <button
-                                            className="px-3 py-1.5 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                                            className="px-3 py-1.5 bg-red-600 text-[#FFFFFF] rounded-md hover:bg-red-700 transition-colors"
                                             onClick={() => router.push(`/configurations/seo_pages/${setting.id}`)}
                                         >
                                             Editar

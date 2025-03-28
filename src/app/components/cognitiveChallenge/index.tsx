@@ -109,7 +109,7 @@ export const CognitiveChallenge = ({ onValidate }: CognitiveChallengeProps) => {
             <button
                 onClick={validateAnswer}
                 disabled={isValid}
-                className="mt-2 px-4 py-2 bg-orange-600 text-white rounded-md disabled:bg-gray-400"
+                className="mt-2 px-4 py-2 bg-orange-600 text-[#FFFFFF] rounded-md disabled:bg-gray-400"
             >
                 Validar Resposta
             </button>

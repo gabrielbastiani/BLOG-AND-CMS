@@ -97,7 +97,7 @@ export default function Central_notifications() {
 
                 <button
                     onClick={markAllAsRead}
-                    className="mb-4 px-6 py-3 bg-backgroundButton text-white rounded-md hover:bg-hoverButtonBackground"
+                    className="mb-4 px-6 py-3 bg-backgroundButton text-[#FFFFFF] rounded-md hover:bg-hoverButtonBackground"
                 >
                     Marcar todas como lidas
                 </button>

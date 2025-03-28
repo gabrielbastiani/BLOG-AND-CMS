@@ -278,7 +278,7 @@ export default function All_posts() {
                                 label: 'Editar Artigo',
                                 render: (item) => (
                                     <button
-                                        className='p-1 bg-red-600 text-white text-xs rounded hover:bg-hoverButtonBackground transition duration-300'
+                                        className='p-1 bg-red-600 text-[#FFFFFF] text-xs rounded hover:bg-hoverButtonBackground transition duration-300'
                                         onClick={() => router.push(`/posts/all_posts/post/${item.id}`)}
                                     >
                                         Editar post

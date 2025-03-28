@@ -130,7 +130,7 @@ export function Navbar() {
                     ) : (
                         <button
                             onClick={() => setShowSearch(true)}
-                            className="text-white hover:text-orange-500"
+                            className="text-[#FFFFFF] hover:text-orange-500"
                         >
                             <FiSearch size={24} />
                         </button>
@@ -141,7 +141,7 @@ export function Navbar() {
                 <div className="md:hidden flex items-center">
                     <button
                         onClick={toggleMobileMenu}
-                        className="text-var(--foreground) focus:outline-none"
+                        className="text-[#FFFFFF] focus:outline-none"
                     >
                         <FiMenu size={28} />
                     </button>
@@ -149,7 +149,7 @@ export function Navbar() {
 
                 {/* Lista de links */}
                 <ul
-                    className={`absolute top-full left-0 w-full bg-black shadow-md p-4 flex flex-col gap-4 items-center md:static md:flex md:flex-row md:gap-6 md:shadow-none md:bg-transparent ${isMobileMenuOpen ? "block" : "hidden"
+                    className={`text-[#FFFFFF] absolute top-full left-0 w-full bg-black shadow-md p-4 flex flex-col gap-4 items-center md:static md:flex md:flex-row md:gap-6 md:shadow-none md:bg-transparent ${isMobileMenuOpen ? "block" : "hidden"
                         }`}
                 >
                     <li>
@@ -186,14 +186,14 @@ export function Navbar() {
                                     className="object-cover w-full h-full rounded-full"
                                 />
                             ) : (
-                                <FiUser cursor="pointer" size={24} color="var(--foreground)" />
+                                <FiUser cursor="pointer" size={24} color="#FFFFFF" />
                             )}
                         </div>
                     </button>
                 ) : (
                     <button onClick={() => setModalLogin(true)}>
                         <div className="border-2 rounded-full p-1 border-var(--foreground)">
-                            <FiLogIn size={22} color="var(--foreground)" />
+                            <FiLogIn size={22} color="#FFFFFF" />
                         </div>
                     </button>
                 )}

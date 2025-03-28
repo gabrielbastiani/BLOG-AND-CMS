@@ -71,7 +71,7 @@ const ScheduledPostsCalendar = () => {
                             return (
                                 <div className="relative">
                                     <span>{day}</span>
-                                    <div className="absolute bottom-0 left-0 text-xs text-white bg-blue-600 rounded-full w-5 h-5 flex items-center justify-center">
+                                    <div className="absolute bottom-0 left-0 text-xs text-[#FFFFFF] bg-blue-600 rounded-full w-5 h-5 flex items-center justify-center">
                                         {posts.length}
                                     </div>
                                 </div>

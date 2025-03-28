@@ -299,7 +299,7 @@ export default function Comments() {
                                 render: (item) => (
                                     <button
                                         key={item.post.id}
-                                        className='p-1 bg-red-600 text-white text-xs rounded hover:bg-hoverButtonBackground transition duration-300'
+                                        className='p-1 bg-red-600 text-[#FFFFFF] text-xs rounded hover:bg-hoverButtonBackground transition duration-300'
                                         onClick={() => router.push(`/article/${item.post.custon_url ? item.post.custon_url : item.post.slug_title_post}`)}
                                     >
                                         Ver post
@@ -321,7 +321,7 @@ export default function Comments() {
                             <div className="flex justify-end mt-4 space-x-2">
                                 <button
                                     onClick={() => setShowCommentPopup(null)}
-                                    className="px-4 py-2 text-sm font-semibold text-white bg-red-500 rounded-md"
+                                    className="px-4 py-2 text-sm font-semibold text-[#FFFFFF] bg-red-500 rounded-md"
                                 >
                                     Sair
                                 </button>

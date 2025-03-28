@@ -54,7 +54,7 @@ export default function Categories_grid() {
                             )}
 
                             <div className="absolute top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
-                                <h3 className="text-white text-lg font-bold">{category.name_category}</h3>
+                                <h3 className="text-[#FFFFFF] text-lg font-bold">{category.name_category}</h3>
                             </div>
                         </Link>
                     </div>

@@ -135,7 +135,7 @@ export default async function Posts_Categories({ params }: { params: { category_
             existing_sidebar={existing_sidebar.length}
             banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
             presentation={
-                <section className="bg-gray-800 py-12 text-white text-center">
+                <section className="bg-gray-800 py-12 text-[#FFFFFF] text-center">
                     <h1 className="text-3xl font-bold">{`Artigos de ${loadData?.name_category}`}</h1>
                     <p className="text-gray-300 mt-2">
                         {`Explore todos artigos da categoria ${loadData?.name_category}.`}

@@ -36,7 +36,7 @@ export function Footer() {
     }, []);
 
     return (
-        <footer className="bg-gray-800 text-white py-6 mt-14 z-50">
+        <footer className="bg-gray-800 text-[#FFFFFF] py-6 mt-14 z-50">
             <div className="container mx-auto text-center">
                 <div className="flex justify-center space-x-6 mb-5">
                     {dataMedias.map((media) => (
@@ -46,7 +46,7 @@ export function Footer() {
                                     href={media.link ? media.link : ""}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center space-x-2 text-gray-300 hover:text-white"
+                                    className="flex items-center space-x-2 text-gray-300 hover:text-[#FFFFFF]"
                                 >
                                     <Image
                                         src={media.logo_media ? `${API_URL}/files/${media.logo_media}` : noImage}
@@ -61,7 +61,7 @@ export function Footer() {
                                     href={media.link ? media.link : ""}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center space-x-2 text-white hover:text-gray-300"
+                                    className="flex items-center space-x-2 text-[#FFFFFF] hover:text-gray-300"
                                 >
                                     {media.name_media}
                                 </Link>
@@ -71,7 +71,7 @@ export function Footer() {
                 </div>
                 <Link
                     href="/politicas_de_privacidade"
-                    className="text-white mb-5"
+                    className="text-[#FFFFFF] mb-5"
                 >
                     Politicas de privacidade
                 </Link>

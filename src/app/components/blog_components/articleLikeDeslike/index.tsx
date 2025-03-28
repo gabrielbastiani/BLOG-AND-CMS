@@ -96,7 +96,7 @@ export default function ArticleLikeDislike({
                     onClick={() => handleLikeDislike(true)}
                     className={`flex items-center gap-2 px-4 py-2 rounded-md transition ${loading
                         ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        : "bg-gray-200 text-gray-700 hover:bg-hoverButtonBackground hover:text-white"
+                        : "bg-gray-200 text-gray-700 hover:bg-hoverButtonBackground hover:text-[#FFFFFF]"
                         }`}
                     disabled={loading}
                 >
@@ -107,7 +107,7 @@ export default function ArticleLikeDislike({
                     onClick={() => handleLikeDislike(false)}
                     className={`flex items-center gap-2 px-4 py-2 rounded-md transition ${loading
                         ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        : "bg-gray-200 text-gray-700 hover:bg-red-500 hover:text-white"
+                        : "bg-gray-200 text-gray-700 hover:bg-red-500 hover:text-[#FFFFFF]"
                         }`}
                     disabled={loading}
                 >

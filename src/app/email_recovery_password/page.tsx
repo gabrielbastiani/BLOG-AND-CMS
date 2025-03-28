@@ -123,7 +123,7 @@ export default function EmailRecoveryPassword() {
 
                             <button
                                 type='submit'
-                                className={`bg-red-600 w-full rounded-md text-white h-10 font-medium ${!cognitiveValid ? 'opacity-50 cursor-not-allowed' : ''
+                                className={`bg-red-600 w-full rounded-md text-[#FFFFFF] h-10 font-medium ${!cognitiveValid ? 'opacity-50 cursor-not-allowed' : ''
                                     }`}
                                 disabled={!cognitiveValid || loading}
                             >

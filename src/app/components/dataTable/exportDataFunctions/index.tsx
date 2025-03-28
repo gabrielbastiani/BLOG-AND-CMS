@@ -99,7 +99,7 @@ const ExportDataFunctions: React.FC<ExportDataProps<any>> = ({ data, customNames
             <div className="flex justify-end items-center ml-4">
                 <button
                     onClick={handleOpenExportData}
-                    className="p-2 bg-buttonAlternative text-white rounded"
+                    className="p-2 bg-buttonAlternative text-[#FFFFFF] rounded"
                 >
                     Exportar dados
                 </button>

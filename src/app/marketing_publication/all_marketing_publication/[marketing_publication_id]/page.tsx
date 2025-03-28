@@ -342,7 +342,7 @@ export default function UpdateMarketingPublication({
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`w-full py-3 text-white ${loading ? "bg-gray-500" : "bg-green-600 hover:bg-green-700"
+                        className={`w-full py-3 text-[#FFFFFF] ${loading ? "bg-gray-500" : "bg-green-600 hover:bg-green-700"
                             } rounded-md`}
                     >
                         {loading ? "Atualizando..." : "Atualizar Publicidade"}

@@ -96,7 +96,7 @@ const TimeFilterModal: React.FC<DateFilterModalProps> = ({ isOpen, onClose, onDa
 
                     <button
                         onClick={handleApply}
-                        className="mt-4 w-full bg-red-500 hover:bg-red-400 text-white py-2 rounded transition duration-200"
+                        className="mt-4 w-full bg-red-500 hover:bg-red-400 text-[#FFFFFF] py-2 rounded transition duration-200"
                     >
                         Aplicar
                     </button>

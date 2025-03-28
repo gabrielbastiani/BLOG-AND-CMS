@@ -77,7 +77,7 @@ export default function Config_media_social() {
 
     return (
         <>
-            <h1 className="text-white text-3xl mb-4">Redes sociais do blog</h1>
+            <h1 className="text-[#FFFFFF] text-3xl mb-4">Redes sociais do blog</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                     <label className="relative w-[80px] h-[80px] rounded-lg cursor-pointer flex justify-center bg-gray-200 overflow-hidden">
@@ -125,7 +125,7 @@ export default function Config_media_social() {
                 <button
                     type="submit"
                     disabled={loading}
-                    className={`w-52 py-3 text-white ${loading ? "bg-gray-500" : "bg-red-600 hover:bg-orange-600"} rounded-md`}
+                    className={`w-52 py-3 text-[#FFFFFF] ${loading ? "bg-gray-500" : "bg-red-600 hover:bg-orange-600"} rounded-md`}
                 >
                     {loading ? "Salvando..." : "Salvar"}
                 </button>

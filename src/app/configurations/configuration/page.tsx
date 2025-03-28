@@ -205,7 +205,7 @@ export default function Configuration() {
                 <TitlePage title="CONFIGURAÇÕES DO BLOG" />
 
                 <button
-                    className="bg-red-500 text-white p-5 rounded-md mb-7"
+                    className="bg-red-500 text-[#FFFFFF] p-5 rounded-md mb-7"
                     onClick={delete_files}
                 >
                     Deletar arquivos absoletos no sistema
@@ -373,7 +373,7 @@ export default function Configuration() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`w-52 py-3 text-white ${loading ? "bg-gray-500" : "bg-red-600 hover:bg-orange-600"} rounded-md`}
+                        className={`w-52 py-3 text-[#FFFFFF] ${loading ? "bg-gray-500" : "bg-red-600 hover:bg-orange-600"} rounded-md`}
                     >
                         {loading ? "Atualizando..." : "Atualizar Cadastro"}
                     </button>

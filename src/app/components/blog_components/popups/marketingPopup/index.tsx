@@ -105,7 +105,7 @@ export default function MarketingPopup({ position, local }: PopupProps) {
                     <Link
                         href={popupData.redirect_url}
                         onClick={click_publication}
-                        className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 inline-block"
+                        className="bg-red-500 text-[#FFFFFF] py-2 px-4 rounded hover:bg-red-600 inline-block"
                         target="_blank"
                         rel="noopener noreferrer"
                     >

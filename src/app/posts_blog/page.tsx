@@ -151,7 +151,7 @@ export default async function Posts_blog() {
                 <Image src={mkt} alt="Banner 2" className="w-full rounded" width={80} height={80} priority />
             ]}
             presentation={
-                <section className="bg-gray-800 py-12 text-white text-center">
+                <section className="bg-gray-800 py-12 text-[#FFFFFF] text-center">
                     <h1 className="text-3xl font-bold">Todos os artigos</h1>
                     <p className="text-gray-300 mt-2">
                         Explore todos os artigos do blog.

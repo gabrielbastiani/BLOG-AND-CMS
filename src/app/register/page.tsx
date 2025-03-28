@@ -222,7 +222,7 @@ export default function Register() {
 
                                     <button
                                         type='submit'
-                                        className={`bg-red-600 w-full rounded-md text-white h-10 font-medium ${!cognitiveValid ? 'opacity-50 cursor-not-allowed' : ''
+                                        className={`bg-red-600 w-full rounded-md text-[#FFFFFF] h-10 font-medium ${!cognitiveValid ? 'opacity-50 cursor-not-allowed' : ''
                                             }`}
                                         disabled={!cognitiveValid || loading}
                                     >
@@ -230,7 +230,7 @@ export default function Register() {
                                     </button>
                                 </form>
 
-                                <Link href="/login" className="text-white hover:underline">
+                                <Link href="/login" className="text-[#FFFFFF] hover:underline">
                                     Já possui uma conta? Faça o login!
                                 </Link>
                             </div>

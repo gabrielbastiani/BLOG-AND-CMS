@@ -143,7 +143,7 @@ export default function Add_user() {
                                 <button
                                     type="button"
                                     onClick={handleGeneratePassword}
-                                    className="absolute right-2 top-2 bg-backgroundButton text-white rounded px-3 py-1 hover:bg-hoverButtonBackground transition duration-300"
+                                    className="absolute right-2 top-2 bg-backgroundButton text-[#FFFFFF] rounded px-3 py-1 hover:bg-hoverButtonBackground transition duration-300"
                                 >
                                     Gerar Senha
                                 </button>
@@ -184,7 +184,7 @@ export default function Add_user() {
                                         handleSubmit(onSubmit);
                                     }
                                 }}
-                                className="w-full md:w-80 px-6 py-3 bg-backgroundButton text-white rounded hover:bg-hoverButtonBackground transition duration-300"
+                                className="w-full md:w-80 px-6 py-3 bg-backgroundButton text-[#FFFFFF] rounded hover:bg-hoverButtonBackground transition duration-300"
                             >
                                 Cadastrar
                             </button>

@@ -136,7 +136,7 @@ export default function All_tags() {
                                             <span
                                                 key={item.id}
                                                 onClick={() => handleEdit(item.id, "tag_name", item.tag_name)}
-                                                className="cursor-pointer hover:underline text-white truncate max-w-44"
+                                                className="cursor-pointer hover:underline text-[#FFFFFF] truncate max-w-44"
                                             >
                                                 {item.tag_name}
                                             </span>

@@ -35,7 +35,7 @@ export function Pagination({ currentPage, totalPages }: PageProps) {
                     return (
                         <button
                             key={pageNumber}
-                            className={`px-4 py-2 mx-1 rounded-md transition duration-200 ${currentPage === pageNumber ? "bg-backgroundButton text-white" : "bg-activeLink text-black hover:bg-opacity-70"}`}
+                            className={`px-4 py-2 mx-1 rounded-md transition duration-200 ${currentPage === pageNumber ? "bg-backgroundButton text-[#FFFFFF]" : "bg-activeLink text-black hover:bg-opacity-70"}`}
                             onClick={() => handlePageChange(pageNumber)}
                         >
                             {pageNumber}

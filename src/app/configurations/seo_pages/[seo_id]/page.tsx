@@ -402,7 +402,7 @@ export default function Seo_id({ params }: { params: { seo_id: string } }) {
                                         <button
                                             type="button"
                                             onClick={handleAddKeyword}
-                                            className="p-1 bg-green-500 text-white rounded-md hover:bg-green-600"
+                                            className="p-1 bg-green-500 text-[#FFFFFF] rounded-md hover:bg-green-600"
                                         >
                                             <FiCheck className="text-lg" />
                                         </button>
@@ -412,7 +412,7 @@ export default function Seo_id({ params }: { params: { seo_id: string } }) {
                                                 setIsAddingKeyword(false);
                                                 setNewKeywordTemp("");
                                             }}
-                                            className="p-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+                                            className="p-1 bg-red-500 text-[#FFFFFF] rounded-md hover:bg-red-600"
                                         >
                                             ×
                                         </button>
@@ -421,7 +421,7 @@ export default function Seo_id({ params }: { params: { seo_id: string } }) {
                                     <button
                                         type="button"
                                         onClick={() => setIsAddingKeyword(true)}
-                                        className="px-3 py-1 bg-green-500 text-white rounded-md hover:bg-green-600"
+                                        className="px-3 py-1 bg-green-500 text-[#FFFFFF] rounded-md hover:bg-green-600"
                                     >
                                         Adicionar
                                     </button>
@@ -539,7 +539,7 @@ export default function Seo_id({ params }: { params: { seo_id: string } }) {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <span className="absolute top-1 left-1 bg-black/70 text-white text-xs px-2 py-1 rounded-md">
+                                            <span className="absolute top-1 left-1 bg-black/70 text-[#FFFFFF] text-xs px-2 py-1 rounded-md">
                                                 Imagem {index + 1}
                                             </span>
                                         </div>
@@ -668,7 +668,7 @@ export default function Seo_id({ params }: { params: { seo_id: string } }) {
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    <span className="absolute top-1 left-1 bg-black/70 text-white text-xs px-2 py-1 rounded-md">
+                                                    <span className="absolute top-1 left-1 bg-black/70 text-[#FFFFFF] text-xs px-2 py-1 rounded-md">
                                                         Imagem {index + 1}
                                                     </span>
                                                 </div>
@@ -713,7 +713,7 @@ export default function Seo_id({ params }: { params: { seo_id: string } }) {
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className={`px-6 py-3 rounded-md text-white ${isSubmitting ? "bg-gray-500" : "bg-red-600 hover:bg-red-700"
+                        className={`px-6 py-3 rounded-md text-[#FFFFFF] ${isSubmitting ? "bg-gray-500" : "bg-red-600 hover:bg-red-700"
                             }`}
                     >
                         {isSubmitting ? "Atualizando..." : "Atualizar Configurações"}

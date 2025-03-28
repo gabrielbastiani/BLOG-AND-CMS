@@ -66,7 +66,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ value, onChange, onReset, act
                     onChange={(e) => onChange(e.target.value)}
                     className="border p-2 rounded w-full md:w-96 text-black"
                 />
-                <button onClick={onReset} className="mt-2 md:mt-0 md:ml-2 p-2 bg-red-500 text-white rounded">
+                <button onClick={onReset} className="mt-2 md:mt-0 md:ml-2 p-2 bg-red-500 text-[#FFFFFF] rounded">
                     Resetar
                 </button>
             </div>
