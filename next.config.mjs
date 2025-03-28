@@ -5,7 +5,6 @@
  */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   productionBrowserSourceMaps: false,
   
   images: {

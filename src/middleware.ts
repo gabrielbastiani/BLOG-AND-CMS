@@ -30,7 +30,9 @@ const publicPaths = [
   '/posts_categories',
   '/posts_categories/[category_slug]',
   '/register',
-  '/not-found'
+  '/not-found',
+  '/recover_password',
+  '/recover_password_user_blog'
 ];
 
 // Configuração de permissões por role

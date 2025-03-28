@@ -10,6 +10,7 @@ import PrivacyBanner from "./components/blog_components/police_privacy/privacyBa
 import PrivacySettingsModal from "./components/blog_components/police_privacy/privacySettingsModal";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const BLOG_URL = process.env.NEXT_PUBLIC_URL_BLOG || 'http://localhost:3000';
 
 const geistSans = localFont({
   src: "./fonts/Poppins-Regular.ttf",
@@ -34,11 +35,10 @@ export async function generateMetadata(): Promise<Metadata> {
     console.error("Error fetching blog configuration:", error);
   }
 
-  // Fallback para valores padrão
   const defaultMetadata = {
     title: "Blog",
     description: "Descrição do blog",
-    favicon: "../app/favicon.ico",
+    favicon: "./favicon.ico",
   };
 
   const faviconUrl = blog?.favicon
@@ -46,6 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
     : defaultMetadata.favicon;
 
   return {
+    metadataBase: new URL(BLOG_URL),
     title: blog?.name_blog || defaultMetadata.title,
     description: blog?.description_blog || defaultMetadata.description,
     icons: {

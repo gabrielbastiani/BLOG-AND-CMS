@@ -55,7 +55,7 @@ export async function generateMetadata(
 
     const faviconUrl = response.data.favicon
       ? new URL(`/files/${response.data.favicon}`, API_URL).toString()
-      : "../app/favicon.ico";
+      : "./favicon.ico";
 
     return {
       title: data?.title || 'Nosso Blog',
