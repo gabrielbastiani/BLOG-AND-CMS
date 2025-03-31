@@ -1,0 +1,21 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /dashboard/**
+Disallow: /user/**
+Disallow: /contacts_form/**
+Disallow: /categories/**
+Disallow: /tags/**
+Disallow: /posts/**
+Disallow: /marketing_publication/**
+Disallow: /configurations/**
+Disallow: /recover_password/**
+Disallow: /recover_password_user_blog/**
+Disallow: /_next/
+Disallow: /api/
+
+# Host
+Host: https://blog.builderseunegocioonline.com.br
+
+# Sitemaps
+Sitemap: https://blog.builderseunegocioonline.com.br/sitemap.xml
