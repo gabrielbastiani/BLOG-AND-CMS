@@ -10,8 +10,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'apiblog.builderseunegocioonline.com.br',
+        protocol: 'http',
+        hostname: 'localhost',
       }
     ]
   }
