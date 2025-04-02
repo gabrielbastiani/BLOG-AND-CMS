@@ -57,24 +57,6 @@ export default function All_marketing_publication() {
     const [modalImage, setModalImage] = useState<string | null>(null);
     const [showDescriptionPopup, setShowDescriptionPopup] = useState<string | null>(null);
 
-    async function purge_cache() {
-            try {
-                const apiClient = setupAPIClient();
-                const response = await apiClient.post('/cache/purge',
-                    null, // Body vazio
-                    {
-                        headers: {
-                            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_ADMIN_KEY}`
-                        }
-                    }
-                );
-                return response.data;
-            } catch (error) {
-                console.error("Erro detalhado:", error);
-                throw new Error("Falha na purga de cache");
-            }
-        }
-
     async function fetchPublications({ page, limit, search, orderBy, orderDirection, startDate, endDate }: any) {
         try {
             const response = await apiClient.get(`/marketing_publication/all_publications`, {
@@ -93,12 +75,13 @@ export default function All_marketing_publication() {
 
             if (field === "status") {
                 updatedField = { status: editedValue };
-                await purge_cache();
             } else if (field === "redirect_url") {
                 updatedField = { redirect_url: editedValue }
             }
 
             const data = { ...updatedField, marketingPublication_id: id };
+
+            await apiClient.put(`/marketing_publication/update`, data)
 
             setAllPublications((prevPubl) =>
                 prevPubl.map((pub) => (pub.id === id ? { ...pub, ...updatedField } : pub))

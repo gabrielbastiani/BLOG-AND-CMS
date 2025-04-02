@@ -107,24 +107,6 @@ export default function UpdateMarketingPublication({
         }
     }
 
-    async function purge_cache() {
-        try {
-            const apiClient = setupAPIClient();
-            const response = await apiClient.post('/cache/purge',
-                null, // Body vazio
-                {
-                    headers: {
-                        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_ADMIN_KEY}`
-                    }
-                }
-            );
-            return response.data;
-        } catch (error) {
-            console.error("Erro detalhado:", error);
-            throw new Error("Falha na purga de cache");
-        }
-    }
-
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -147,8 +129,6 @@ export default function UpdateMarketingPublication({
 
             const apiClient = setupAPIClient();
             await apiClient.put("/marketing_publication/update", formDataToSend);
-
-            await purge_cache();
 
             toast.success("Publicidade atualizada com sucesso!");
         } catch (error) {

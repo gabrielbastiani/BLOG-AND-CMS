@@ -103,7 +103,7 @@ export default function AddCategory() {
     return (
         <SidebarAndHeader>
             <Section>
-                <TitlePage title="ADICIONAR CATEGORIA" />
+                <TitlePage title="CADASTRAR E GERENCIAR CATEGORIAS" />
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-7xl mx-auto">
                     <form onSubmit={handleSubmit(onSubmit)} className="col-span-1 md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="flex flex-col items-center">

@@ -29,10 +29,11 @@ yarn-error.log*
 .env*.local
 .env*
 
+# Configurações do Next.js
+next.config.mjs
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
-next.config.mjs

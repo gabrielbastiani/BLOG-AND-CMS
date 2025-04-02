@@ -27,11 +27,10 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, existing_sidebar, foote
             {navbar}
 
             {/* Banners */}
-            {bannersSlide && (
-                <div className="w-full bg-gray-200 overflow-hidden">
-                    {bannersSlide}
-                </div>
-            )}
+
+            <div className="w-full bg-gray-200 overflow-hidden">
+                {bannersSlide}
+            </div>
 
             {presentation}
 
