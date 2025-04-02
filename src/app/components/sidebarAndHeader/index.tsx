@@ -22,7 +22,9 @@ interface Content {
 }
 
 export function SidebarAndHeader({ children }: Content) {
+
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
     const { user, configs } = useContext(AuthContext);
     const idUser = user?.id;
 
@@ -30,6 +32,7 @@ export function SidebarAndHeader({ children }: Content) {
     const [isSideBarOpen, setIsSideBarOpen] = useState(true);
     const [currentRoute, setCurrentRoute] = useState<string | null>(null);
     const [openMenu, setOpenMenu] = useState<string | null>(null);
+    const [isMobile, setIsMobile] = useState(false);
 
     // Notificações
     const {
@@ -43,6 +46,13 @@ export function SidebarAndHeader({ children }: Content) {
     useEffect(() => {
         if (typeof window !== "undefined") {
             setCurrentRoute(window.location.pathname);
+            const handleResize = () => {
+                setIsMobile(window.innerWidth <= 1024);
+            };
+            handleResize(); // Verificação inicial
+            window.addEventListener('resize', handleResize);
+
+            return () => window.removeEventListener('resize', handleResize);
         }
     }, []);
 
@@ -68,7 +78,8 @@ export function SidebarAndHeader({ children }: Content) {
                 name: 'categories',
                 items: [
                     { title: 'Todas as categorias', path: '/categories/all_categories' },
-                    { title: 'Adicionar nova categoria', path: '/categories/add_category' }
+                    { title: 'Adicionar nova categoria', path: '/categories/add_category' },
+                    { title: 'Adicionar nova categoria', path: '/categories/add_category_mobile' }
                 ]
             },
             {
@@ -150,7 +161,8 @@ export function SidebarAndHeader({ children }: Content) {
                 name: 'categories',
                 items: [
                     { title: 'Todas as categorias', path: '/categories/all_categories' },
-                    { title: 'Adicionar nova categoria', path: '/categories/add_category' }
+                    { title: 'Adicionar nova categoria', path: '/categories/add_category' },
+                    { title: 'Adicionar nova categoria', path: '/categories/add_category_mobile' }
                 ]
             },
             {
@@ -206,17 +218,28 @@ export function SidebarAndHeader({ children }: Content) {
     };
 
     const renderMenu = (role: keyof typeof menuItems) => (
-        menuItems[role].map((menu) => (
-            <CollapsibleMenu
-                key={menu.name}
-                title={menu.title}
-                items={menu.items}
-                openMenu={openMenu}
-                currentRoute={currentRoute}
-                menuName={menu.name}
-                onMenuToggle={handleMenuToggle}
-            />
-        ))
+        menuItems[role].map((menu) => {
+            // Filtra as rotas específicas do menu "Categorias"
+            const filteredItems = menu.name === 'categories' 
+                ? menu.items.filter(item => {
+                    if (item.path === '/categories/add_category') return !isMobile;
+                    if (item.path === '/categories/add_category_mobile') return isMobile;
+                    return true; // Mantém outros itens
+                  })
+                : menu.items;
+    
+            return (
+                <CollapsibleMenu
+                    key={menu.name}
+                    title={menu.title}
+                    items={filteredItems}
+                    openMenu={openMenu}
+                    currentRoute={currentRoute}
+                    menuName={menu.name}
+                    onMenuToggle={handleMenuToggle}
+                />
+            );
+        })
     );
 
     return (

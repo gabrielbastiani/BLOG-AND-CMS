@@ -14,8 +14,7 @@ import { TitlePage } from "@/app/components/titlePage";
 import CategoriesList from "@/app/components/categories/categoriesList";
 import { FiUpload } from "react-icons/fi";
 import Image from "next/image";
-import BulkDatas from "@/app/components/bulkDatas"; 
-
+import BulkDatas from "@/app/components/bulkDatas";
 
 const schema = z.object({
     name_category: z.string().nonempty("O campo nome é obrigatório"),
@@ -77,7 +76,9 @@ export default function AddCategory() {
             formData.append("user_id", user?.id || "");
             formData.append("name_category", data.name_category);
             formData.append("description", data.description || "");
-            formData.append("parentId", data.parentId || "");
+            if (data.parentId) {
+                formData.append("parentId", data.parentId);
+            }
 
             if (photo) {
                 formData.append("file", photo);
@@ -154,9 +155,7 @@ export default function AddCategory() {
                                     className="border-2 rounded-md h-12 px-3 w-full text-black"
                                     defaultValue=""
                                 >
-                                    <option value="" disabled>
-                                        Selecione uma categoria para se relacionar se desejar...
-                                    </option>
+                                    <option value="">Nenhuma (Categoria Raiz)</option>
                                     {availableCategories.map(category => (
                                         <option className="text-black" key={category.id} value={category.id}>
                                             {category.name_category}
