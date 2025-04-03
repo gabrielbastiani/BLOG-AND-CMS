@@ -124,6 +124,8 @@ async function getData() {
 export default async function Home_page() {
 
   const { banners, existing_sidebar, intervalTime } = await getData();
+  
+  console.log(banners)
 
   return (
     <BlogLayout
