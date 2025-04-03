@@ -1,25 +1,41 @@
 "use client"
 
-import { ReactNode, useState } from "react";
+import { setupAPIClient } from "@/services/api";
+import { ReactNode, useEffect, useState } from "react";
 
 interface BlogLayoutProps {
     navbar: ReactNode;
     footer: ReactNode;
     children: ReactNode;
-    banners?: ReactNode;
+    sidebar_publication?: ReactNode;
     bannersSlide?: ReactNode;
     presentation?: ReactNode;
-    existing_sidebar: number;
+    local: string;
 }
 
-const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, existing_sidebar, footer, children, banners, bannersSlide, presentation }) => {
+const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, footer, children, sidebar_publication, bannersSlide, presentation, local }) => {
 
     const [showMobileBanners, setShowMobileBanners] = useState(true);
+    const [sidebar, setSidebar] = useState(0);
 
-    // Verifica se existem banners para exibir
-    const hasBanners = existing_sidebar
-        ? existing_sidebar > 0
-        : !!existing_sidebar;
+    useEffect(() => {
+        async function fetchSidebar() {
+            const apiClient = setupAPIClient();
+            try {
+                const { data } = await apiClient.get(`/marketing_publication/existing_sidebar?local=${local}`)
+
+                setSidebar(data.length);
+
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error);
+            }
+        }
+        fetchSidebar();
+        const interval = setInterval(fetchSidebar, 10000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const hasSidebarPublication = sidebar > 0;
 
     return (
         <div className="flex flex-col min-h-screen bg-gray-100">
@@ -41,18 +57,18 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, existing_sidebar, foote
                 </div>
 
                 {/* Aside (Fixed Scroll) */}
-                {existing_sidebar >= 1 ? (
+                {sidebar >= 1 ? (
                     <aside className="hidden lg:block sticky top-28 h-screen w-[300px] bg-gray-50 p-4 shadow">
                         <div className="overflow-y-auto h-full">
                             {/* Conteúdo do Aside */}
-                            {banners}
+                            {sidebar_publication}
                         </div>
                     </aside>
                 ) : null}
             </main>
 
             {/* Banners - Mobile */}
-            {hasBanners && showMobileBanners && (
+            {hasSidebarPublication && showMobileBanners && (
                 <div className="fixed bottom-0 left-0 w-full bg-gray-50 border-t shadow-lg lg:hidden z-20">
                     <div className="flex items-center justify-between p-4">
                         <span className="text-gray-700 font-medium">Aproveite!!!</span>
@@ -64,13 +80,13 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, existing_sidebar, foote
                         </button>
                     </div>
                     <div className="flex overflow-x-auto gap-4 p-4">
-                        {Array.isArray(banners)
-                            ? banners.map((banner, index) => (
+                        {Array.isArray(sidebar_publication)
+                            ? sidebar_publication.map((banner, index) => (
                                 <div key={index} className="min-w-[70%] flex-shrink-0">
                                     {banner}
                                 </div>
                             ))
-                            : banners}
+                            : sidebar_publication}
                     </div>
                 </div>
             )}

@@ -1,13 +1,13 @@
 import { Suspense } from 'react';
-import Image from "next/image";
 import { setupAPIClient } from "@/services/api";
 import { Metadata, ResolvingMetadata } from "next";
 import ClientWrapper from "./ClientWrapper";
 import BlogLayout from '@/app/components/blog_components/blogLayout';
 import { Navbar } from '@/app/components/blog_components/navbar';
-import { SlideBanner } from '@/app/components/blog_components/slideBanner';
 import { Footer } from '@/app/components/blog_components/footer';
 import MarketingPopup from '@/app/components/blog_components/popups/marketingPopup';
+import { SlideBannerClient } from '@/app/components/blog_components/slideBannerClient';
+import { PublicationSidebarClient } from '@/app/components/blog_components/publicationSidebarClient';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const BLOG_URL = process.env.NEXT_PUBLIC_URL_BLOG;
@@ -102,50 +102,34 @@ export async function generateMetadata(
 async function getData() {
     const apiClient = setupAPIClient();
     try {
-        const [postsResponse, bannersResponse, sidebarResponse, intervalData] = await Promise.all([
+        const [postsResponse] = await Promise.all([
             apiClient.get(`/post/articles/blog`),
-            apiClient.get(`/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_todos_artigos`),
-            apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_todos_artigos`),
-            apiClient.get(`/marketing_publication/interval_banner/page_banner?local_site=Pagina_todos_artigos`)
         ]);
 
         return {
             all_posts: postsResponse.data.posts,
-            totalPages: postsResponse.data.totalPages,
-            existing_slide: bannersResponse.data || [],
-            existing_sidebar: sidebarResponse.data || [],
-            intervalTime: intervalData.data?.interval_banner || 5000
+            totalPages: postsResponse.data.totalPages
         };
     } catch (error) {
         console.error("Erro ao carregar dados:", error);
         return {
             all_posts: [],
-            totalPages: 1,
-            existing_slide: [],
-            existing_sidebar: [],
-            intervalTime: 5000
+            totalPages: 1
         };
     }
 }
 
 export default async function Posts_blog() {
 
-    const { all_posts, totalPages, existing_slide, existing_sidebar, intervalTime } = await getData();
+    const { all_posts, totalPages } = await getData();
 
     return (
         <BlogLayout
             navbar={<Navbar />}
-            bannersSlide={existing_slide.length >= 1 && (
-                <SlideBanner
-                    position="SLIDER"
-                    local="Pagina_todos_artigos"
-                    banners={existing_slide}
-                    intervalTime={intervalTime}
-                />
-            )}
+            bannersSlide={<SlideBannerClient position="SLIDER" local="Pagina_todos_artigos" local_site="Pagina_todos_artigos" />}
             footer={<Footer />}
-            existing_sidebar={existing_sidebar.length}
-            banners={[]}
+            sidebar_publication={<PublicationSidebarClient local="Pagina_todos_artigos" />}
+            local="Pagina_todos_artigos"
             presentation={
                 <section className="bg-gray-800 py-12 text-[#FFFFFF] text-center">
                     <h1 className="text-3xl font-bold">Todos os artigos</h1>

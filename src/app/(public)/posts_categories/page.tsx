@@ -4,10 +4,10 @@ import { Footer } from "../../components/blog_components/footer";
 import { Navbar } from "../../components/blog_components/navbar";
 import Link from "next/link";
 import BlogLayout from "../../components/blog_components/blogLayout";
-import { SlideBanner } from "../../components/blog_components/slideBanner";
 import MarketingPopup from "../../components/blog_components/popups/marketingPopup";
-import PublicationSidebar from "../../components/blog_components/publicationSidebar";
 import { Metadata, ResolvingMetadata } from "next";
+import { SlideBannerClient } from "@/app/components/blog_components/slideBannerClient";
+import { PublicationSidebarClient } from "@/app/components/blog_components/publicationSidebarClient";
 
 interface Category {
     id: string;
@@ -115,50 +115,32 @@ export async function generateMetadata(
 async function getData() {
     const apiClient = setupAPIClient();
     try {
-        const [categoriesResponse, bannersResponse, sidebarResponse, intervalData] = await Promise.all([
-            apiClient.get<Category[]>("/categories/blog/posts"),
-            apiClient.get(`/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_todas_categorias`),
-            apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_todas_categorias`),
-            apiClient.get(`/marketing_publication/interval_banner/page_banner?local_site=Pagina_todas_categorias`)
+        const [categoriesResponse] = await Promise.all([
+            apiClient.get<Category[]>("/categories/blog/posts")
         ]);
 
-        console.log("[PRODUCTION] Categorias:", categoriesResponse.data.length);
-
         return {
-            categories: categoriesResponse.data,
-            existing_slide: bannersResponse.data || [],
-            existing_sidebar: sidebarResponse.data || [],
-            intervalTime: intervalData.data?.interval_banner || 5000
+            categories: categoriesResponse.data
         };
     } catch (error) {
         console.error("Erro ao carregar dados:", error);
         return {
-            categories: [],
-            existing_slide: [],
-            existing_sidebar: [],
-            intervalTime: 5000
+            categories: []
         };
     }
 }
 
 export default async function Posts_categories() {
 
-    const { categories, existing_slide, existing_sidebar, intervalTime } = await getData();
+    const { categories } = await getData();
 
     return (
         <BlogLayout
             navbar={<Navbar />}
-            bannersSlide={existing_slide.length >= 1 && (
-                <SlideBanner
-                    position="SLIDER"
-                    local="Pagina_todas_categorias"
-                    banners={existing_slide}
-                    intervalTime={intervalTime}
-                />
-            )}
+            bannersSlide={<SlideBannerClient position="SLIDER" local="Pagina_todas_categorias" local_site="Pagina_todas_categorias" />}
             footer={<Footer />}
-            existing_sidebar={existing_sidebar.length}
-            banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
+            sidebar_publication={<PublicationSidebarClient local="Pagina_todas_categorias" />}
+            local="Pagina_todas_categorias"
             presentation={
                 <section className="bg-gray-800 py-12 text-[#FFFFFF] text-center">
                     <h1 className="text-3xl font-bold">Todas as categorias</h1>

@@ -12,14 +12,16 @@ import Most_posts_views from '@/app/components/blog_components/most_posts_views'
 import SocialShare from '@/app/components/blog_components/socialShare';
 import BackToTopButton from '@/app/components/blog_components/backToTopButton';
 import MarketingPopup from '@/app/components/blog_components/popups/marketingPopup';
-import { SlideBanner } from '@/app/components/blog_components/slideBanner';
+import { SlideBanner } from '@/app/components/blog_components/slideBannerClient/slideBanner';
 import { FaRegEye } from 'react-icons/fa';
-import PublicationSidebar from '@/app/components/blog_components/publicationSidebar';
+import PublicationSidebar from '@/app/components/blog_components/publicationSidebarClient/publicationSidebar';
 import { Metadata, ResolvingMetadata } from 'next';
 import { PostsProps } from "../../../../../Types/types";
 import ArticleLikeDislikeWrapper from "@/app/components/blog_components/articleLikeDeslike/articleLikeDeslikeWrapper";
 import SafeHTML from "@/app/components/SafeHTML";
 import ViewCounter from "@/app/components/blog_components/viewCounter";
+import { PublicationSidebarClient } from "@/app/components/blog_components/publicationSidebarClient";
+import { SlideBannerClient } from "@/app/components/blog_components/slideBannerClient";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const BLOG_URL = process.env.NEXT_PUBLIC_URL_BLOG;
@@ -89,18 +91,12 @@ export async function generateMetadata(
 
 async function getData(articleUrl: string) {
   const apiClient = setupAPIClient();
-  const [article, banners, sidebar, intervalData] = await Promise.all([
-    apiClient.get<PostsProps>(`/post/article/content?url_post=${articleUrl}`),
-    apiClient.get(`/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_artigo`),
-    apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_artigo`),
-    apiClient.get(`/marketing_publication/interval_banner/page_banner?local_site=Pagina_artigo`)
+  const [article] = await Promise.all([
+    apiClient.get<PostsProps>(`/post/article/content?url_post=${articleUrl}`)
   ]);
 
   return {
     article_data: article.data,
-    banners: banners.data || [],
-    existing_sidebar: sidebar.data || [],
-    intervalTime: intervalData.data?.interval_banner || 5000
   };
 }
 
@@ -112,7 +108,7 @@ export default async function Article({ params }: ArticlePageProps) {
 
   const articleUrl = params.article_url;
 
-  const { article_data, banners, existing_sidebar, intervalTime } = await getData(articleUrl);
+  const { article_data } = await getData(articleUrl);
 
   const calculateReadingTime = (text: string): string => {
     const wordsPerMinute = 200;
@@ -131,8 +127,8 @@ export default async function Article({ params }: ArticlePageProps) {
     <BlogLayout
       navbar={<Navbar />}
       footer={<Footer />}
-      existing_sidebar={existing_sidebar.length}
-      banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
+      sidebar_publication={<PublicationSidebarClient local="Pagina_artigo" />}
+      local="Pagina_artigo"
       bannersSlide={
         <div className="relative w-full h-[300px] md:h-[500px] overflow-hidden">
           {article_data?.id && <ViewCounter postId={article_data.id} />}
@@ -211,14 +207,7 @@ export default async function Article({ params }: ArticlePageProps) {
         <CommentsSection post_id={article_data?.id || ""} />
         <Newsletter />
 
-        {banners.length >= 1 && (
-          <SlideBanner
-            position="SLIDER"
-            local="Pagina_artigo"
-            banners={banners}
-            intervalTime={intervalTime}
-          />
-        )}
+        <SlideBannerClient position="SLIDER" local="Pagina_artigo" local_site="Pagina_artigo" />
 
         <Most_posts_views />
         <BackToTopButton />

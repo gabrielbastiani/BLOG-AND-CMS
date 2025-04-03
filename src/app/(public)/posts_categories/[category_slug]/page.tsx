@@ -2,12 +2,12 @@ export const dynamic = 'force-dynamic';
 import BlogLayout from "@/app/components/blog_components/blogLayout";
 import { Footer } from "@/app/components/blog_components/footer";
 import { Navbar } from "@/app/components/blog_components/navbar";
-import { SlideBanner } from "@/app/components/blog_components/slideBanner";
 import { setupAPIClient } from "@/services/api";
 import MarketingPopup from "@/app/components/blog_components/popups/marketingPopup";
-import PublicationSidebar from "@/app/components/blog_components/publicationSidebar";
 import { Metadata, ResolvingMetadata } from "next";
 import ClientWrapper from "../ClientWrapper";
+import { SlideBannerClient } from "@/app/components/blog_components/slideBannerClient";
+import { PublicationSidebarClient } from "@/app/components/blog_components/publicationSidebarClient";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const BLOG_URL = process.env.NEXT_PUBLIC_URL_BLOG;
@@ -85,22 +85,15 @@ export async function generateMetadata(
 
 async function getData(category_slug: string) {
     const apiClient = setupAPIClient();
-
     try {
-        const [bannersResponse, sidebarResponse, categoryResponse, intervalData] = await Promise.all([
-            apiClient.get(`/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_categoria`),
-            apiClient.get(`/marketing_publication/existing_sidebar?local=Pagina_categoria`),
-            apiClient.get(`/category/data_category?slug_name_category=${category_slug}`),
-            apiClient.get(`/marketing_publication/interval_banner/page_banner?local_site=Pagina_categoria`)
+        const [categoryResponse] = await Promise.all([
+            apiClient.get(`/category/data_category?slug_name_category=${category_slug}`)
         ]);
 
         return {
             loadData: categoryResponse.data,
             all_posts: [],
-            totalPages: 0,
-            existing_slide: bannersResponse.data || [],
-            existing_sidebar: sidebarResponse.data || [],
-            intervalTime: intervalData.data?.interval_banner || 5000
+            totalPages: 0
         };
 
     } catch (error) {
@@ -108,32 +101,22 @@ async function getData(category_slug: string) {
         return {
             loadData: null,
             all_posts: [],
-            totalPages: 0,
-            existing_slide: [],
-            existing_sidebar: [],
-            intervalTime: 5000
+            totalPages: 0
         };
     }
 }
 
 export default async function Posts_Categories({ params }: { params: { category_slug: string } }) {
 
-    const { loadData, existing_slide, existing_sidebar, intervalTime } = await getData(params?.category_slug);
+    const { loadData } = await getData(params?.category_slug);
 
     return (
         <BlogLayout
             navbar={<Navbar />}
-            bannersSlide={existing_slide.length >= 1 && (
-                <SlideBanner
-                    position="SLIDER"
-                    local="Pagina_categoria"
-                    banners={existing_slide}
-                    intervalTime={intervalTime}
-                />
-            )}
+            bannersSlide={<SlideBannerClient position="SLIDER" local="Pagina_categoria" local_site="Pagina_categoria" />}
+            sidebar_publication={<PublicationSidebarClient local="Pagina_categoria" />}
+            local="Pagina_categoria"
             footer={<Footer />}
-            existing_sidebar={existing_sidebar.length}
-            banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
             presentation={
                 <section className="bg-gray-800 py-12 text-[#FFFFFF] text-center">
                     <h1 className="text-3xl font-bold">{`Artigos de ${loadData?.name_category}`}</h1>

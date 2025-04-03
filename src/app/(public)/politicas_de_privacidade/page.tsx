@@ -2,11 +2,11 @@ import { Footer } from "../../components/blog_components/footer";
 import { Navbar } from "../../components/blog_components/navbar";
 import BlogLayout from "../../components/blog_components/blogLayout";
 import MarketingPopup from "../../components/blog_components/popups/marketingPopup";
-import { SlideBanner } from "../../components/blog_components/slideBanner";
 import { setupAPIClient } from "@/services/api";
-import PublicationSidebar from "../../components/blog_components/publicationSidebar";
 import { Metadata, ResolvingMetadata } from "next";
-import SafeHTML from "../../components/SafeHTML";
+import { SlideBannerClient } from "@/app/components/blog_components/slideBannerClient";
+import { PublicationSidebarClient } from "@/app/components/blog_components/publicationSidebarClient";
+import DynamicConfigsPagePoliticasPrivacidade from "@/app/components/blog_components/dinamics_configs_blog/dynamicConfigsPagePoliticasPrivacidade";
 
 const BLOG_URL = process.env.NEXT_PUBLIC_URL_BLOG;
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -101,56 +101,29 @@ export async function generateMetadata(
 async function getData() {
     const apiClient = setupAPIClient();
     try {
-        const [configs, banners, sidebar, intervalData] = await Promise.all([
-            apiClient.get('/configuration_blog/get_configs'),
-            apiClient.get('/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_politicas_de_privacidade'),
-            apiClient.get('/marketing_publication/existing_sidebar?local=Pagina_politicas_de_privacidade'),
-            apiClient.get('/marketing_publication/interval_banner/page_banner?local_site=Pagina_politicas_de_privacidade')
-        ]);
-
-        return {
-            configs: configs.data,
-            existing_slide: banners.data || [],
-            existing_sidebar: sidebar.data || [],
-            intervalTime: intervalData.data?.interval_banner || 5000
-        };
+        const response = await apiClient.get('/configuration_blog/get_configs');
+        console.log('Dados do servidor:', response.data);
+        return { configs: response.data };
     } catch (error) {
-        console.error("Erro ao carregar dados:", error);
-        return {
-            configs: null,
-            existing_slide: [],
-            existing_sidebar: [],
-            intervalTime: 5000
-        };
+        console.error("Erro SSR:", error);
+        return { configs: null };
     }
 }
 
 export default async function Politicas_de_privacidade() {
 
-    const { configs, existing_slide, existing_sidebar, intervalTime } = await getData();
+    const { configs } = await getData();
 
     return (
         <BlogLayout
             navbar={<Navbar />}
-            bannersSlide={existing_slide.length >= 1 && (
-                <SlideBanner
-                    position="SLIDER"
-                    local="Pagina_politicas_de_privacidade"
-                    banners={existing_slide}
-                    intervalTime={intervalTime}
-                />
-            )}
-            existing_sidebar={existing_sidebar.length}
-            banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
+            bannersSlide={<SlideBannerClient position="SLIDER" local="Pagina_politicas_de_privacidade" local_site="Pagina_politicas_de_privacidade" />}
+            sidebar_publication={<PublicationSidebarClient local="Pagina_politicas_de_privacidade" />}
+            local="Pagina_politicas_de_privacidade"
             footer={<Footer />}
         >
-            <div className="p-4 md:p-8 max-w-4xl mx-auto">
-                <div className="prose max-w-none text-gray-800 prose-h1:text-blue-600 prose-p:mb-4 prose-a:text-indigo-500 hover:prose-a:underline">
-                    {configs?.privacy_policies && (
-                        <SafeHTML html={configs?.privacy_policies} />
-                    )}
-                </div>
-            </div>
+            <DynamicConfigsPagePoliticasPrivacidade initialConfigs={configs} />
+            
             <MarketingPopup
                 position="POPUP"
                 local="Pagina_politicas_de_privacidade"

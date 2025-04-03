@@ -4,9 +4,9 @@ import { Footer } from "../../components/blog_components/footer";
 import { Navbar } from "../../components/blog_components/navbar";
 import MarketingPopup from "../../components/blog_components/popups/marketingPopup";
 import { setupAPIClient } from "@/services/api";
-import { SlideBanner } from "../../components/blog_components/slideBanner";
-import PublicationSidebar from "../../components/blog_components/publicationSidebar";
 import { Metadata, ResolvingMetadata } from "next";
+import { SlideBannerClient } from "@/app/components/blog_components/slideBannerClient";
+import { PublicationSidebarClient } from "@/app/components/blog_components/publicationSidebarClient";
 
 const BLOG_URL = process.env.NEXT_PUBLIC_URL_BLOG;
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -129,16 +129,9 @@ export default async function Contact() {
     return (
         <BlogLayout
             navbar={<Navbar />}
-            bannersSlide={existing_slide.length >= 1 && (
-                <SlideBanner
-                    position="SLIDER"
-                    local="Pagina_contato"
-                    banners={existing_slide}
-                    intervalTime={intervalTime}
-                />
-            )}
-            existing_sidebar={existing_sidebar.length}
-            banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
+            bannersSlide={<SlideBannerClient position="SLIDER" local="Pagina_contato" local_site="Pagina_contato" />}
+            sidebar_publication={<PublicationSidebarClient local="Pagina_contato" />}
+            local="Pagina_contato"
             footer={<Footer />}
         >
             <div className="contact-page-container">

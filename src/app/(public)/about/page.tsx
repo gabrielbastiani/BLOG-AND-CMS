@@ -2,10 +2,11 @@ import { Footer } from "../../components/blog_components/footer";
 import { Navbar } from "../../components/blog_components/navbar";
 import BlogLayout from "../../components/blog_components/blogLayout";
 import MarketingPopup from "../../components/blog_components/popups/marketingPopup";
-import { SlideBanner } from "../../components/blog_components/slideBanner";
 import { setupAPIClient } from "@/services/api";
-import PublicationSidebar from "../../components/blog_components/publicationSidebar";
 import { Metadata, ResolvingMetadata } from "next";
+import { SlideBannerClient } from "@/app/components/blog_components/slideBannerClient";
+import { PublicationSidebarClient } from "@/app/components/blog_components/publicationSidebarClient";
+import DynamicConfigsPageAbout from "@/app/components/blog_components/dinamics_configs_blog/dynamicConfigsPageAbout";
 
 const BLOG_URL = process.env.NEXT_PUBLIC_URL_BLOG;
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -104,72 +105,32 @@ export async function generateMetadata(
 async function getData() {
   const apiClient = setupAPIClient();
   try {
-    const [configs, banners, sidebar, intervalData] = await Promise.all([
-      apiClient.get('/configuration_blog/get_configs'),
-      apiClient.get('/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_sobre'),
-      apiClient.get('/marketing_publication/existing_sidebar?local=Pagina_sobre'),
-      apiClient.get('/marketing_publication/interval_banner/page_banner?local_site=Pagina_sobre')
-    ]);
-
-    return {
-      configs: configs.data,
-      banners: banners.data || [],
-      existing_sidebar: sidebar.data || [],
-      intervalTime: intervalData.data?.interval_banner || 5000
-    };
+    const response = await apiClient.get('/configuration_blog/get_configs');
+    console.log('Dados do servidor:', response.data);
+    return { configs: response.data };
   } catch (error) {
-    console.error("Erro ao carregar dados:", error);
-    return {
-      configs: null,
-      banners: [],
-      existing_sidebar: [],
-      intervalTime: 5000
-    };
+    console.error("Erro SSR:", error);
+    return { configs: null };
   }
 }
 
 export default async function About() {
 
-  const { configs, banners, existing_sidebar, intervalTime } = await getData();
+  const { configs } = await getData();
 
   return (
     <BlogLayout
       navbar={<Navbar />}
-      bannersSlide={banners.length >= 1 && (
-        <SlideBanner
-          position="SLIDER"
-          local="Pagina_sobre"
-          banners={banners}
-          intervalTime={intervalTime}
-        />
-      )}
-      existing_sidebar={existing_sidebar.length}
-      banners={<PublicationSidebar existing_sidebar={existing_sidebar} />}
+      bannersSlide={<SlideBannerClient position="SLIDER" local="Pagina_sobre" local_site="Pagina_sobre" />}
+      sidebar_publication={<PublicationSidebarClient local="Pagina_sobre" />}
+      local="Pagina_sobre"
       footer={<Footer />}
     >
       <div className="container mx-auto my-12 px-6">
         <h1 className="text-4xl font-bold text-center mb-12 text-gray-800">
           Sobre
         </h1>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="bg-white shadow-lg rounded-lg p-8">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-              Sobre o autor do blog
-            </h2>
-            <p className="text-gray-600 leading-relaxed">
-              {configs?.about_author_blog || 'Nossos autores são especialistas dedicados a trazer o melhor conteúdo.'}
-            </p>
-          </div>
-
-          <div className="bg-white shadow-lg rounded-lg p-8">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-              Sobre o blog
-            </h2>
-            <p className="text-gray-600 leading-relaxed">
-              {configs?.description_blog || 'Um espaço dedicado a compartilhar conhecimento e experiências relevantes.'}
-            </p>
-          </div>
-        </div>
+        <DynamicConfigsPageAbout initialConfigs={configs} />
       </div>
       <MarketingPopup
         position="POPUP"
