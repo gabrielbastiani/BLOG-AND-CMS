@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FiLogIn, FiMenu, FiSearch, FiUser, FiX } from "react-icons/fi";
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { AuthContextBlog } from "@/contexts/AuthContextBlog";
 import { toast } from "react-toastify";
 import { z } from "zod";
@@ -11,6 +11,20 @@ import { setupAPIClientBlog } from "@/services/api_blog";
 import noImage from '../../../../assets/no-image-icon-6.png';
 import { ModalLogin } from "../popups/modalLogin";
 import { ModalEditUser } from "../popups/modalEditUser";
+import { setupAPIClient } from "@/services/api";
+
+interface ThemeColors {
+    primaryColor: string;
+    secondaryColor: string;
+    thirdColor: string;
+    fourthColor: string;
+    fifthColor: string;
+    sixthColor: string;
+    primarybackgroundColor: string;
+    secondarybackgroundColor: string;
+    thirdbackgroundColor: string;
+    fourthbackgroundColor: string;
+}
 
 const schema = z.object({
     name: z.string().optional(),
@@ -47,6 +61,25 @@ export function Navbar() {
     const [modalLogin, setModalLogin] = useState(false);
     const [modalEditUser, setModalEditUser] = useState(false);
 
+    const [theme, setTheme] = useState<ThemeColors>();
+
+    useEffect(() => {
+        const fetchTheme = async () => {
+            const apiClient = setupAPIClient();
+            try {
+                const response = await apiClient.get('/theme');
+                setTheme(response.data);
+            } catch (error) {
+                console.error('Error loading theme:', error);
+            }
+        };
+        fetchTheme();
+        const interval = setInterval(fetchTheme, 10000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
+
     const handleSearch = async (e: ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value;
         setSearchTerm(term);
@@ -70,9 +103,11 @@ export function Navbar() {
         }
     };
 
-
     return (
-        <header className="bg-black shadow-md sticky top-0 z-50">
+        <header
+            className="shadow-md sticky top-0 z-50"
+            style={{ background: theme?.primarybackgroundColor || "#000000" }}
+        >
             <nav className="container mx-auto flex justify-between items-center py-2 px-2 md:px-8">
                 {/* Logo */}
                 <Link href="/">
@@ -130,7 +165,6 @@ export function Navbar() {
                     ) : (
                         <button
                             onClick={() => setShowSearch(true)}
-                            className="text-[#FFFFFF] hover:text-orange-500"
                         >
                             <FiSearch size={24} />
                         </button>
@@ -141,7 +175,7 @@ export function Navbar() {
                 <div className="md:hidden flex items-center">
                     <button
                         onClick={toggleMobileMenu}
-                        className="text-[#FFFFFF] focus:outline-none"
+                        className="focus:outline-none"
                     >
                         <FiMenu size={28} />
                     </button>
@@ -149,7 +183,8 @@ export function Navbar() {
 
                 {/* Lista de links */}
                 <ul
-                    className={`text-[#FFFFFF] absolute top-full left-0 w-full bg-black shadow-md p-4 flex flex-col gap-4 items-center md:static md:flex md:flex-row md:gap-6 md:shadow-none md:bg-transparent ${isMobileMenuOpen ? "block" : "hidden"
+                    style={{ color: theme?.primaryColor || "#ffffff" }}
+                    className={`absolute top-full left-0 w-full bg-black shadow-md p-4 flex flex-col gap-4 items-center md:static md:flex md:flex-row md:gap-6 md:shadow-none md:bg-transparent ${isMobileMenuOpen ? "block" : "hidden"
                         }`}
                 >
                     <li>
@@ -186,14 +221,14 @@ export function Navbar() {
                                     className="object-cover w-full h-full rounded-full"
                                 />
                             ) : (
-                                <FiUser cursor="pointer" size={24} color="#FFFFFF" />
+                                <FiUser cursor="pointer" size={24} style={{ color: theme?.primaryColor || "#ffffff" }} />
                             )}
                         </div>
                     </button>
                 ) : (
                     <button onClick={() => setModalLogin(true)}>
-                        <div className="border-2 rounded-full p-1 border-var(--foreground)">
-                            <FiLogIn size={22} color="#FFFFFF" />
+                        <div className="border-2 rounded-full p-1">
+                            <FiLogIn size={22} style={{ color: theme?.primaryColor || "#ffffff", border: theme?.primaryColor || "#ffffff" }} />
                         </div>
                     </button>
                 )}

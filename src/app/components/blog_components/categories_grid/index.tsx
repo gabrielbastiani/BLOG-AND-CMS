@@ -12,11 +12,42 @@ interface CategoriesProps {
     image_category: string;
 }
 
+interface ThemeColors {
+    primaryColor: string;
+    secondaryColor: string;
+    thirdColor: string;
+    fourthColor: string;
+    fifthColor: string;
+    sixthColor: string;
+    primarybackgroundColor: string;
+    secondarybackgroundColor: string;
+    thirdbackgroundColor: string;
+    fourthbackgroundColor: string;
+}
+
 export default function Categories_grid() {
 
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     const [categories, setCategories] = useState<CategoriesProps[]>([]);
+    const [theme, setTheme] = useState<ThemeColors>();
+
+    useEffect(() => {
+        const fetchTheme = async () => {
+            const apiClient = setupAPIClient();
+            try {
+                const response = await apiClient.get('/theme');
+                setTheme(response.data);
+            } catch (error) {
+                console.error('Error loading theme:', error);
+            }
+        };
+        fetchTheme();
+        const interval = setInterval(fetchTheme, 10000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
     useEffect(() => {
         const apiClient = setupAPIClient();
@@ -33,7 +64,12 @@ export default function Categories_grid() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h2 className="text-2xl font-bold mb-4 text-black">Categorias</h2>
+            <h2
+                className="text-2xl font-bold mb-4"
+                style={{ color: theme?.secondaryColor || '#000000' }}
+            >
+                Categorias
+            </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 {categories.map((category) => (
                     <div
@@ -53,12 +89,19 @@ export default function Categories_grid() {
                                 <div className="bg-black"></div>
                             )}
 
-                            <div className="absolute top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
-                                <h3 className="text-[#FFFFFF] text-lg font-bold">{category.name_category}</h3>
+                            <div
+                                className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
+                                style={{ background: theme?.fourthColor || '#797a7b' }}
+                            >
+                                <h3
+                                    className="text-lg font-bold"
+                                    style={{ color: theme?.primaryColor || '#ffffff' }}
+                                >
+                                    {category.name_category}
+                                </h3>
                             </div>
                         </Link>
                     </div>
-
                 ))}
             </div>
         </div>

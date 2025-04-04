@@ -8,6 +8,8 @@ import MarketingPopup from "../../components/blog_components/popups/marketingPop
 import { Metadata, ResolvingMetadata } from "next";
 import { SlideBannerClient } from "@/app/components/blog_components/slideBannerClient";
 import { PublicationSidebarClient } from "@/app/components/blog_components/publicationSidebarClient";
+import SectionTitlePage from "@/app/components/blog_components/blogLayout/sectionTitlePage";
+import ClientWrapperCategs from "./ClientWrapperCategs";
 
 interface Category {
     id: string;
@@ -141,64 +143,9 @@ export default async function Posts_categories() {
             footer={<Footer />}
             sidebar_publication={<PublicationSidebarClient local="Pagina_todas_categorias" />}
             local="Pagina_todas_categorias"
-            presentation={
-                <section className="bg-gray-800 py-12 text-[#FFFFFF] text-center">
-                    <h1 className="text-3xl font-bold">Todas as categorias</h1>
-                    <p className="text-gray-300 mt-2">
-                        Explore todas as categorias do blog.
-                    </p>
-                </section>
-            }
+            presentation={<SectionTitlePage title='Todas as categorias' description='Explore todas as categorias do blog.' />}
         >
-            <div className="container mx-auto my-12 px-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {categories.map((category) => (
-                        <div
-                            key={category.id}
-                            className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden group"
-                        >
-                            <div
-                                className="absolute inset-0 bg-cover bg-center opacity-75 group-hover:opacity-100 transition-opacity"
-                                style={{
-                                    backgroundImage: `url(${category.image_category ?
-                                        `${API_URL}/files/${category.image_category}` :
-                                        '../../../assets/no-image-icon-6.png'})`
-                                }}
-                            ></div>
-
-                            <div className="relative p-6 bg-gradient-to-t from-black via-transparent to-transparent">
-                                <Link
-                                    href={`/posts_categories/${category.slug_name_category}`}
-                                    className="text-2xl font-bold text-[#FFFFFF] mb-2 block"
-                                >
-                                    {category.name_category}
-                                </Link>
-                                <p className="text-gray-300 text-sm mb-4">
-                                    {category.description?.slice(0, 100)}
-                                    {category.description?.length > 100 && "..."}
-                                </p>
-                                {category.children.length >= 1 && (
-                                    <div className="mt-4">
-                                        <span className="text-red-400">SUBCATEGORIAS:</span>
-                                        <ul className="mt-2">
-                                            {category.children.map((subcategory) => (
-                                                <li key={subcategory.id} className="mb-1">
-                                                    <Link
-                                                        href={`/posts_categories/${subcategory.slug_name_category}`}
-                                                        className="text-backgroundButton hover:underline text-sm"
-                                                    >
-                                                        {subcategory.name_category}
-                                                    </Link>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
+            <ClientWrapperCategs categories={categories} />
             <MarketingPopup position="POPUP" local="Pagina_todas_categorias" />
         </BlogLayout>
     );

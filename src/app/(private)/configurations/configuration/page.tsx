@@ -13,7 +13,6 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import Config_media_social from "@/app/components/config_media_social";
 import { Editor } from "@tinymce/tinymce-react";
-import dynamic from "next/dynamic";
 
 const schema = z.object({
     name_blog: z.string().nonempty("O título é obrigatório"),

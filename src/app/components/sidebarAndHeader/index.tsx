@@ -127,6 +127,7 @@ export function SidebarAndHeader({ children }: Content) {
                 name: 'configurations',
                 items: [
                     { title: 'Configurações gerais', path: '/configurations/configuration' },
+                    { title: 'Cores', path: '/configurations/theme' },
                     { title: 'SEO', path: '/configurations/seo_pages' }
                 ]
             }

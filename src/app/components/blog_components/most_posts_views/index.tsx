@@ -11,10 +11,42 @@ import "swiper/css/navigation";
 import { FaRegEye } from "react-icons/fa";
 import { PostsProps } from "../../../../../Types/types";
 
+interface ThemeColors {
+    primaryColor: string;
+    secondaryColor: string;
+    thirdColor: string;
+    fourthColor: string;
+    fifthColor: string;
+    sixthColor: string;
+    primarybackgroundColor: string;
+    secondarybackgroundColor: string;
+    thirdbackgroundColor: string;
+    fourthbackgroundColor: string;
+}
+
 export default function Most_posts_views() {
 
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
     const [most_view, setMost_view] = useState<PostsProps[]>([]);
+    const [theme, setTheme] = useState<ThemeColors>();
+
+    useEffect(() => {
+        const fetchTheme = async () => {
+            const apiClient = setupAPIClient();
+            try {
+                const response = await apiClient.get('/theme');
+                setTheme(response.data);
+            } catch (error) {
+                console.error('Error loading theme:', error);
+            }
+        };
+        fetchTheme();
+        const interval = setInterval(fetchTheme, 10000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
     useEffect(() => {
         const apiClient = setupAPIClient();
@@ -41,7 +73,12 @@ export default function Most_posts_views() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h2 className="text-2xl font-bold mb-4 text-black">Posts Mais Visualizados</h2>
+            <h2
+                className="text-2xl font-bold mb-4"
+                style={{ color: theme?.secondaryColor || '#000000' }}
+            >
+                Posts Mais Visualizados
+            </h2>
             <Swiper
                 spaceBetween={16}
                 slidesPerView={1}
@@ -56,23 +93,34 @@ export default function Most_posts_views() {
             >
                 {most_view.map((post) => (
                     <SwiperSlide key={post.id}>
-                        <div className="bg-white rounded shadow p-4 hover:shadow-lg transition">
-                        <Link href={`/article/${post.custom_url ? post.custom_url : post.slug_title_post}`}>
-                            <Image
-                                src={`${API_URL}/files/${post.image_post}`}
-                                alt={post.title}
-                                width={280}
-                                height={80}
-                                quality={100}
-                                className="w-full h-40 object-cover rounded mb-2"
-                            />
-                            <h3 className="text-lg font-semibold text-black">{post.title}</h3>
-                            <span className="mt-4 flex text-black"><FaRegEye className="text-lg mr-3" /> {formatViews(post?.views || 0)}</span>
-                        </Link>
-                    </div>
+                        <div
+                            className="rounded shadow p-4 hover:shadow-lg transition"
+                            style={{ background: theme?.secondarybackgroundColor || '#f3f4f6' }}
+                        >
+                            <Link href={`/article/${post.custom_url ? post.custom_url : post.slug_title_post}`}>
+                                <Image
+                                    src={`${API_URL}/files/${post.image_post}`}
+                                    alt={post.title}
+                                    width={280}
+                                    height={80}
+                                    quality={100}
+                                    className="w-full h-40 object-cover rounded mb-2"
+                                />
+                                <h3
+                                    className="text-lg font-semibold text-black"
+                                    style={{ color: theme?.secondaryColor || '#000000' }}
+                                >
+                                    {post.title}
+                                </h3>
+                                <span
+                                    className="mt-4 flex"
+                                    style={{ color: theme?.secondaryColor || '#000000' }}
+                                ><FaRegEye className="text-lg mr-3" /> {formatViews(post?.views || 0)}</span>
+                            </Link>
+                        </div>
                     </SwiperSlide>
                 ))}
-        </Swiper>
+            </Swiper>
         </div >
     );
 }

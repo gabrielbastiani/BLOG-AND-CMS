@@ -98,33 +98,7 @@ export async function generateMetadata(
     }
 }
 
-async function getData() {
-    const apiClient = setupAPIClient();
-    try {
-        const [banners, sidebar, intervalData] = await Promise.all([
-            apiClient.get('/marketing_publication/blog_publications/slides?position=SLIDER&local=Pagina_contato'),
-            apiClient.get('/marketing_publication/existing_sidebar?local=Pagina_contato'),
-            apiClient.get('/marketing_publication/interval_banner/page_banner?local_site=Pagina_contato')
-        ]);
-
-        return {
-            existing_slide: banners.data || [],
-            existing_sidebar: sidebar.data || [],
-            intervalTime: intervalData.data?.interval_banner || 5000
-        };
-    } catch (error) {
-        console.error("Erro ao carregar dados:", error);
-        return {
-            existing_slide: [],
-            existing_sidebar: [],
-            intervalTime: 5000
-        };
-    }
-}
-
 export default async function Contact() {
-
-    const { existing_slide, existing_sidebar, intervalTime } = await getData();
 
     return (
         <BlogLayout

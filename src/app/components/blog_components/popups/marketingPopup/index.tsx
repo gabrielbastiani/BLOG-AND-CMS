@@ -6,6 +6,19 @@ import Link from "next/link";
 import Image from "next/image";
 import noImage from "../../../../../assets/no-image-icon-6.png";
 
+interface ThemeColors {
+    primaryColor: string;
+    secondaryColor: string;
+    thirdColor: string;
+    fourthColor: string;
+    fifthColor: string;
+    sixthColor: string;
+    primarybackgroundColor: string;
+    secondarybackgroundColor: string;
+    thirdbackgroundColor: string;
+    fourthbackgroundColor: string;
+}
+
 interface PopupData {
     id: string;
     image_url?: string;
@@ -26,6 +39,24 @@ export default function MarketingPopup({ position, local }: PopupProps) {
 
     const [isVisible, setIsVisible] = useState(false);
     const [popupData, setPopupData] = useState<PopupData | null>(null);
+    const [theme, setTheme] = useState<ThemeColors>();
+
+    useEffect(() => {
+        const fetchTheme = async () => {
+            const apiClient = setupAPIClient();
+            try {
+                const response = await apiClient.get('/theme');
+                setTheme(response.data);
+            } catch (error) {
+                console.error('Error loading theme:', error);
+            }
+        };
+        fetchTheme();
+        const interval = setInterval(fetchTheme, 10000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
     useEffect(() => {
         const fetchPopupConfig = async () => {
@@ -98,14 +129,18 @@ export default function MarketingPopup({ position, local }: PopupProps) {
                         className="w-full h-auto mb-4 rounded"
                     />
                 )}
-                <h2 className="text-lg font-semibold mb-4 text-red-600">
+                <h2
+                    className="text-lg font-semibold mb-4"
+                    style={{ background: theme?.thirdColor || '#ef4444' }}
+                >
                     {popupData.text_publication}
                 </h2>
                 {popupData.redirect_url && (
                     <Link
                         href={popupData.redirect_url}
                         onClick={click_publication}
-                        className="bg-red-500 text-[#FFFFFF] py-2 px-4 rounded hover:bg-red-600 inline-block"
+                        className="py-2 px-4 rounded hover:bg-red-600 inline-block"
+                        style={{ background: theme?.thirdColor || '#ef4444', color: theme?.primaryColor || "#ffffff" }}
                         target="_blank"
                         rel="noopener noreferrer"
                     >

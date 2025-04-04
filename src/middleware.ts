@@ -41,6 +41,7 @@ const rolePermissions: Record<UserRole, string[]> = {
     '/unauthorized',
     '/configurations/configuration',
     '/configurations/seo_pages',
+    '/configurations/theme',
     '/marketing_publication/config_interval_banner',
     '/marketing_publication/add_marketing_publication',
     '/marketing_publication/all_marketing_publication',

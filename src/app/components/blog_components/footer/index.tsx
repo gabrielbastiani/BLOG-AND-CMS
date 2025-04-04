@@ -7,6 +7,19 @@ import Link from "next/link";
 import Image from "next/image";
 import noImage from '../../../../assets/no-image-icon-6.png';
 
+interface ThemeColors {
+    primaryColor: string;
+    secondaryColor: string;
+    thirdColor: string;
+    fourthColor: string;
+    fifthColor: string;
+    sixthColor: string;
+    primarybackgroundColor: string;
+    secondarybackgroundColor: string;
+    thirdbackgroundColor: string;
+    fourthbackgroundColor: string;
+}
+
 interface MediasProps {
     id: string;
     name_media: string;
@@ -20,6 +33,24 @@ export function Footer() {
 
     const { configs } = useContext(AuthContextBlog);
     const [dataMedias, setDataMedias] = useState<MediasProps[]>([]);
+    const [theme, setTheme] = useState<ThemeColors>();
+
+    useEffect(() => {
+        const fetchTheme = async () => {
+            const apiClient = setupAPIClient();
+            try {
+                const response = await apiClient.get('/theme');
+                setTheme(response.data);
+            } catch (error) {
+                console.error('Error loading theme:', error);
+            }
+        };
+        fetchTheme();
+        const interval = setInterval(fetchTheme, 10000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
     useEffect(() => {
         async function fetchData() {
@@ -36,7 +67,10 @@ export function Footer() {
     }, []);
 
     return (
-        <footer className="bg-gray-800 text-[#FFFFFF] py-6 mt-14 z-50">
+        <footer
+            className="py-6 mt-14 z-50"
+            style={{ color: theme?.primaryColor || '#ffffff', background: theme?.fifthColor || '#1f2937' }}
+        >
             <div className="container mx-auto text-center">
                 <div className="flex justify-center space-x-6 mb-5">
                     {dataMedias.map((media) => (
@@ -71,7 +105,8 @@ export function Footer() {
                 </div>
                 <Link
                     href="/politicas_de_privacidade"
-                    className="text-[#FFFFFF] mb-5"
+                    className="mb-5"
+                    style={{ color: theme?.primaryColor || '#ffffff' }}
                 >
                     Politicas de privacidade
                 </Link>

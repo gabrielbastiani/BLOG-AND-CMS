@@ -1,12 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Params_nav_blog from "@/app/components/blog_components/params_nav_blog";
 import Link from "next/link";
 import Image from "next/image";
 import { PostsProps } from "../../../../Types/types";
 import { setupAPIClient } from "@/services/api";
 import DOMPurify from "dompurify";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+interface ThemeColors {
+    primaryColor: string;
+    secondaryColor: string;
+    thirdColor: string;
+    fourthColor: string;
+    fifthColor: string;
+    sixthColor: string;
+    primarybackgroundColor: string;
+    secondarybackgroundColor: string;
+    thirdbackgroundColor: string;
+    fourthbackgroundColor: string;
+}
 
 interface ClientWrapperProps {
     category_slug: string;
@@ -19,10 +34,29 @@ export default function ClientWrapper({
     initialPosts,
     totalPages,
 }: ClientWrapperProps) {
+
     const [all_posts, setAll_posts] = useState(initialPosts);
     const [currentTotalPages, setTotalPages] = useState(totalPages);
+    const [theme, setTheme] = useState<ThemeColors>();
+
+    useEffect(() => {
+        const fetchTheme = async () => {
+            const apiClient = setupAPIClient();
+            try {
+                const response = await apiClient.get('/theme');
+                setTheme(response.data);
+            } catch (error) {
+                console.error('Error loading theme:', error);
+            }
+        };
+        fetchTheme();
+        const interval = setInterval(fetchTheme, 10000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
+
     const apiClient = setupAPIClient();
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     const columnsOrder = [
         { key: "title", label: "titulo" },
@@ -57,15 +91,23 @@ export default function ClientWrapper({
             totalPages={currentTotalPages}
             onFetchData={fetchPosts}
         >
-            <section className="container mx-auto my-12 px-4 bg-white">
+            <section
+                className="container mx-auto my-12 px-4"
+                style={{ background: theme?.primaryColor || '#ffffff' }}
+            >
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {all_posts.length === 0 ? (
-                        <h1 className="text-black">Nenhum artigo atribuído a essa categoria no momento...</h1>
+                        <h1
+                            style={{ color: theme?.secondaryColor || '#000000' }}
+                        >
+                            Nenhum artigo atribuído a essa categoria no momento...
+                        </h1>
                     ) : (
                         all_posts.map((post) => (
                             <article
                                 key={post.id}
-                                className="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300"
+                                className="rounded-lg shadow-md hover:shadow-lg transition duration-300"
+                                style={{ background: theme?.primaryColor || '#ffffff' }}
                             >
                                 <div className="relative h-48">
                                     <Image
@@ -78,7 +120,10 @@ export default function ClientWrapper({
                                 </div>
 
                                 <div className="p-4">
-                                    <h2 className="text-lg font-bold text-gray-800 hover:text-blue-600">
+                                    <h2
+                                        className="text-lg font-bold hover:text-red-600"
+                                        style={{ color: theme?.secondaryColor || '#000000' }}
+                                    >
                                         {post.title}
                                     </h2>
 

@@ -8,6 +8,7 @@ import { Footer } from '@/app/components/blog_components/footer';
 import MarketingPopup from '@/app/components/blog_components/popups/marketingPopup';
 import { SlideBannerClient } from '@/app/components/blog_components/slideBannerClient';
 import { PublicationSidebarClient } from '@/app/components/blog_components/publicationSidebarClient';
+import SectionTitlePage from '@/app/components/blog_components/blogLayout/sectionTitlePage';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const BLOG_URL = process.env.NEXT_PUBLIC_URL_BLOG;
@@ -130,14 +131,7 @@ export default async function Posts_blog() {
             footer={<Footer />}
             sidebar_publication={<PublicationSidebarClient local="Pagina_todos_artigos" />}
             local="Pagina_todos_artigos"
-            presentation={
-                <section className="bg-gray-800 py-12 text-[#FFFFFF] text-center">
-                    <h1 className="text-3xl font-bold">Todos os artigos</h1>
-                    <p className="text-gray-300 mt-2">
-                        Explore todos os artigos do blog.
-                    </p>
-                </section>
-            }
+            presentation={<SectionTitlePage title='Todos os artigos' description='Explore todos os artigos do blog.' />}
         >
             <Suspense fallback={<div>Carregando...</div>}>
                 <ClientWrapper
