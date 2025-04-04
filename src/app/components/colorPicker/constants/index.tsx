@@ -1,12 +1,12 @@
 export const defaultThemeColors = {
-    primaryColor: '#f97316',
-    secondaryColor: '#1cb929',
+    primaryColor: '#ffffff',
+    secondaryColor: '#000000',
     thirdColor: '#ef4444',
-    fourthColor: "#ffffff",
-    fifthColor: "#f3f4f6",
-    sixthColor: "#2961d1",
-    primarybackgroundColor: '#f3f4f6',
-    secondarybackgroundColor: '#000000',
-    thirdbackgroundColor: '#f9fafb',
+    fourthColor: "#797a7b",
+    fifthColor: "#1f2937",
+    sixthColor: "#f97316",
+    primarybackgroundColor: '#000000',
+    secondarybackgroundColor: '#f9fafb',
+    thirdbackgroundColor: '#f3f4f6',
     fourthbackgroundColor: '#6b7280'
 };
