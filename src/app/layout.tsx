@@ -8,6 +8,7 @@ import { AuthProviderBlog } from "@/contexts/AuthContextBlog";
 import { PrivacyProvider } from "@/contexts/PrivacyContext";
 import PrivacyBanner from "./components/blog_components/police_privacy/privacyBanner";
 import PrivacySettingsModal from "./components/blog_components/police_privacy/privacySettingsModal";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const BLOG_URL = process.env.NEXT_PUBLIC_URL_BLOG || 'http://localhost:3000';
@@ -63,16 +64,18 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body id="root" className={`${geistSans.variable} antialiased`}>
-        <PrivacyProvider>
-          <AuthProvider>
-            <AuthProviderBlog>
-              <ToastContainer autoClose={5000} />
-              {children}
-            </AuthProviderBlog>
-          </AuthProvider>
-          <PrivacyBanner />
-          <PrivacySettingsModal />
-        </PrivacyProvider>
+        <ThemeProvider>
+          <PrivacyProvider>
+            <AuthProvider>
+              <AuthProviderBlog>
+                <ToastContainer autoClose={5000} />
+                {children}
+              </AuthProviderBlog>
+            </AuthProvider>
+            <PrivacyBanner />
+            <PrivacySettingsModal />
+          </PrivacyProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

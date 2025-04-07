@@ -1,22 +1,11 @@
 "use client"
 
+import { useTheme } from "@/contexts/ThemeContext";
 import { setupAPIClient } from "@/services/api";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
-interface ThemeColors {
-    primaryColor: string;
-    secondaryColor: string;
-    thirdColor: string;
-    fourthColor: string;
-    fifthColor: string;
-    sixthColor: string;
-    primarybackgroundColor: string;
-    secondarybackgroundColor: string;
-    thirdbackgroundColor: string;
-    fourthbackgroundColor: string;
-}
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface PublicationProps {
     id: string;
@@ -32,26 +21,7 @@ interface SidebarProps {
 
 export default function PublicationSidebar({ existing_sidebar }: SidebarProps) {
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-    const [theme, setTheme] = useState<ThemeColors>();
-
-    useEffect(() => {
-        const fetchTheme = async () => {
-            const apiClient = setupAPIClient();
-            try {
-                const response = await apiClient.get('/theme');
-                setTheme(response.data);
-            } catch (error) {
-                console.error('Error loading theme:', error);
-            }
-        };
-        fetchTheme();
-        const interval = setInterval(fetchTheme, 10000);
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
+    const { colors } = useTheme();
 
     const click_publication = async (id: string) => {
         try {
@@ -68,7 +38,7 @@ export default function PublicationSidebar({ existing_sidebar }: SidebarProps) {
                 <div
                     key={item.id}
                     className="flex flex-col items-center p-4 rounded-lg shadow-lg border border-gray-200 transition-all hover:scale-105 hover:shadow-xl"
-                    style={{ background: theme?.secondarybackgroundColor || '#ffffff' }}
+                    style={{ background: colors?.secondarybackgroundColor || '#ffffff' }}
                 >
                     <Link
                         href={item.redirect_url}
@@ -96,7 +66,7 @@ export default function PublicationSidebar({ existing_sidebar }: SidebarProps) {
                     >
                         <button
                             className="mt-3 text-sm font-bold py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition duration-300 uppercase"
-                            style={{ background: theme?.thirdColor || '#ef4444', color: theme?.primaryColor || '#FFFFFF' }}
+                            style={{ background: colors?.thirdColor || '#ef4444', color: colors?.primaryColor || '#FFFFFF' }}
                         >
                             {item.text_button}
                         </button>

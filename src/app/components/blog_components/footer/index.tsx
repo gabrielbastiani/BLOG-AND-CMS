@@ -6,19 +6,9 @@ import { setupAPIClient } from "@/services/api";
 import Link from "next/link";
 import Image from "next/image";
 import noImage from '../../../../assets/no-image-icon-6.png';
+import { useTheme } from "@/contexts/ThemeContext";
 
-interface ThemeColors {
-    primaryColor: string;
-    secondaryColor: string;
-    thirdColor: string;
-    fourthColor: string;
-    fifthColor: string;
-    sixthColor: string;
-    primarybackgroundColor: string;
-    secondarybackgroundColor: string;
-    thirdbackgroundColor: string;
-    fourthbackgroundColor: string;
-}
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface MediasProps {
     id: string;
@@ -29,28 +19,10 @@ interface MediasProps {
 
 export function Footer() {
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const { colors } = useTheme();
 
     const { configs } = useContext(AuthContextBlog);
     const [dataMedias, setDataMedias] = useState<MediasProps[]>([]);
-    const [theme, setTheme] = useState<ThemeColors>();
-
-    useEffect(() => {
-        const fetchTheme = async () => {
-            const apiClient = setupAPIClient();
-            try {
-                const response = await apiClient.get('/theme');
-                setTheme(response.data);
-            } catch (error) {
-                console.error('Error loading theme:', error);
-            }
-        };
-        fetchTheme();
-        const interval = setInterval(fetchTheme, 10000);
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
 
     useEffect(() => {
         async function fetchData() {
@@ -69,7 +41,7 @@ export function Footer() {
     return (
         <footer
             className="py-6 mt-14 z-50"
-            style={{ color: theme?.primaryColor || '#ffffff', background: theme?.fifthColor || '#1f2937' }}
+            style={{ color: colors?.primaryColor || '#ffffff', background: colors?.fifthColor || '#1f2937' }}
         >
             <div className="container mx-auto text-center">
                 <div className="flex justify-center space-x-6 mb-5">
@@ -106,7 +78,7 @@ export function Footer() {
                 <Link
                     href="/politicas_de_privacidade"
                     className="mb-5"
-                    style={{ color: theme?.primaryColor || '#ffffff' }}
+                    style={{ color: colors?.primaryColor || '#ffffff' }}
                 >
                     Politicas de privacidade
                 </Link>

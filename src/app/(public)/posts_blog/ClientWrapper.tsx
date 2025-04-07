@@ -8,19 +8,7 @@ import Image from "next/image";
 import { PostsProps } from "Types/types";
 import Params_nav_blog from "@/app/components/blog_components/params_nav_blog";
 import DOMPurify from "dompurify";
-
-interface ThemeColors {
-    primaryColor: string;
-    secondaryColor: string;
-    thirdColor: string;
-    fourthColor: string;
-    fifthColor: string;
-    sixthColor: string;
-    primarybackgroundColor: string;
-    secondarybackgroundColor: string;
-    thirdbackgroundColor: string;
-    fourthbackgroundColor: string;
-}
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface ClientWrapperProps {
     all_posts: PostsProps[];
@@ -32,29 +20,13 @@ export default function ClientWrapper({
     totalPages,
 }: ClientWrapperProps) {
 
+    const { colors } = useTheme();
+
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     const [posts, setPosts] = useState(all_posts);
     const [currentTotalPages, setTotalPages] = useState(totalPages);
     const [sanitizedContents, setSanitizedContents] = useState<{ [key: string]: string }>({});
-    const [theme, setTheme] = useState<ThemeColors>();
-
-    useEffect(() => {
-        const fetchTheme = async () => {
-            const apiClient = setupAPIClient();
-            try {
-                const response = await apiClient.get('/theme');
-                setTheme(response.data);
-            } catch (error) {
-                console.error('Error loading theme:', error);
-            }
-        };
-        fetchTheme();
-        const interval = setInterval(fetchTheme, 10000);
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
 
     const apiClient = setupAPIClient();
 
@@ -120,7 +92,7 @@ export default function ClientWrapper({
         >
             <section
                 className="container mx-auto my-12 px-4"
-                style={{ background: theme?.primaryColor || '#ffffff' }}
+                style={{ background: colors?.primaryColor || '#ffffff' }}
             >
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {posts.map((post) => (
@@ -139,7 +111,7 @@ export default function ClientWrapper({
                             <div className="p-4">
                                 <h2
                                     className="text-lg font-bold hover:text-red-600"
-                                    style={{ color: theme?.secondaryColor || '#000000' }}
+                                    style={{ color: colors?.secondaryColor || '#000000' }}
                                 >
                                     {post.title}
                                 </h2>

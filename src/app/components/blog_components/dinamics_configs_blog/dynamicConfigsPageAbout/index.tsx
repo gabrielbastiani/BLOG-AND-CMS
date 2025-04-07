@@ -42,7 +42,7 @@ const DynamicConfigsPageAbout = ({ initialConfigs }: DynamicContentProps) => {
             }
         };
 
-        fetchConfigs(); // Execução imediata
+        fetchConfigs();
         const interval = setInterval(fetchConfigs, 15000);
 
         return () => {

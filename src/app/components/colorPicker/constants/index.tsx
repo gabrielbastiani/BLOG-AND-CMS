@@ -1,4 +1,4 @@
-export const defaultThemeColors = {
+export const defaultThemeColors: Record<string, string> = {
     primaryColor: '#ffffff',
     secondaryColor: '#000000',
     thirdColor: '#ef4444',
@@ -9,4 +9,9 @@ export const defaultThemeColors = {
     secondarybackgroundColor: '#f9fafb',
     thirdbackgroundColor: '#f3f4f6',
     fourthbackgroundColor: '#6b7280'
+};
+
+// Função auxiliar para obter cores padrão
+export const getDefaultColor = (colorName: string): string => {
+    return defaultThemeColors[colorName] || '#ffffff';
 };

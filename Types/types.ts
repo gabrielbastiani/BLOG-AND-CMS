@@ -67,3 +67,16 @@ export interface Notification {
   read: boolean;
   type: string;
 }
+
+export interface ThemeColors {
+  primaryColor: string;
+  secondaryColor: string;
+  thirdColor: string;
+  fourthColor: string;
+  fifthColor: string;
+  sixthColor: string;
+  primarybackgroundColor: string;
+  secondarybackgroundColor: string;
+  thirdbackgroundColor: string;
+  fourthbackgroundColor: string;
+}

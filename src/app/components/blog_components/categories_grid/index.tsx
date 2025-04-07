@@ -1,9 +1,12 @@
 "use client"
 
+import { useTheme } from "@/contexts/ThemeContext";
 import { setupAPIClient } from "@/services/api";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface CategoriesProps {
     id: string;
@@ -12,42 +15,11 @@ interface CategoriesProps {
     image_category: string;
 }
 
-interface ThemeColors {
-    primaryColor: string;
-    secondaryColor: string;
-    thirdColor: string;
-    fourthColor: string;
-    fifthColor: string;
-    sixthColor: string;
-    primarybackgroundColor: string;
-    secondarybackgroundColor: string;
-    thirdbackgroundColor: string;
-    fourthbackgroundColor: string;
-}
-
 export default function Categories_grid() {
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const { colors } = useTheme();
 
     const [categories, setCategories] = useState<CategoriesProps[]>([]);
-    const [theme, setTheme] = useState<ThemeColors>();
-
-    useEffect(() => {
-        const fetchTheme = async () => {
-            const apiClient = setupAPIClient();
-            try {
-                const response = await apiClient.get('/theme');
-                setTheme(response.data);
-            } catch (error) {
-                console.error('Error loading theme:', error);
-            }
-        };
-        fetchTheme();
-        const interval = setInterval(fetchTheme, 10000);
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
 
     useEffect(() => {
         const apiClient = setupAPIClient();
@@ -66,7 +38,7 @@ export default function Categories_grid() {
         <div className="container mx-auto px-4 py-8">
             <h2
                 className="text-2xl font-bold mb-4"
-                style={{ color: theme?.secondaryColor || '#000000' }}
+                style={{ color: colors?.secondaryColor || '#000000' }}
             >
                 Categorias
             </h2>
@@ -91,11 +63,11 @@ export default function Categories_grid() {
 
                             <div
                                 className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
-                                style={{ background: theme?.fourthColor || '#797a7b' }}
+                                style={{ background: colors?.fourthColor || '#797a7b' }}
                             >
                                 <h3
                                     className="text-lg font-bold"
-                                    style={{ color: theme?.primaryColor || '#ffffff' }}
+                                    style={{ color: colors?.primaryColor || '#ffffff' }}
                                 >
                                     {category.name_category}
                                 </h3>

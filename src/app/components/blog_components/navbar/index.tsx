@@ -11,20 +11,9 @@ import { setupAPIClientBlog } from "@/services/api_blog";
 import noImage from '../../../../assets/no-image-icon-6.png';
 import { ModalLogin } from "../popups/modalLogin";
 import { ModalEditUser } from "../popups/modalEditUser";
-import { setupAPIClient } from "@/services/api";
+import { useTheme } from "@/contexts/ThemeContext";
 
-interface ThemeColors {
-    primaryColor: string;
-    secondaryColor: string;
-    thirdColor: string;
-    fourthColor: string;
-    fifthColor: string;
-    sixthColor: string;
-    primarybackgroundColor: string;
-    secondarybackgroundColor: string;
-    thirdbackgroundColor: string;
-    fourthbackgroundColor: string;
-}
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const schema = z.object({
     name: z.string().optional(),
@@ -44,7 +33,7 @@ type Post = {
 
 export function Navbar() {
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const { colors } = useTheme();
 
     const { isAuthenticated, loadingAuth, user, configs } = useContext(AuthContextBlog);
 
@@ -60,25 +49,6 @@ export function Navbar() {
 
     const [modalLogin, setModalLogin] = useState(false);
     const [modalEditUser, setModalEditUser] = useState(false);
-
-    const [theme, setTheme] = useState<ThemeColors>();
-
-    useEffect(() => {
-        const fetchTheme = async () => {
-            const apiClient = setupAPIClient();
-            try {
-                const response = await apiClient.get('/theme');
-                setTheme(response.data);
-            } catch (error) {
-                console.error('Error loading theme:', error);
-            }
-        };
-        fetchTheme();
-        const interval = setInterval(fetchTheme, 10000);
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
 
     const handleSearch = async (e: ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value;
@@ -106,7 +76,7 @@ export function Navbar() {
     return (
         <header
             className="shadow-md sticky top-0 z-50"
-            style={{ background: theme?.primarybackgroundColor || "#000000" }}
+            style={{ background: colors?.primarybackgroundcolor || "#000000" }}
         >
             <nav className="container mx-auto flex justify-between items-center py-2 px-2 md:px-8">
                 {/* Logo */}
@@ -183,7 +153,7 @@ export function Navbar() {
 
                 {/* Lista de links */}
                 <ul
-                    style={{ color: theme?.primaryColor || "#ffffff" }}
+                    style={{ color: colors?.primaryColor || "#ffffff" }}
                     className={`absolute top-full left-0 w-full bg-black shadow-md p-4 flex flex-col gap-4 items-center md:static md:flex md:flex-row md:gap-6 md:shadow-none md:bg-transparent ${isMobileMenuOpen ? "block" : "hidden"
                         }`}
                 >
@@ -221,14 +191,14 @@ export function Navbar() {
                                     className="object-cover w-full h-full rounded-full"
                                 />
                             ) : (
-                                <FiUser cursor="pointer" size={24} style={{ color: theme?.primaryColor || "#ffffff" }} />
+                                <FiUser cursor="pointer" size={24} style={{ color: colors?.primaryColor || "#ffffff" }} />
                             )}
                         </div>
                     </button>
                 ) : (
                     <button onClick={() => setModalLogin(true)}>
                         <div className="border-2 rounded-full p-1">
-                            <FiLogIn size={22} style={{ color: theme?.primaryColor || "#ffffff", border: theme?.primaryColor || "#ffffff" }} />
+                            <FiLogIn size={22} style={{ color: colors?.primaryColor || "#ffffff", border: colors?.primaryColor || "#ffffff" }} />
                         </div>
                     </button>
                 )}

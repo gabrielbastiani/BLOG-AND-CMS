@@ -1,24 +1,11 @@
 "use client";
 
+import { useTheme } from "@/contexts/ThemeContext";
 import { setupAPIClient } from "@/services/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
-
-interface ThemeColors {
-    primaryColor: string;
-    secondaryColor: string;
-    thirdColor: string;
-    fourthColor: string;
-    fifthColor: string;
-    sixthColor: string;
-    primarybackgroundColor: string;
-    secondarybackgroundColor: string;
-    thirdbackgroundColor: string;
-    fourthbackgroundColor: string;
-}
 
 const contactFormSchema = z.object({
     email_user: z.string().email("E-mail inválido"),
@@ -28,24 +15,7 @@ type ContactFormInputs = z.infer<typeof contactFormSchema>;
 
 export function Newsletter() {
 
-    const [theme, setTheme] = useState<ThemeColors>();
-
-    useEffect(() => {
-        const fetchTheme = async () => {
-            const apiClient = setupAPIClient();
-            try {
-                const response = await apiClient.get('/theme');
-                setTheme(response.data);
-            } catch (error) {
-                console.error('Error loading theme:', error);
-            }
-        };
-        fetchTheme();
-        const interval = setInterval(fetchTheme, 10000);
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
+    const { colors } = useTheme();
 
     const {
         register,
@@ -75,18 +45,18 @@ export function Newsletter() {
     return (
         <section
             className="py-12"
-            style={{ background: theme?.fourthbackgroundColor || '#6b7280' }}
+            style={{ background: colors?.fourthbackgroundColor || '#6b7280' }}
         >
             <div className="container mx-auto text-center">
                 <h2
                     className="text-xl font-semibold mb-4"
-                    style={{ color: theme?.primaryColor || '#ffffff' }}
+                    style={{ color: colors?.primaryColor || '#ffffff' }}
                 >
                     Assine nossa newsletter
                 </h2>
                 <p
                     className="mb-6"
-                    style={{ color: theme?.secondaryColor || '#000000' }}
+                    style={{ color: colors?.secondaryColor || '#000000' }}
                 >
                     Receba as últimas notícias direto no seu email!
                 </p>
@@ -103,7 +73,7 @@ export function Newsletter() {
                     <button
                         type="submit"
                         className="p-3 rounded-lg hover:bg-hoverButtonBackground"
-                        style={{ color: theme?.primaryColor || '#ffffff', background: theme?.sixthColor || '#f97316' }}
+                        style={{ color: colors?.primaryColor || '#ffffff', background: colors?.sixthColor || '#f97316' }}
                     >
                         Inscrever-se
                     </button>

@@ -5,19 +5,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import noImage from "../../../../../assets/no-image-icon-6.png";
+import { useTheme } from "@/contexts/ThemeContext";
 
-interface ThemeColors {
-    primaryColor: string;
-    secondaryColor: string;
-    thirdColor: string;
-    fourthColor: string;
-    fifthColor: string;
-    sixthColor: string;
-    primarybackgroundColor: string;
-    secondarybackgroundColor: string;
-    thirdbackgroundColor: string;
-    fourthbackgroundColor: string;
-}
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface PopupData {
     id: string;
@@ -35,28 +25,10 @@ interface PopupProps {
 
 export default function MarketingPopup({ position, local }: PopupProps) {
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const { colors } = useTheme();
 
     const [isVisible, setIsVisible] = useState(false);
     const [popupData, setPopupData] = useState<PopupData | null>(null);
-    const [theme, setTheme] = useState<ThemeColors>();
-
-    useEffect(() => {
-        const fetchTheme = async () => {
-            const apiClient = setupAPIClient();
-            try {
-                const response = await apiClient.get('/theme');
-                setTheme(response.data);
-            } catch (error) {
-                console.error('Error loading theme:', error);
-            }
-        };
-        fetchTheme();
-        const interval = setInterval(fetchTheme, 10000);
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
 
     useEffect(() => {
         const fetchPopupConfig = async () => {
@@ -130,8 +102,7 @@ export default function MarketingPopup({ position, local }: PopupProps) {
                     />
                 )}
                 <h2
-                    className="text-lg font-semibold mb-4"
-                    style={{ background: theme?.thirdColor || '#ef4444' }}
+                    className="text-lg font-semibold mb-4 bg-white"
                 >
                     {popupData.text_publication}
                 </h2>
@@ -140,7 +111,7 @@ export default function MarketingPopup({ position, local }: PopupProps) {
                         href={popupData.redirect_url}
                         onClick={click_publication}
                         className="py-2 px-4 rounded hover:bg-red-600 inline-block"
-                        style={{ background: theme?.thirdColor || '#ef4444', color: theme?.primaryColor || "#ffffff" }}
+                        style={{ background: colors?.thirdColor || '#ef4444', color: colors?.primaryColor || "#ffffff" }}
                         target="_blank"
                         rel="noopener noreferrer"
                     >

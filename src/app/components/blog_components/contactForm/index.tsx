@@ -7,19 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import { setupAPIClient } from "@/services/api";
-
-interface ThemeColors {
-  primaryColor: string;
-  secondaryColor: string;
-  thirdColor: string;
-  fourthColor: string;
-  fifthColor: string;
-  sixthColor: string;
-  primarybackgroundColor: string;
-  secondarybackgroundColor: string;
-  thirdbackgroundColor: string;
-  fourthbackgroundColor: string;
-}
+import { useTheme } from '@/contexts/ThemeContext';
 
 const CognitiveChallenge = dynamic(
   () => import('../../../components/cognitiveChallenge/index').then(mod => mod.CognitiveChallenge),
@@ -44,26 +32,10 @@ type ContactFormInputs = z.infer<typeof contactFormSchema>;
 
 export default function ContactForm() {
 
+  const { colors } = useTheme();
+
   const [cognitiveValid, setCognitiveValid] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [theme, setTheme] = useState<ThemeColors>();
-
-  useEffect(() => {
-    const fetchTheme = async () => {
-      const apiClient = setupAPIClient();
-      try {
-        const response = await apiClient.get('/theme');
-        setTheme(response.data);
-      } catch (error) {
-        console.error('Error loading theme:', error);
-      }
-    };
-    fetchTheme();
-    const interval = setInterval(fetchTheme, 10000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   const {
     register,
@@ -114,7 +86,7 @@ export default function ContactForm() {
         <label
           htmlFor="name_user"
           className="block text-sm font-bold mb-2"
-          style={{ color: theme?.secondaryColor || '#000000' }}
+          style={{ color: colors?.secondaryColor || '#000000' }}
         >
           Nome
         </label>

@@ -1,23 +1,10 @@
 "use client";
 
-import { setupAPIClient } from "@/services/api";
+import { useTheme } from "@/contexts/ThemeContext";
 import Link from "next/link";
-import { Key, useEffect, useState } from "react";
+import { Key } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-interface ThemeColors {
-    primaryColor: string;
-    secondaryColor: string;
-    thirdColor: string;
-    fourthColor: string;
-    fifthColor: string;
-    sixthColor: string;
-    primarybackgroundColor: string;
-    secondarybackgroundColor: string;
-    thirdbackgroundColor: string;
-    fourthbackgroundColor: string;
-}
 
 interface ClientWrapperProps {
     categories: any;
@@ -25,24 +12,7 @@ interface ClientWrapperProps {
 
 export default function ClientWrapperCategs({ categories }: ClientWrapperProps) {
 
-    const [theme, setTheme] = useState<ThemeColors>();
-
-    useEffect(() => {
-        const fetchTheme = async () => {
-            const apiClient = setupAPIClient();
-            try {
-                const response = await apiClient.get('/theme');
-                setTheme(response.data);
-            } catch (error) {
-                console.error('Error loading theme:', error);
-            }
-        };
-        fetchTheme();
-        const interval = setInterval(fetchTheme, 10000);
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
+    const { colors } = useTheme();
 
     return (
         <div className="container mx-auto my-12 px-6">
@@ -51,7 +21,7 @@ export default function ClientWrapperCategs({ categories }: ClientWrapperProps) 
                     <div
                         key={category.id}
                         className="relative rounded-lg shadow-lg overflow-hidden group"
-                        style={{ background: theme?.fifthColor || '#1f2937' }}
+                        style={{ background: colors?.fifthColor || '#1f2937' }}
                     >
                         <div
                             className="absolute inset-0 bg-cover bg-center opacity-75 group-hover:opacity-100 transition-opacity"
@@ -66,7 +36,7 @@ export default function ClientWrapperCategs({ categories }: ClientWrapperProps) 
                             <Link
                                 href={`/posts_categories/${category.slug_name_category}`}
                                 className="text-2xl font-bold mb-2 block"
-                                style={{ color: theme?.primaryColor || '#ffffff' }}
+                                style={{ color: colors?.primaryColor || '#ffffff' }}
                             >
                                 {category.name_category}
                             </Link>
@@ -82,12 +52,12 @@ export default function ClientWrapperCategs({ categories }: ClientWrapperProps) 
                                             <li
                                                 key={subcategory.id}
                                                 className="mb-1"
-                                                style={{ color: theme?.sixthColor || '#f97316' }}
+                                                style={{ color: colors?.sixthColor || '#f97316' }}
                                             >
                                                 <Link
                                                     href={`/posts_categories/${subcategory.slug_name_category}`}
                                                     className="text-backgroundButton hover:underline text-sm"
-                                                    style={{ color: theme?.sixthColor || '#f97316' }}
+                                                    style={{ color: colors?.sixthColor || '#f97316' }}
                                                 >
                                                     {subcategory.name_category}
                                                 </Link>

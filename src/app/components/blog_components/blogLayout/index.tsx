@@ -1,5 +1,6 @@
 "use client"
 
+import { useTheme } from "@/contexts/ThemeContext";
 import { setupAPIClient } from "@/services/api";
 import { ReactNode, useEffect, useState } from "react";
 
@@ -13,41 +14,12 @@ interface BlogLayoutProps {
     local: string;
 }
 
-interface ThemeColors {
-    primaryColor: string;
-    secondaryColor: string;
-    thirdColor: string;
-    fourthColor: string;
-    fifthColor: string;
-    sixthColor: string;
-    primarybackgroundColor: string;
-    secondarybackgroundColor: string;
-    thirdbackgroundColor: string;
-    fourthbackgroundColor: string;
-}
-
 const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, footer, children, sidebar_publication, bannersSlide, presentation, local }) => {
 
+    const { colors } = useTheme();
+    
     const [showMobileBanners, setShowMobileBanners] = useState(true);
     const [sidebar, setSidebar] = useState(0);
-    const [theme, setTheme] = useState<ThemeColors>();
-
-    useEffect(() => {
-        const fetchTheme = async () => {
-            const apiClient = setupAPIClient();
-            try {
-                const response = await apiClient.get('/theme');
-                setTheme(response.data);
-            } catch (error) {
-                console.error('Error loading theme:', error);
-            }
-        };
-        fetchTheme();
-        const interval = setInterval(fetchTheme, 10000);
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
 
     useEffect(() => {
         async function fetchSidebar() {
@@ -71,7 +43,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, footer, children, sideb
     return (
         <div
             className="flex flex-col min-h-screen"
-            style={{ background: theme?.thirdbackgroundColor || '#f3f4f6' }}
+            style={{ background: colors?.thirdbackgroundColor || '#f3f4f6' }}
         >
             {/* Navbar */}
             {navbar}
@@ -86,7 +58,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, footer, children, sideb
                 {/* Main Content */}
                 <div
                     className="w-full flex-1 p-4 rounded shadow"
-                    style={{ background: theme?.thirdbackgroundColor || '#f3f4f6' }}
+                    style={{ background: colors?.thirdbackgroundColor || '#f3f4f6' }}
                 >
                     {children}
                 </div>
@@ -94,7 +66,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, footer, children, sideb
                 {sidebar >= 1 ? (
                     <aside
                         className="hidden lg:block sticky top-28 h-screen w-[300px p-4 shadow"
-                        style={{ background: theme?.secondarybackgroundColor || '#f3f4f6' }}
+                        style={{ background: colors?.secondarybackgroundColor || '#f3f4f6' }}
                     >
                         <div className="overflow-y-auto h-full">
                             {/* Conteúdo do Aside */}
@@ -107,17 +79,17 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, footer, children, sideb
             {hasSidebarPublication && showMobileBanners && (
                 <div
                     className="fixed bottom-0 left-0 w-full border-t shadow-lg lg:hidden z-20"
-                    style={{ background: theme?.secondarybackgroundColor || '#abaeb4' }}
+                    style={{ background: colors?.secondarybackgroundColor || '#abaeb4' }}
                 >
                     <div className="flex items-center justify-between p-4">
                         <span
                             className="font-medium"
-                            style={{ color: theme?.secondaryColor || '#abaeb4' }}
+                            style={{ color: colors?.secondaryColor || '#abaeb4' }}
                         >Aproveite!!!</span>
                         <button
                             onClick={() => setShowMobileBanners(false)}
                             className="text-gray-500 hover:text-gray-700 text-sm"
-                            style={{ color: theme?.secondaryColor || '#abaeb4' }}
+                            style={{ color: colors?.secondaryColor || '#abaeb4' }}
                         >
                             ✕ Fechar
                         </button>
