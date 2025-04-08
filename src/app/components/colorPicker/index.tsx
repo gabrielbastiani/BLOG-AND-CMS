@@ -6,10 +6,9 @@ interface ColorPickerProps {
     name: string;
     value: string;
     onChange: (color: string) => void;
-    onRemove?: () => void;
 }
 
-const ColorPicker: FC<ColorPickerProps> = ({ name, value, onChange, onRemove }) => {
+const ColorPicker: FC<ColorPickerProps> = ({ name, value, onChange }) => {
 
     const { openPicker, setOpenPicker } = useTheme();
     const pickerRef = useRef<HTMLDivElement>(null);
@@ -47,16 +46,6 @@ const ColorPicker: FC<ColorPickerProps> = ({ name, value, onChange, onRemove }) 
                         />
                     </div>
                 </div>
-
-                {onRemove && (
-                    <button
-                        onClick={onRemove}
-                        className="text-red-500 hover:text-red-700 transition-opacity"
-                        title="Remover cor"
-                    >
-                        ✕
-                    </button>
-                )}
             </div>
 
             {isOpen && (

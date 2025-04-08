@@ -61,17 +61,11 @@ const ThemeEditor = () => {
                                 name={name}
                                 value={value}
                                 onChange={(color) => setColors({ ...colors, [name]: color })}
-                                onRemove={() => {
-                                    () => handleDeleteColor(name);
-                                    const newColors = { ...colors };
-                                    delete newColors[name];
-                                    setColors(newColors);
-                                }}
                             />
                         ))}
                     </div>
 
-                    <div className="border-t pt-6">
+                    {/* <div className="border-t pt-6">
                         <div className="flex gap-4 items-end">
                             <div className="flex-1">
                                 <input
@@ -91,7 +85,7 @@ const ThemeEditor = () => {
                                 Adicionar Cor
                             </button>
                         </div>
-                    </div>
+                    </div> */}
 
                     <button
                         type="submit"
