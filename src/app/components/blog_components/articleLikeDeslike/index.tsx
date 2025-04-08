@@ -4,6 +4,7 @@ import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 import { setupAPIClient } from "@/services/api";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface ReactionPostProps {
     post_id: string;
@@ -16,6 +17,9 @@ export default function ArticleLikeDislike({
     like: initialLike,
     deslike: initialDislike,
 }: ReactionPostProps) {
+
+    const { colors } = useTheme();
+
     const [like, setLike] = useState(initialLike);
     const [dislike, setDislike] = useState(initialDislike);
     const [loading, setLoading] = useState(false);
@@ -48,7 +52,7 @@ export default function ArticleLikeDislike({
     }, [post_id]);    
 
     const handleLikeDislike = async (isLike: boolean) => {
-        if (loading) return; // Evita múltiplas requisições simultâneas
+        if (loading) return;
         setLoading(true);
 
         try {
@@ -88,7 +92,10 @@ export default function ArticleLikeDislike({
 
     return (
         <div className="flex flex-col items-center mt-8 space-y-4">
-            <h2 className="text-lg font-bold text-gray-700">
+            <h2 
+            className="text-lg font-bold text-gray-700"
+            style={{ color: colors?.texto_like_dislike || "#374151" }}
+            >
                 Gostou ou não do conteúdo?
             </h2>
             <div className="flex items-center gap-6">
@@ -100,7 +107,10 @@ export default function ArticleLikeDislike({
                         }`}
                     disabled={loading}
                 >
-                    <FaThumbsUp className="text-xl" />
+                    <FaThumbsUp 
+                    className="text-xl" 
+                    style={{ color: colors?.botao_like_dislike || "#374151" }}
+                    />
                     <span className="font-medium">{formatLike(like)}</span>
                 </button>
                 <button
@@ -111,8 +121,13 @@ export default function ArticleLikeDislike({
                         }`}
                     disabled={loading}
                 >
-                    <FaThumbsDown className="text-xl" />
-                    <span className="font-medium">{formatDislikes(dislike)}</span>
+                    <FaThumbsDown className="text-xl" style={{ color: colors?.botao_like_dislike || "#374151" }}/>
+                    <span 
+                    className="font-medium"
+                    style={{ color: colors?.botao_like_dislike || "#374151" }}
+                    >
+                        {formatDislikes(dislike)}
+                    </span>
                 </button>
             </div>
         </div>

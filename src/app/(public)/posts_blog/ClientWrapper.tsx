@@ -92,13 +92,14 @@ export default function ClientWrapper({
         >
             <section
                 className="container mx-auto my-12 px-4"
-                style={{ background: colors?.primaryColor || '#ffffff' }}
+
             >
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {posts.map((post) => (
                         <article
                             key={post.id}
-                            className="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300"
+                            className="rounded-lg shadow-md hover:shadow-lg transition duration-300"
+                            style={{ background: colors?.fundo_blocos_todos_posts || '#ffffff' }}
                         >
                             <Image
                                 src={`${API_URL}/files/${post.image_post}`}
@@ -111,12 +112,15 @@ export default function ClientWrapper({
                             <div className="p-4">
                                 <h2
                                     className="text-lg font-bold hover:text-red-600"
-                                    style={{ color: colors?.secondaryColor || '#000000' }}
+                                    style={{ color: colors?.titulo_post_blocos_todos_posts || '#000000' }}
                                 >
                                     {post.title}
                                 </h2>
 
-                                <div className="text-sm text-gray-500 mt-2 flex">
+                                <div
+                                    className="text-sm mt-2 flex"
+                                    style={{ color: colors?.dados_post_blocos_todos_posts || '#6b7280' }}
+                                >
                                     <span className="flex mr-3">
                                         <FaRegEye className="text-lg mr-3" />
                                         {formatViews(post?.views || 0)}
@@ -138,31 +142,25 @@ export default function ClientWrapper({
                                     ))}
                                 </div>
 
-                                <div className="flex flex-wrap gap-2 mt-2">
-                                    {post.tags?.map((ta, index) => (
-                                        <span
-                                            key={index}
-                                            className="text-xs bg-blue-100 text-orange-500 py-1 px-2 rounded-full"
-                                        >
-                                            #{ta.tag?.slug_tag_name}
-                                        </span>
-                                    ))}
-                                </div>
-
                                 <p
-                                    className="text-gray-600 text-sm mt-4"
+                                    className="text-sm mt-4"
+                                    style={{ color: colors?.mini_descricao_post_blocos_todos_posts || '#4b5563' }}
                                     dangerouslySetInnerHTML={{
                                         __html: sanitizedContents[post.id] || "Carregando conteúdo..."
                                     }}
                                 ></p>
 
-                                <div className="mt-4 text-gray-500 text-sm">
+                                <div
+                                    className="mt-4 text-sm"
+                                    style={{ color: colors?.dados_post_blocos_todos_posts || '#6b7280' }}
+                                >
                                     <p>Por: {post.author}</p>
                                 </div>
 
                                 <Link
                                     href={`/article/${post.custom_url || post.slug_title_post}`}
                                     className="block text-red-600 mt-4 text-center font-semibold"
+                                    style={{ color: colors?.leia_mais_post_blocos_todos_posts || '#6b7280' }}
                                 >
                                     Leia mais
                                 </Link>

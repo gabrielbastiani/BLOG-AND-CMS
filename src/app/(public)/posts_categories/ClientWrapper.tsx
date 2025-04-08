@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Params_nav_blog from "@/app/components/blog_components/params_nav_blog";
 import Link from "next/link";
 import Image from "next/image";
@@ -27,7 +27,7 @@ export default function ClientWrapper({
 
     const [all_posts, setAll_posts] = useState(initialPosts);
     const [currentTotalPages, setTotalPages] = useState(totalPages);
-   
+
     const apiClient = setupAPIClient();
 
     const columnsOrder = [
@@ -65,7 +65,6 @@ export default function ClientWrapper({
         >
             <section
                 className="container mx-auto my-12 px-4"
-                style={{ background: colors?.primaryColor || '#ffffff' }}
             >
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {all_posts.length === 0 ? (
@@ -79,7 +78,7 @@ export default function ClientWrapper({
                             <article
                                 key={post.id}
                                 className="rounded-lg shadow-md hover:shadow-lg transition duration-300"
-                                style={{ background: colors?.primaryColor || '#ffffff' }}
+                                style={{ background: colors?.fundo_blocos_todos_posts || '#ffffff' }}
                             >
                                 <div className="relative h-48">
                                     <Image
@@ -94,12 +93,15 @@ export default function ClientWrapper({
                                 <div className="p-4">
                                     <h2
                                         className="text-lg font-bold hover:text-red-600"
-                                        style={{ color: colors?.secondaryColor || '#000000' }}
+                                        style={{ color: colors?.titulo_post_blocos_todos_posts || '#000000' }}
                                     >
                                         {post.title}
                                     </h2>
 
-                                    <div className="text-sm text-gray-500 mt-2">
+                                    <div
+                                        className="text-sm mt-2"
+                                        style={{ color: colors?.dados_post_blocos_todos_posts || '#6b7280' }}
+                                    >
                                         <span>
                                             Publicado em: {new Date(post.publish_at || post.created_at).toLocaleDateString()}
                                         </span>
@@ -110,26 +112,17 @@ export default function ClientWrapper({
                                             <Link
                                                 key={cat.category?.id}
                                                 href={`/posts_categories/${cat.category?.slug_name_category}`}
-                                                className="text-xs bg-green-100 text-green-600 py-1 px-2 rounded-full hover:bg-green-200"
+                                                className="text-xs text-green-600 py-1 px-2 rounded-full hover:bg-green-200"
+                                                style={{ background: colors?.fundo_categoria_no_bloco_do_post || '#dcfce7', color: colors?.texto_nome_categoria_no_bloco_do_post || "#16a34a" }}
                                             >
                                                 {cat.category?.name_category}
                                             </Link>
                                         ))}
                                     </div>
 
-                                    <div className="flex flex-wrap gap-2 mt-2">
-                                        {post.tags?.map((ta, index) => (
-                                            <span
-                                                key={index}
-                                                className="text-xs bg-blue-100 text-orange-500 py-1 px-2 rounded-full"
-                                            >
-                                                #{ta.tag?.slug_tag_name}
-                                            </span>
-                                        ))}
-                                    </div>
-
                                     <p
-                                        className="text-gray-600 text-sm mt-4"
+                                        className="text-sm mt-4"
+                                        style={{ color: colors?.mini_descricao_post_blocos_todos_posts || '#4b5563' }}
                                         dangerouslySetInnerHTML={{
                                             __html: DOMPurify.sanitize(post.text_post.length > 120
                                                 ? `${post.text_post.slice(0, 200)}...`

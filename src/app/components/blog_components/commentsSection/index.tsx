@@ -11,6 +11,7 @@ import { ModalCreateUser } from "../popups/modalCreateUser";
 import { setupAPIClient } from "@/services/api";
 import { toast } from "react-toastify";
 import moment from "moment";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface CommentsProps {
     parentId: string;
@@ -32,6 +33,8 @@ interface CommentProps {
 }
 
 export function CommentsSection({ post_id }: CommentProps) {
+
+    const { colors } = useTheme();
     const { isAuthenticated, user } = useContext(AuthContextBlog);
 
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -223,20 +226,37 @@ export function CommentsSection({ post_id }: CommentProps) {
                         className="rounded-full"
                     />
                     <div className="ml-2">
-                        <h4 className="font-semibold text-black">{comment.name_user}</h4>
-                        <p className="text-gray-600 text-xs mb-2">{moment(comment.created_at).format('DD/MM/YYYY HH:mm')}</p>
-                        <p className="text-gray-600 text-sm">{comment.comment}</p>
+                        <h4
+                            className="font-semibold"
+                            style={{ color: colors?.nome_usuario_comentario || "#000000" }}
+                        >
+                            {comment.name_user}
+                        </h4>
+                        <p
+                            className="text-xs mb-2"
+                            style={{ color: colors?.dados_usuario_comentario || "#4b5563" }}
+                        >
+                            {moment(comment.created_at).format('DD/MM/YYYY HH:mm')}
+                        </p>
+                        <p
+                            className="text-sm"
+                            style={{ color: colors?.dados_usuario_comentario || "#4b5563" }}
+                        >
+                            {comment.comment}
+                        </p>
                         <div className="mt-2 flex space-x-4">
                             <button
                                 onClick={() => handleLikeDislike(comment.id, true)}
-                                className="flex items-center text-gray-600 hover:text-blue-500"
+                                className="flex items-center hover:text-red-500"
+                                style={{ color: colors?.likes_e_dislike_usuario_comentario || "#6b7280" }}
                             >
                                 <FaThumbsUp className="mr-1" />
                                 {formatLike(comment.comment_like)}
                             </button>
                             <button
                                 onClick={() => handleLikeDislike(comment.id, false)}
-                                className="flex items-center text-gray-600 hover:text-red-500"
+                                className="flex items-center hover:text-red-500"
+                                style={{ color: colors?.likes_e_dislike_usuario_comentario || "#6b7280" }}
                             >
                                 <FaThumbsDown className="mr-1" />
                                 {formatDislikes(comment.comment_dislike)}
@@ -244,6 +264,7 @@ export function CommentsSection({ post_id }: CommentProps) {
                             <button
                                 onClick={handleReplyClick}
                                 className="flex items-center text-gray-600 hover:text-green-500"
+                                style={{ color: colors?.dados_usuario_comentario || "#4b5563" }}
                             >
                                 <FaReply className="mr-1" />
                                 Responder
@@ -256,21 +277,21 @@ export function CommentsSection({ post_id }: CommentProps) {
                         {isAuthenticated && (
                             <div className="ml-8 mt-4">
                                 <textarea
-                            value={replyContent}
-                            onChange={handleReplyChange}
-                            rows={3}
-                            className="w-full p-3 border border-gray-300 rounded-md text-black"
-                            placeholder="Escreva sua resposta..."
-                        />
-                        <button
-                            onClick={handleReplySubmit}
-                            className="mb-5 mt-2 px-4 py-2 bg-backgroundButton text-[#FFFFFF] rounded-md hover:hoverButtonBackground"
-                        >
-                            Enviar Resposta
-                        </button>
-                        </div>
+                                    value={replyContent}
+                                    onChange={handleReplyChange}
+                                    rows={3}
+                                    className="w-full p-3 border border-gray-300 rounded-md text-black"
+                                    placeholder="Escreva sua resposta..."
+                                />
+                                <button
+                                    onClick={handleReplySubmit}
+                                    className="mb-5 mt-2 px-4 py-2 bg-backgroundButton text-[#FFFFFF] rounded-md hover:hoverButtonBackground"
+                                >
+                                    Enviar Resposta
+                                </button>
+                            </div>
                         )}
-                    </>        
+                    </>
                 )}
                 {comment.replies?.map((reply) => (
                     <CommentItem key={reply.id} comment={reply} nivel={nivel + 1} />

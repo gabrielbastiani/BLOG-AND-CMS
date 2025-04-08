@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { FiLogIn, FiMenu, FiSearch, FiUser, FiX } from "react-icons/fi";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { AuthContextBlog } from "@/contexts/AuthContextBlog";
 import { toast } from "react-toastify";
 import { z } from "zod";
@@ -76,7 +76,7 @@ export function Navbar() {
     return (
         <header
             className="shadow-md sticky top-0 z-50"
-            style={{ background: colors?.primarybackgroundcolor || "#000000" }}
+            style={{ background: colors?.fundo_do_menu || "#000000" }}
         >
             <nav className="container mx-auto flex justify-between items-center py-2 px-2 md:px-8">
                 {/* Logo */}
@@ -99,11 +99,11 @@ export function Navbar() {
                                 value={searchTerm}
                                 onChange={handleSearch}
                                 placeholder="Buscar artigos..."
-                                className="w-60 px-4 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-orange-500 text-black"
+                                className="w-60 px-4 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-gray-600 text-black"
                             />
                             <button
                                 onClick={() => setShowSearch(false)}
-                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-black"
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-black hover:text-gray-600"
                             >
                                 <FiX size={20} />
                             </button>
@@ -136,7 +136,10 @@ export function Navbar() {
                         <button
                             onClick={() => setShowSearch(true)}
                         >
-                            <FiSearch size={24} />
+                            <FiSearch
+                                style={{ color: colors?.textos_menu || "#ffffff" }}
+                                size={24}
+                            />
                         </button>
                     )}
                 </div>
@@ -147,13 +150,16 @@ export function Navbar() {
                         onClick={toggleMobileMenu}
                         className="focus:outline-none"
                     >
-                        <FiMenu size={28} />
+                        <FiMenu
+                            style={{ color: colors?.textos_menu || "#ffffff" }}
+                            size={28}
+                        />
                     </button>
                 </div>
 
                 {/* Lista de links */}
                 <ul
-                    style={{ color: colors?.primaryColor || "#ffffff" }}
+                    style={{ color: colors?.textos_menu || "#ffffff", background: colors?.fundo_do_menu || "#000000" }}
                     className={`absolute top-full left-0 w-full bg-black shadow-md p-4 flex flex-col gap-4 items-center md:static md:flex md:flex-row md:gap-6 md:shadow-none md:bg-transparent ${isMobileMenuOpen ? "block" : "hidden"
                         }`}
                 >
@@ -191,14 +197,14 @@ export function Navbar() {
                                     className="object-cover w-full h-full rounded-full"
                                 />
                             ) : (
-                                <FiUser cursor="pointer" size={24} style={{ color: colors?.primaryColor || "#ffffff" }} />
+                                <FiUser cursor="pointer" size={24} style={{ color: colors?.icone_usuario_menu || "#ffffff" }} />
                             )}
                         </div>
                     </button>
                 ) : (
                     <button onClick={() => setModalLogin(true)}>
                         <div className="border-2 rounded-full p-1">
-                            <FiLogIn size={22} style={{ color: colors?.primaryColor || "#ffffff", border: colors?.primaryColor || "#ffffff" }} />
+                            <FiLogIn size={22} style={{ color: colors?.icone_login_menu || "#ffffff", border: colors?.icone_login_menu || "#ffffff" }} />
                         </div>
                     </button>
                 )}

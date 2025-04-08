@@ -21,7 +21,7 @@ export default function ClientWrapperCategs({ categories }: ClientWrapperProps) 
                     <div
                         key={category.id}
                         className="relative rounded-lg shadow-lg overflow-hidden group"
-                        style={{ background: colors?.fifthColor || '#1f2937' }}
+                        style={{ background: colors?.fundo_blocos_todas_categorias || '#1f2937' }}
                     >
                         <div
                             className="absolute inset-0 bg-cover bg-center opacity-75 group-hover:opacity-100 transition-opacity"
@@ -36,28 +36,35 @@ export default function ClientWrapperCategs({ categories }: ClientWrapperProps) 
                             <Link
                                 href={`/posts_categories/${category.slug_name_category}`}
                                 className="text-2xl font-bold mb-2 block"
-                                style={{ color: colors?.primaryColor || '#ffffff' }}
+                                style={{ color: colors?.nome_categoria_blocos_todas_categorias || '#ffffff' }}
                             >
                                 {category.name_category}
                             </Link>
-                            <p className="text-gray-300 text-sm mb-4">
+                            <p
+                                className="text-sm mb-4"
+                                style={{ color: colors?.descricao_categoria_blocos_todas_categorias || '#d1d5db' }}
+                            >
                                 {category.description?.slice(0, 100)}
                                 {category.description?.length > 100 && "..."}
                             </p>
                             {category.children.length >= 1 && (
                                 <div className="mt-4">
-                                    <span className="text-red-400">SUBCATEGORIAS:</span>
+                                    <span
+                                        style={{ color: colors?.subcategoria_categoria_blocos_todas_categorias || '#f87171' }}
+                                    >
+                                        SUBCATEGORIAS:
+                                    </span>
                                     <ul className="mt-2">
                                         {category.children.map((subcategory) => (
                                             <li
                                                 key={subcategory.id}
                                                 className="mb-1"
-                                                style={{ color: colors?.sixthColor || '#f97316' }}
+                                                style={{ color: colors?.nome_subcategoria_blocos_todas_categorias || '#f97316' }}
                                             >
                                                 <Link
                                                     href={`/posts_categories/${subcategory.slug_name_category}`}
                                                     className="text-backgroundButton hover:underline text-sm"
-                                                    style={{ color: colors?.sixthColor || '#f97316' }}
+                                                    style={{ color: colors?.nome_subcategoria_blocos_todas_categorias || '#f97316' }}
                                                 >
                                                     {subcategory.name_category}
                                                 </Link>

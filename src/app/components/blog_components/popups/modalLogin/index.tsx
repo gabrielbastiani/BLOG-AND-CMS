@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { Input } from "@/app/components/input";
 import { AuthContextBlog } from "@/contexts/AuthContextBlog";
+import { useTheme } from '@/contexts/ThemeContext';
+
 const CognitiveChallenge = dynamic(
     () => import('../../../cognitiveChallenge/index').then(mod => mod.CognitiveChallenge),
     {
@@ -31,6 +33,8 @@ interface ModalLoginProps {
 }
 
 export const ModalLogin: React.FC<ModalLoginProps> = ({ onClose }) => {
+
+    const { colors } = useTheme();
 
     const [cognitiveValid, setCognitiveValid] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -69,11 +73,20 @@ export const ModalLogin: React.FC<ModalLoginProps> = ({ onClose }) => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-5 rounded shadow-lg w-96">
-                <h2 className="text-lg font-semibold mb-3 text-black">Login</h2>
+            <div
+                className="p-5 rounded shadow-lg w-96"
+                style={{ background: colors?.fundo_popup_login || "#ffffff" }}
+            >
+                <h2
+                    className="text-lg font-semibold mb-3"
+                    style={{ color: colors?.textos_popup_login || "#000000" }}
+                >
+                    Login
+                </h2>
                 <div className="flex justify-end mt-4 space-x-2">
                     <form
-                        className='bg-white max-w-xl w-full rounded-lg p-4'
+                        style={{ background: colors?.fundo_popup_login || "#ffffff" }}
+                        className='max-w-xl w-full rounded-lg p-4'
                         onSubmit={handleSubmit(onSubmit)}
                     >
                         <div className='mb-3'>

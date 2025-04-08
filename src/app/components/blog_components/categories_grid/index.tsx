@@ -38,7 +38,7 @@ export default function Categories_grid() {
         <div className="container mx-auto px-4 py-8">
             <h2
                 className="text-2xl font-bold mb-4"
-                style={{ color: colors?.secondaryColor || '#000000' }}
+                style={{ color: colors?.titulo_categorias_pagina_inicial || '#000000' }}
             >
                 Categorias
             </h2>
@@ -63,11 +63,11 @@ export default function Categories_grid() {
 
                             <div
                                 className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
-                                style={{ background: colors?.fourthColor || '#797a7b' }}
+                                style={{ background: colors?.fundo_blocos_categorias_pagina_inicial || '#797a7b' }}
                             >
                                 <h3
                                     className="text-lg font-bold"
-                                    style={{ color: colors?.primaryColor || '#ffffff' }}
+                                    style={{ color: colors?.texto_categorias_pagina_inicial || '#ffffff' }}
                                 >
                                     {category.name_category}
                                 </h3>

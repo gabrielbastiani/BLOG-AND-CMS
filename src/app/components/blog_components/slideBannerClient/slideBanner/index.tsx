@@ -5,6 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 import { setupAPIClient } from '@/services/api';
+import { useTheme } from '@/contexts/ThemeContext';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface PublicationProps {
   id: string;
@@ -30,8 +33,8 @@ interface SliderProps {
 
 export function SlideBanner({ position, local, banners, intervalTime }: SliderProps) {
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
-  
+  const { colors } = useTheme();
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [internalBanners, setInternalBanners] = useState<PublicationProps[]>(banners || []);
   const [internalInterval, setInternalInterval] = useState(intervalTime || 5000);
@@ -105,26 +108,32 @@ export function SlideBanner({ position, local, banners, intervalTime }: SliderPr
       ))}
 
       <button
-        className="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800 text-[#FFFFFF] p-2 rounded-full hover:bg-gray-600"
+        className="absolute top-1/2 left-4 -translate-y-1/2 text-[#FFFFFF] p-2 rounded-full hover:bg-gray-600"
+        style={{ background: colors?.fundo_setas_slides || "#1f2937", color: colors?.setas_slides || "#FFFFFF" }}
         onClick={handlePrevSlide}
       >
         <FiArrowLeft />
       </button>
       <button
-        className="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800 text-[#FFFFFF] p-2 rounded-full hover:bg-gray-600"
+        className="absolute top-1/2 right-4 -translate-y-1/2 p-2 rounded-full hover:bg-gray-600"
+        style={{ background: colors?.fundo_setas_slides || "#1f2937", color: colors?.setas_slides || "#FFFFFF" }}
         onClick={handleNextSlide}
       >
         <FiArrowRight />
       </button>
 
-      <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-35 text-[#FFFFFF] p-4 text-center">
+      <div
+        className="absolute bottom-0 left-0 w-full bg-black bg-opacity-35 p-4 text-center"
+        style={{ color: colors?.texto_chamada_para_acao_slides || "#FFFFFF" }}
+      >
         {internalBanners[currentSlide]?.text_publication && (
           <>
             <p className="text-lg font-medium">{internalBanners[currentSlide].text_publication}</p>
             <Link
               href={internalBanners[currentSlide].redirect_url || "#"}
               target="_blank"
-              className="text-sm inline-block mt-2 px-4 py-2 bg-red-500 hover:bg-red-700 rounded text-[#FFFFFF]"
+              className="text-sm inline-block mt-2 px-4 py-2 hover:bg-red-700 rounded"
+              style={{ color: colors?.botao_texto_slides_banner || "#FFFFFF", background: colors?.fundo_botao_slides_banner || "#ef4444" }}
             >
               {internalBanners[currentSlide].text_button}
             </Link>

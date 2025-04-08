@@ -33,7 +33,7 @@ export default function Last_post() {
         <div className="container mx-auto px-4 py-8">
             <h2
                 className="text-2xl font-bold mb-4"
-                style={{ color: colors?.secondaryColor || '#000000' }}
+                style={{ color: colors?.titulo_ultimos_posts || '#000000' }}
             >
                 Últimos Posts
             </h2>
@@ -42,7 +42,7 @@ export default function Last_post() {
                     <div
                         key={post.id}
                         className="rounded shadow p-4 hover:shadow-lg transition"
-                        style={{ background: colors?.secondarybackgroundColor || '#f3f4f6' }}
+                        style={{ background: colors?.fundo_ultimos_posts || '#e5e9ee' }}
                     >
                         <Link href={`/article/${post.custom_url ? post.custom_url : post.slug_title_post}`}>
                             <Image
@@ -55,7 +55,7 @@ export default function Last_post() {
                             />
                             <h3
                                 className="text-lg font-semibold"
-                                style={{ color: colors?.secondaryColor || '#000000' }}
+                                style={{ color: colors?.texto_ultimos_posts || '#000000' }}
                             >
                                 {post.title}
                             </h3>

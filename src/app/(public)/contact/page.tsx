@@ -108,15 +108,8 @@ export default async function Contact() {
             local="Pagina_contato"
             footer={<Footer />}
         >
-            <div className="contact-page-container">
-                <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
-                    Fale Conosco
-                </h1>
-                <div className="max-w-2xl mx-auto">
-                    <ContactForm />
-                </div>
-            </div>
-
+            <ContactForm />
+            
             <MarketingPopup
                 position="POPUP"
                 local="Pagina_contato"

@@ -47,7 +47,7 @@ export default function Most_posts_views() {
         <div className="container mx-auto px-4 py-8">
             <h2
                 className="text-2xl font-bold mb-4"
-                style={{ color: colors?.secondaryColor || '#000000' }}
+                style={{ color: colors?.titulo_posts_mais_vizualizados || '#000000' }}
             >
                 Posts Mais Visualizados
             </h2>
@@ -67,7 +67,7 @@ export default function Most_posts_views() {
                     <SwiperSlide key={post.id}>
                         <div
                             className="rounded shadow p-4 hover:shadow-lg transition"
-                            style={{ background: colors?.secondarybackgroundColor || '#f3f4f6' }}
+                            style={{ background: colors?.fundo_posts_mais_vizualizados || '#e5e9ee' }}
                         >
                             <Link href={`/article/${post.custom_url ? post.custom_url : post.slug_title_post}`}>
                                 <Image
@@ -80,14 +80,20 @@ export default function Most_posts_views() {
                                 />
                                 <h3
                                     className="text-lg font-semibold text-black"
-                                    style={{ color: colors?.secondaryColor || '#000000' }}
+                                    style={{ color: colors?.texto_posts_mais_vizualizados || '#000000' }}
                                 >
                                     {post.title}
                                 </h3>
                                 <span
                                     className="mt-4 flex"
-                                    style={{ color: colors?.secondaryColor || '#000000' }}
-                                ><FaRegEye className="text-lg mr-3" /> {formatViews(post?.views || 0)}</span>
+                                    style={{ color: colors?.vizualizacoes_posts_mais_vizualizados || '#000000' }}
+                                >
+                                    <FaRegEye
+                                        className="text-lg mr-3"
+                                        style={{ color: colors?.vizualizacoes_posts_mais_vizualizados || '#000000' }}
+                                    />
+                                    {formatViews(post?.views || 0)}
+                                </span>
                             </Link>
                         </div>
                     </SwiperSlide>

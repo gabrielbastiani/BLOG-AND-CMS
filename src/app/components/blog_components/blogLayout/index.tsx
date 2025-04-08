@@ -17,7 +17,7 @@ interface BlogLayoutProps {
 const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, footer, children, sidebar_publication, bannersSlide, presentation, local }) => {
 
     const { colors } = useTheme();
-    
+
     const [showMobileBanners, setShowMobileBanners] = useState(true);
     const [sidebar, setSidebar] = useState(0);
 
@@ -43,12 +43,15 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, footer, children, sideb
     return (
         <div
             className="flex flex-col min-h-screen"
-            style={{ background: colors?.thirdbackgroundColor || '#f3f4f6' }}
+            style={{ background: colors?.segundo_fundo_layout_site || '#e1e4e9' }}
         >
             {/* Navbar */}
             {navbar}
             {/* Banners */}
-            <div className="w-full bg-gray-200 overflow-hidden">
+            <div
+                className="w-full overflow-hidden"
+                style={{ background: colors?.terceiro_fundo_layout_site || '#e1e4e9' }}
+            >
                 {bannersSlide}
             </div>
 
@@ -58,7 +61,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, footer, children, sideb
                 {/* Main Content */}
                 <div
                     className="w-full flex-1 p-4 rounded shadow"
-                    style={{ background: colors?.thirdbackgroundColor || '#f3f4f6' }}
+                    style={{ background: colors?.terceiro_fundo_layout_site || '#e1e4e9' }}
                 >
                     {children}
                 </div>
@@ -66,7 +69,7 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, footer, children, sideb
                 {sidebar >= 1 ? (
                     <aside
                         className="hidden lg:block sticky top-28 h-screen w-[300px p-4 shadow"
-                        style={{ background: colors?.secondarybackgroundColor || '#f3f4f6' }}
+                        style={{ background: colors?.fundo_sidebar_site || '#f3f4f6' }}
                     >
                         <div className="overflow-y-auto h-full">
                             {/* Conteúdo do Aside */}
@@ -79,17 +82,17 @@ const BlogLayout: React.FC<BlogLayoutProps> = ({ navbar, footer, children, sideb
             {hasSidebarPublication && showMobileBanners && (
                 <div
                     className="fixed bottom-0 left-0 w-full border-t shadow-lg lg:hidden z-20"
-                    style={{ background: colors?.secondarybackgroundColor || '#abaeb4' }}
+                    style={{ background: colors?.fundo_sidebar_site || '#f3f4f6' }}
                 >
                     <div className="flex items-center justify-between p-4">
                         <span
-                            className="font-medium"
-                            style={{ color: colors?.secondaryColor || '#abaeb4' }}
-                        >Aproveite!!!</span>
+                            className="font-medium text-black"
+                        >
+                            Aproveite!!!
+                        </span>
                         <button
                             onClick={() => setShowMobileBanners(false)}
-                            className="text-gray-500 hover:text-gray-700 text-sm"
-                            style={{ color: colors?.secondaryColor || '#abaeb4' }}
+                            className="text-black hover:text-gray-700 text-sm"
                         >
                             ✕ Fechar
                         </button>

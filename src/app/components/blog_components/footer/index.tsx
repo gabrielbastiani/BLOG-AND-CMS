@@ -41,7 +41,7 @@ export function Footer() {
     return (
         <footer
             className="py-6 mt-14 z-50"
-            style={{ color: colors?.primaryColor || '#ffffff', background: colors?.fifthColor || '#1f2937' }}
+            style={{ background: colors?.fundo_rodape || '#1f2937' }}
         >
             <div className="container mx-auto text-center">
                 <div className="flex justify-center space-x-6 mb-5">
@@ -52,7 +52,8 @@ export function Footer() {
                                     href={media.link ? media.link : ""}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center space-x-2 text-gray-300 hover:text-[#FFFFFF]"
+                                    className="flex items-center space-x-2"
+                                    style={{ color: colors?.texto_rodape || '#FFFFFF' }}
                                 >
                                     <Image
                                         src={media.logo_media ? `${API_URL}/files/${media.logo_media}` : noImage}
@@ -67,7 +68,8 @@ export function Footer() {
                                     href={media.link ? media.link : ""}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center space-x-2 text-[#FFFFFF] hover:text-gray-300"
+                                    className="flex items-center space-x-2"
+                                    style={{ color: colors?.texto_rodape || '#FFFFFF' }}
                                 >
                                     {media.name_media}
                                 </Link>

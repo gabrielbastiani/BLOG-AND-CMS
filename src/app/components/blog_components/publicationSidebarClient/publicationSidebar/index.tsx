@@ -38,7 +38,7 @@ export default function PublicationSidebar({ existing_sidebar }: SidebarProps) {
                 <div
                     key={item.id}
                     className="flex flex-col items-center p-4 rounded-lg shadow-lg border border-gray-200 transition-all hover:scale-105 hover:shadow-xl"
-                    style={{ background: colors?.secondarybackgroundColor || '#ffffff' }}
+                    style={{ background: colors?.blocos_publicidades_sidebar || '#ffffff' }}
                 >
                     <Link
                         href={item.redirect_url}
@@ -55,7 +55,10 @@ export default function PublicationSidebar({ existing_sidebar }: SidebarProps) {
                             className="rounded-md object-cover w-full h-40"
                         />
                     </Link>
-                    <p className="text-sm font-semibold text-gray-800 text-center mt-2">
+                    <p
+                        className="text-sm font-semibold text-center mt-2"
+                        style={{ color: colors?.texto_publicidades_sidebar || '#000000' }}
+                    >
                         {item.text_publication}
                     </p>
                     <Link
@@ -66,7 +69,7 @@ export default function PublicationSidebar({ existing_sidebar }: SidebarProps) {
                     >
                         <button
                             className="mt-3 text-sm font-bold py-2 px-4 rounded-lg shadow-md hover:bg-red-600 transition duration-300 uppercase"
-                            style={{ background: colors?.thirdColor || '#ef4444', color: colors?.primaryColor || '#FFFFFF' }}
+                            style={{ background: colors?.fundo_botao_publicidades_sidebar || '#dd1818', color: colors?.texto_botao_publicidades_sidebar || '#FFFFFF' }}
                         >
                             {item.text_button}
                         </button>

@@ -12,9 +12,7 @@ import Most_posts_views from '@/app/components/blog_components/most_posts_views'
 import SocialShare from '@/app/components/blog_components/socialShare';
 import BackToTopButton from '@/app/components/blog_components/backToTopButton';
 import MarketingPopup from '@/app/components/blog_components/popups/marketingPopup';
-import { SlideBanner } from '@/app/components/blog_components/slideBannerClient/slideBanner';
 import { FaRegEye } from 'react-icons/fa';
-import PublicationSidebar from '@/app/components/blog_components/publicationSidebarClient/publicationSidebar';
 import { Metadata, ResolvingMetadata } from 'next';
 import { PostsProps } from "../../../../../Types/types";
 import ArticleLikeDislikeWrapper from "@/app/components/blog_components/articleLikeDeslike/articleLikeDeslikeWrapper";
@@ -31,7 +29,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   try {
-    const articleUrl = params.article_url; // Primeiro acesso ao params
+    const articleUrl = params.article_url;
 
     const apiClient = setupAPIClient();
     const [response, data, article] = await Promise.all([

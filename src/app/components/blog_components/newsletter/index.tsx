@@ -45,18 +45,18 @@ export function Newsletter() {
     return (
         <section
             className="py-12"
-            style={{ background: colors?.fourthbackgroundColor || '#6b7280' }}
+            style={{ background: colors?.fundo_newslatter || '#6b7280' }}
         >
             <div className="container mx-auto text-center">
                 <h2
                     className="text-xl font-semibold mb-4"
-                    style={{ color: colors?.primaryColor || '#ffffff' }}
+                    style={{ color: colors?.titulo_newslatter || '#ffffff' }}
                 >
                     Assine nossa newsletter
                 </h2>
                 <p
                     className="mb-6"
-                    style={{ color: colors?.secondaryColor || '#000000' }}
+                    style={{ color: colors?.texto_newslatter || '#000000' }}
                 >
                     Receba as últimas notícias direto no seu email!
                 </p>
@@ -73,7 +73,7 @@ export function Newsletter() {
                     <button
                         type="submit"
                         className="p-3 rounded-lg hover:bg-hoverButtonBackground"
-                        style={{ color: colors?.primaryColor || '#ffffff', background: colors?.sixthColor || '#f97316' }}
+                        style={{ color: colors?.texto_botao_newslatter || '#ffffff', background: colors?.fundo_botao_newslatter || '#f97316' }}
                     >
                         Inscrever-se
                     </button>

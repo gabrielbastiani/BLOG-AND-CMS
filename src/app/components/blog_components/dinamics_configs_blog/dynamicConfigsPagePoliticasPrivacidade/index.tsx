@@ -12,6 +12,7 @@ interface DynamicContentProps {
 }
 
 const DynamicConfigsPagePoliticasPrivacidade = ({ initialConfigs }: DynamicContentProps) => {
+
     const [configs, setConfigs] = useState<BlogConfigs | null>(initialConfigs);
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -53,7 +54,7 @@ const DynamicConfigsPagePoliticasPrivacidade = ({ initialConfigs }: DynamicConte
 
     return (
         <div className="p-4 md:p-8 max-w-4xl mx-auto">
-            <div className="prose max-w-none text-gray-800 prose-h1:text-orange-600 prose-p:mb-4 prose-a:text-indigo-500 hover:prose-a:underline">
+            <div className="prose max-w-none prose-h1:text-orange-600 prose-p:mb-4 prose-a:text-indigo-500 hover:prose-a:underline">
                 {configs?.privacy_policies && (
                     <SafeHTML html={configs?.privacy_policies} />
                 )}

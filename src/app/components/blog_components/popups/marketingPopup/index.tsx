@@ -84,9 +84,12 @@ export default function MarketingPopup({ position, local }: PopupProps) {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="relative bg-white p-6 rounded-lg shadow-lg max-w-md w-11/12 sm:w-96 text-center">
+            <div
+                className="relative p-6 rounded-lg shadow-lg max-w-md w-11/12 sm:w-96 text-center"
+                style={{ background: colors?.fundo_popup_marketing || "#FFFFFF" }}
+            >
                 <button
-                    className="absolute top-2 right-2 text-red-500 font-extrabold text-lg hover:text-red-300 focus:outline-none"
+                    className="absolute top-2 right-2 text-red-500 font-extrabold text-lg hover:text-red-400 focus:outline-none"
                     onClick={() => setIsVisible(false)}
                 >
                     &#x2715;
@@ -102,7 +105,8 @@ export default function MarketingPopup({ position, local }: PopupProps) {
                     />
                 )}
                 <h2
-                    className="text-lg font-semibold mb-4 bg-white"
+                    className="text-lg font-semibold mb-4"
+                    style={{ background: colors?.fundo_popup_marketing || "#FFFFFF", color: colors?.texto_popup_marketing || "#FFFFFF" }}
                 >
                     {popupData.text_publication}
                 </h2>
@@ -111,7 +115,7 @@ export default function MarketingPopup({ position, local }: PopupProps) {
                         href={popupData.redirect_url}
                         onClick={click_publication}
                         className="py-2 px-4 rounded hover:bg-red-600 inline-block"
-                        style={{ background: colors?.thirdColor || '#ef4444', color: colors?.primaryColor || "#ffffff" }}
+                        style={{ background: colors?.fundo_botao_popup_marketing || '#dd1818', color: colors?.texto_botao_popup_marketing || "#ffffff" }}
                         target="_blank"
                         rel="noopener noreferrer"
                     >

@@ -48,6 +48,7 @@ type SEOData = FormData & {
 };
 
 export default function Seo_id({ params }: { params: { seo_id: string } }) {
+    
     const [loading, setLoading] = useState(true);
     const [keywords, setKeywords] = useState<string[]>([]);
     const [editingKeywordIndex, setEditingKeywordIndex] = useState<number | null>(null);

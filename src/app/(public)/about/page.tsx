@@ -126,12 +126,9 @@ export default async function About() {
       local="Pagina_sobre"
       footer={<Footer />}
     >
-      <div className="container mx-auto my-12 px-6">
-        <h1 className="text-4xl font-bold text-center mb-12 text-gray-800">
-          Sobre
-        </h1>
-        <DynamicConfigsPageAbout initialConfigs={configs} />
-      </div>
+
+      <DynamicConfigsPageAbout initialConfigs={configs} />
+
       <MarketingPopup
         position="POPUP"
         local="Pagina_sobre"

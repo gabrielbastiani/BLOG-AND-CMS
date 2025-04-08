@@ -1,5 +1,6 @@
 'use client';
 
+import { useTheme } from '@/contexts/ThemeContext';
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface Challenge {
@@ -31,6 +32,9 @@ const generateChallenge = (): Challenge => {
 };
 
 export const CognitiveChallenge = ({ onValidate }: CognitiveChallengeProps) => {
+
+    const { colors } = useTheme();
+
     const [mounted, setMounted] = useState(false);
     const [userAnswer, setUserAnswer] = useState('');
     const [challenge, setChallenge] = useState<Challenge | null>(null);
@@ -81,9 +85,11 @@ export const CognitiveChallenge = ({ onValidate }: CognitiveChallengeProps) => {
     if (!mounted || !challenge) return null;
 
     return (
-        <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+        <div className="mb-4 p-4 rounded-lg">
             <div className="mb-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                    style={{ color: colors?.textos_popup_login || "#000000" }}
+                    className="block text-sm font-medium mb-2">
                     Desafio de segurança: Quanto é {challenge.question}?
                 </label>
                 <input
@@ -109,7 +115,8 @@ export const CognitiveChallenge = ({ onValidate }: CognitiveChallengeProps) => {
             <button
                 onClick={validateAnswer}
                 disabled={isValid}
-                className="mt-2 px-4 py-2 bg-orange-600 text-[#FFFFFF] rounded-md disabled:bg-gray-400"
+                style={{ color: colors?.textos_botoes || "#ffffff", background: colors?.fundo_botao_validar || "#f58439" }}
+                className="mt-2 px-4 py-2 rounded-md disabled:bg-gray-400"
             >
                 Validar Resposta
             </button>
