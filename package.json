@@ -39,7 +39,6 @@
     "next": "^15.2.2",
     "next-sitemap": "^4.2.3",
     "node-fetch": "^3.3.2",
-    "nookies": "^2.5.2",
     "phosphor-react": "^1.4.1",
     "react": "^18",
     "react-calendar": "^5.1.0",
@@ -50,7 +49,6 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dnd-touch-backend": "^16.0.1",
     "react-dom": "^18",
-    "react-google-recaptcha": "^3.1.0",
     "react-grid-layout": "^1.5.0",
     "react-hook-form": "^7.54.2",
     "react-hot-toast": "^2.5.2",
@@ -64,8 +62,7 @@
     "swiper": "^11.1.15",
     "tailwind-scrollbar": "^3.1.0",
     "tinymce": "^7.6.1",
-    "zod": "^3.23.8",
-    "zustand": "^5.0.3"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/gtag.js": "^0.0.20",
