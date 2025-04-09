@@ -12,6 +12,7 @@ import { setupAPIClient } from "@/services/api";
 import { toast } from "react-toastify";
 import moment from "moment";
 import { useTheme } from "@/contexts/ThemeContext";
+import { setupAPIClientBlog } from "@/services/api_blog";
 
 interface CommentsProps {
     parentId: string;
@@ -125,7 +126,7 @@ export function CommentsSection({ post_id }: CommentProps) {
         if (!newComment.trim()) return;
 
         try {
-            const apiClient = setupAPIClient();
+            const apiClient = setupAPIClientBlog();
             await apiClient.post("/comment/create_comment", {
                 post_id: post_id,
                 userBlog_id: user?.id,

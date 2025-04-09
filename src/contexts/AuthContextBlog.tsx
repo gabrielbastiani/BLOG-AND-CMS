@@ -113,12 +113,12 @@ export function AuthProviderBlog({ children }: AuthProviderProps) {
     async function signIn({ email, password }: SignInProps): Promise<boolean> {
         setLoadingAuth(true);
         try {
-            const response = await api.post('/user/user_blog/session', { email, password });
+            const response = await api_blog.post('/user/user_blog/session', { email, password });
             const { id, token } = response.data;
 
             const cookieOptions = {
                 maxAge: 60 * 60 * 24 * 30,
-                path: '/app',
+                path: '/',
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'lax' as const
               };
