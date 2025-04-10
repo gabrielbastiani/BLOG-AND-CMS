@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "PORT=2403 next start",
+    "start": "PORT=2025 next start",
     "lint": "next lint",
     "postbuild": "next-sitemap --config next-sitemap.config.mjs"
   },
@@ -59,6 +59,7 @@
     "react-select": "^5.10.0",
     "react-sortablejs": "^6.1.4",
     "react-toastify": "^10.0.5",
+    "sharp": "^0.34.1",
     "swiper": "^11.1.15",
     "tailwind-scrollbar": "^3.1.0",
     "tinymce": "^7.6.1",
